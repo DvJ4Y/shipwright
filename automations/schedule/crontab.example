@@ -1,0 +1,28 @@
+# automations/schedule/crontab.example — the documented default schedule for the weekly sync.
+#
+# Install:
+#   1. Replace /path/to/shipwright below with your repo root (absolute path, no ~).
+#   2. Make sure `claude` is on the PATH cron uses. Either set PATH here (as below) or call the
+#      binary by its absolute path (`command -v claude` shows it).
+#   3. crontab -e   →  paste the two job lines  →  save.
+#   4. Check the first run: sessions/weekly/_runs/compressor-<date>.log and miner-<date>.log.
+#
+# Times are the machine's local time. cron does not run jobs the machine slept through; on a
+# laptop prefer launchd (see launchd.plist.example), which runs a missed job at next wake.
+#
+# Field order: minute hour day-of-month month day-of-week   (0 = Sunday)
+
+SHELL=/bin/bash
+PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
+
+# Sunday 19:00 — compress the week's sessions/daily into sessions/weekly/<week>-summary.md
+0 19 * * 0  cd /path/to/shipwright && bash automations/run.sh compressor >> sessions/weekly/_runs/cron.log 2>&1
+
+# Sunday 20:00 — check the summary and lessons against context/** → <week>-context-digest.md
+# Add --memory-dir /path/to/your/memory to include memory-file status.
+0 20 * * 0  cd /path/to/shipwright && bash automations/run.sh miner >> sessions/weekly/_runs/cron.log 2>&1
+
+# Monday 10:00 — the knowledge interview is NOT scheduled. It is interactive: it asks the
+# product lead up to 7 questions and shows a diff before every edit. Put a calendar reminder
+# on Monday 10:00 and run it by hand:
+#     cd /path/to/shipwright && bash automations/run.sh interview

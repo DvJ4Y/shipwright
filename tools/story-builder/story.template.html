@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<!--
+  Built by tools/story-builder/build_story.py — do not edit by hand; edit the script and rebuild.
+  __META__
+  Controls: Space pause/resume · ← → step · R restart · click a progress segment to jump.
+  URL options: ?layout=vertical (9:16 for video) · ?layout=board (greyscale storyboard) ·
+  #beat=N (open beat N) · #beat=N&still (static frame, no autoplay).
+  Self-contained: inline CSS and JS, no network, system fonts.
+-->
+<style>
+:root{
+  /* Greys first. The build injects the surface palette after this comment; later values win.
+     With no palette (storyboard build) every colour below stays grey. */
+  --story-p:#3D3D3D;--story-pd:#262626;--story-acc:#6E6E6E;
+  --story-bg:#ECEEF1;--story-ink:#1F1F1F;--story-ink2:#5C5C5C;--story-line:#D4D7DB;
+  /*__PALETTE__*/
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--story-bg);color:var(--story-ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+/* ---------- stage: landscape (default) ---------- */
+#stage{height:100%;display:flex;align-items:center;justify-content:center;gap:72px;padding:24px}
+#panel{width:460px;max-width:46vw}
+#brand{font-weight:700;color:var(--story-p);font-size:17px;letter-spacing:.01em;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+#brand i{width:28px;height:28px;border-radius:8px;background:var(--story-p);display:inline-block}
+#framing{display:inline-block;border:1.5px solid var(--story-acc);color:var(--story-ink);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:34px}
+#kicker{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--story-ink2);font-weight:600}
+#cap{font-size:34px;line-height:1.16;font-weight:700;letter-spacing:-.015em;margin:12px 0 14px;color:var(--story-ink)}
+#sub{font-size:16px;line-height:1.5;color:var(--story-ink2);min-height:72px}
+#txt.cap-anim{animation:capIn .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes capIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#tl{display:flex;gap:5px;margin:34px 0 14px}
+#tl div{flex:1;height:5px;border-radius:3px;background:var(--story-line);overflow:hidden;cursor:pointer}
+#tl div i{display:block;height:100%;width:0;background:var(--story-p)}
+#keys{font-size:12px;color:var(--story-ink2)}
+#keys kbd{font-family:inherit;border:1px solid var(--story-line);border-radius:4px;padding:1px 6px;background:#fff;margin:0 2px}
+body.paused #keys::after{content:" · paused";font-weight:700;color:var(--story-p)}
+
+/* ---------- phone ---------- */
+#phoneBox{flex:none;position:relative}
+.phone{width:380px;height:760px;border-radius:46px;background:#1A1C20;padding:10px;box-shadow:0 36px 80px rgba(20,25,35,.28),inset 0 0 0 2px #2C2F35;position:relative}
+#phone{transform-origin:top left;position:absolute;top:0;left:0}
+.phone::before{content:"";position:absolute;top:20px;left:50%;width:84px;height:8px;margin-left:-42px;border-radius:4px;background:#0B0C0E;z-index:200}
+.phone::after{content:"";position:absolute;top:19px;left:50%;margin-left:30px;width:10px;height:10px;border-radius:50%;background:#0B0C0E;box-shadow:inset 0 0 0 2px #23262B;z-index:200}
+.screen{width:360px;height:740px;border-radius:36px;overflow:hidden;position:relative;background:#fff}
+.homebar{position:absolute;bottom:16px;left:50%;width:112px;height:4px;margin-left:-56px;border-radius:2px;background:#1A1C20;opacity:.45;z-index:150}
+.sbar{position:absolute;top:0;left:0;right:0;height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 26px;font-size:12px;font-weight:600;color:var(--ink,#1F1F1F);z-index:100;pointer-events:none}
+.sbar .sig{display:flex;align-items:flex-end;gap:2px}
+.sbar .sig i{width:3px;background:currentColor;border-radius:1px}
+.sbar .sig i:nth-child(1){height:4px}.sbar .sig i:nth-child(2){height:6px}.sbar .sig i:nth-child(3){height:8px}
+.sbar .sig b{width:18px;height:8px;border:1.5px solid currentColor;border-radius:2px;margin-left:5px;position:relative}
+.sbar .sig b::after{content:"";position:absolute;left:1px;top:1px;bottom:1px;width:11px;background:currentColor;border-radius:1px}
+
+/* ---------- vertical 9:16 layout (?layout=vertical) ---------- */
+body.vert #stage{flex-direction:column;justify-content:flex-start;gap:0;padding:0}
+body.vert #panel{order:-1;width:100%;max-width:none;text-align:center;height:var(--txth,320px);padding:5vh 6vw 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+body.vert #brand{font-size:2.2vw;margin-bottom:1vh}
+body.vert #framing{font-size:1.4vw;margin-bottom:2.2vh;padding:.5vh 1.6vw}
+body.vert #kicker{font-size:1.5vw}
+body.vert #cap{font-size:3.6vw;max-width:88vw;margin:1.2vh 0 1vh}
+body.vert #sub{font-size:1.9vw;max-width:80vw;min-height:0}
+body.vert #tl{width:70vw;margin:2vh auto 0}
+body.vert #keys{display:none}
+
+/* ---------- storyboard board (?layout=board or a storyboard build) ---------- */
+#board{display:none}
+body.board{overflow:auto;background:#F2F2F2}
+body.board #stage{display:none}
+body.board #board{display:block;padding:28px 32px 48px;filter:grayscale(1)}
+#board header{max-width:1200px;margin:0 auto 22px}
+#board header h1{font-size:22px;margin-bottom:6px}
+#board header p{font-size:14px;color:#555;line-height:1.5;max-width:760px}
+#board .frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:26px 22px;max-width:1240px;margin:0 auto}
+#board .frame{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:14px 14px 16px}
+#board .fmeta{font-size:12px;color:#555;display:flex;gap:8px;align-items:baseline;margin-bottom:10px}
+#board .fmeta b{font-size:15px;color:#1F1F1F}
+#board .fmeta em{font-style:normal;margin-left:auto;text-align:right}
+#board .mini{width:238px;height:476px;position:relative;margin:0 auto}
+#board .mini .phone{transform:scale(.626);transform-origin:top left;position:absolute;top:0;left:0}
+#board .fwhat{font-size:12.5px;line-height:1.45;color:#333;margin-top:12px;min-height:54px}
+#board .fcap{font-size:13.5px;line-height:1.35;font-weight:700;color:#1F1F1F;margin-top:8px;border-top:1px solid #E6E6E6;padding-top:8px}
+@media print{body.board #board{padding:0}#board .frame{break-inside:avoid}}
+
+/* ---------- timed reveals inside a beat ---------- */
+.screen [data-at]{opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
+.screen [data-at].on{opacity:1;transform:none}
+.screen [data-off].off{opacity:0;pointer-events:none;transition:opacity .3s ease}
+.screen [data-fx="pop"]{transform:scale(.92)}
+.screen [data-fx="pop"].on{transform:none}
+.screen [data-at].stay{opacity:1;transform:none}            /* always visible; data-at only adds .on */
+.screen .hl-at.on{outline:2.5px solid var(--acc);outline-offset:2px;border-radius:10px}
+
+/* ---------- screen primitives (write fragments with these; no CSS needed) ---------- */
+.screen{
+  --p:#4A4A4A;--pd:#333333;--acc:#777777;--ok:#5A5A5A;--warn:#6A6A6A;--err:#444444;
+  --refer:var(--status-refer,#5A5A5A);--pf:var(--status-provider-failed,#222222);--pf-bg:var(--status-provider-failed-bg,#E0E0E0);
+  --t1:var(--tier-1,#777777);--t2:var(--tier-2,#666666);--t3:var(--tier-3,#444444);
+  --ink:var(--neutral-900,#1F1F1F);--ink2:var(--neutral-600,#5C5C5C);--ink3:var(--neutral-400,#9A9A9A);
+  --line:var(--neutral-200,#E3E3E3);--bg:var(--neutral-050,#F5F5F5);--card:var(--white,#FFFFFF);
+  --fs:16px;--fl:14px;--fh:22px;--fd:28px;--lh:1.5;--btn:48px;
+  font-family:inherit;color:var(--ink)}
+/*__SURFACE_RULES__*/
+.screen .app{position:absolute;inset:0;padding-top:28px;background:var(--bg);color:var(--ink);font-size:var(--fs);line-height:var(--lh);display:flex;flex-direction:column;overflow:hidden}
+.screen .bar{background:var(--p);color:#fff;padding:10px 16px;font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px;min-height:52px;flex:none}
+.screen .bar small{font-weight:500;opacity:.9;font-size:12px;margin-left:auto;white-space:nowrap}
+.screen .bar.light{background:var(--card);color:var(--ink);border-bottom:1px solid var(--line)}
+.screen .body{padding:14px 16px;flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px;position:relative}
+.screen .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.screen .card.err{border-color:var(--err);box-shadow:inset 4px 0 0 var(--err)}
+.screen .card.warn{border-color:var(--warn);box-shadow:inset 4px 0 0 var(--warn)}
+.screen .card.ok{border-color:var(--ok);box-shadow:inset 4px 0 0 var(--ok)}
+.screen .card.acc{border-color:var(--acc);box-shadow:inset 4px 0 0 var(--acc)}
+.screen .h1{font-size:var(--fh);font-weight:700;line-height:1.25;margin:0 0 6px}
+.screen .h2{font-size:var(--fs);font-weight:700;margin:0 0 4px}
+.screen .p{margin:0 0 6px}
+.screen .muted{color:var(--ink2)}.screen .faint{color:var(--ink3)}
+.screen .small{font-size:var(--fl)}.screen .tiny{font-size:11px;line-height:1.35}
+.screen .display{font-size:var(--fd);font-weight:800;line-height:1.1;color:var(--pd);letter-spacing:-.01em}
+.screen .accent{color:var(--acc)}.screen .ok-t{color:var(--ok)}.screen .err-t{color:var(--err)}.screen .warn-t{color:var(--warn)}
+.screen .btn{display:flex;align-items:center;justify-content:center;height:var(--btn);border-radius:10px;border:1.5px solid var(--p);color:var(--p);background:var(--card);font-weight:700;font-size:var(--fs);padding:0 16px;text-align:center;flex:none}
+.screen .btn.primary{background:var(--p);border-color:var(--p);color:#fff}
+.screen .btn.ghost{border-color:transparent;background:transparent}
+.screen .btn.sm{height:36px;font-size:var(--fl);border-radius:8px}
+.screen .chip{display:inline-flex;align-items:center;gap:6px;padding:1px 10px;border-radius:999px;font-size:12px;font-weight:700;background:var(--line);color:var(--ink2);line-height:1.7;white-space:nowrap;vertical-align:middle}
+.screen .chip.ok{background:var(--ok);color:#fff}.screen .chip.warn{background:var(--warn);color:#fff}.screen .chip.err{background:var(--err);color:#fff}
+.screen .chip.acc{background:var(--acc);color:#1F1F1F}.screen .chip.refer{background:var(--refer);color:#fff}
+.screen .chip.pf{background:var(--pf-bg);color:var(--pf);letter-spacing:.04em}
+.screen .chip.t1{background:var(--t1);color:#fff}.screen .chip.t2{background:var(--t2);color:#fff}.screen .chip.t3{background:var(--t3);color:#fff}
+.screen .chip.outline{background:transparent;border:1.5px solid currentColor}
+.screen .chip.p{background:var(--p);color:#fff}
+.screen .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.screen .row:last-child{border-bottom:0}
+.screen .row .grow{flex:1;min-width:0}
+.screen .ph{border-radius:8px;background:linear-gradient(135deg,#D7DBE0,#B9C0C8);min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:var(--fl);font-weight:600;text-align:center;padding:8px}
+.screen .ph.dark{background:linear-gradient(135deg,#2B2F36,#0F1114);color:#7A8089}
+.screen .ph.good{background:linear-gradient(135deg,#E8EDF2,#C9D2DB);color:#3B4753}
+.screen .ph.sq{width:64px;height:64px;min-height:0;flex:none}
+.screen .table{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.screen .tr{display:grid;grid-template-columns:var(--cols,1fr);align-items:center;min-height:40px;border-bottom:1px solid var(--line);font-size:var(--fl);padding:0 10px;gap:6px}
+.screen .tr:last-child{border-bottom:0}
+.screen .tr.head{color:var(--ink2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:10.5px;min-height:30px;background:var(--bg)}
+.screen .tr.sel{box-shadow:inset 3px 0 0 var(--acc)}
+.screen .msg{background:var(--card);border:1px solid var(--line);border-radius:12px 12px 12px 4px;padding:10px 12px;font-size:var(--fl);line-height:1.4;max-width:88%;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.screen .msg .time{display:block;text-align:right;color:var(--ink3);font-size:11px;margin-top:4px}
+.screen .toast{position:absolute;left:16px;right:16px;bottom:22px;background:var(--ink);color:#fff;border-radius:10px;padding:12px 14px;font-size:var(--fl);line-height:1.4;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:20}
+.screen .tag{display:inline-block;border:1px dashed var(--ink3);color:var(--ink2);border-radius:4px;padding:0 6px;font-size:10.5px;line-height:1.7;vertical-align:middle;white-space:nowrap}
+.screen .bar .tag{border-color:rgba(255,255,255,.7);color:rgba(255,255,255,.92)}
+.screen .bar.light .tag{border-color:var(--ink3);color:var(--ink2)}
+.screen .nav{margin-top:auto;display:flex;border-top:1px solid var(--line);background:var(--card);flex:none}
+.screen .nav div{flex:1;text-align:center;padding:10px 0 26px;font-size:11px;font-weight:600;color:var(--ink3)}
+.screen .nav .on{color:var(--p)}
+.screen .steps{display:flex;gap:5px;align-items:center}
+.screen .steps i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.screen .steps i.done{background:var(--ok)}.screen .steps i.now{background:var(--acc)}
+.screen .kv{display:grid;grid-template-columns:1fr auto;gap:5px 12px;font-size:var(--fl);align-items:baseline}
+.screen .kv b{font-weight:700;color:var(--ink);text-align:right}
+.screen .field{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--card)}
+.screen .field label{display:block;font-size:12px;color:var(--ink2);margin-bottom:2px}
+.screen .hl{outline:2.5px solid var(--acc);outline-offset:2px;border-radius:10px}
+.screen .end{position:absolute;inset:0;background:var(--story-p);color:#fff;padding:60px 28px 40px;display:flex;flex-direction:column;gap:18px}
+.screen .end .display{color:#fff;font-size:30px}
+.screen .end .muted{color:rgba(255,255,255,.78)}
+.screen .end .line{height:2px;background:rgba(255,255,255,.3);width:56px}
+.screen .end .roles div{padding:5px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:14px}
+.screen .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--ink3);border-top-color:var(--p);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.screen .check{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--ok);color:#fff;font-size:12px;align-items:center;justify-content:center;flex:none;font-weight:700}
+.screen .box{display:inline-flex;width:18px;height:18px;border-radius:4px;border:1.5px solid var(--ink3);flex:none;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700}
+.screen .box.on{background:var(--p);border-color:var(--p)}
+.screen .placeholder{position:absolute;inset:0;padding:60px 24px;background:repeating-linear-gradient(45deg,#F3F3F3,#F3F3F3 12px,#EBEBEB 12px,#EBEBEB 24px);color:#444;display:flex;flex-direction:column;gap:14px}
+.screen .placeholder .h1{font-size:20px}
+.screen .placeholder .note{margin-top:auto;font-size:12px;color:#777}
+</style>
+</head>
+<body class="__BODY_CLASS__">
+
+<div id="stage">
+  <div id="panel">
+    <div id="brand"><i></i><span>__BRAND__</span></div>
+    <div id="framing">__FRAMING__</div>
+    <div id="txt">
+      <div id="kicker"></div>
+      <div id="cap"></div>
+      <div id="sub"></div>
+    </div>
+    <div id="tl"></div>
+    <div id="keys"><kbd>Space</kbd> pause · <kbd>←</kbd> <kbd>→</kbd> step · <kbd>R</kbd> restart</div>
+  </div>
+  <div id="phoneBox">
+    <div id="phone" class="phone">
+      <div id="screen" class="screen"></div>
+      <div class="homebar"></div>
+    </div>
+  </div>
+</div>
+
+<div id="board">
+  <header>
+    <h1>__TITLE__ — storyboard</h1>
+    <p>Greyscale on purpose: this frame set is a direction check on sequence and layout, not on colour.
+    One frame per beat; the caption under each frame is the line the viewer reads. Framing: __FRAMING__.</p>
+  </header>
+  <div class="frames"></div>
+</div>
+
+<script>
+const BEATS = __BEATS_JSON__;
+const TOTAL_SECONDS = __TOTAL_SECONDS__;
+
+/* ---------- options from the URL ---------- */
+const Q = location.search + ' ' + location.hash;
+const BOARD = document.body.classList.contains('board') || /layout=board/.test(Q);
+const VERT = /layout=vertical/.test(Q);
+const STILL = /(^|[&#?\s])still(=|&|$|\s)/.test(Q);
+const bm = Q.match(/beat=(\d+)/);
+const START = bm ? Math.max(0, Math.min(BEATS.length - 1, +bm[1] - 1)) : 0;
+if (VERT) document.body.classList.add('vert');
+if (BOARD) document.body.classList.add('board');
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad = n => String(n).padStart(2, '0');
+const sbar = b => `<div class="sbar"><span class="clk">${esc(b.clock || '9:41')}</span><span class="sig"><i></i><i></i><i></i><b></b></span></div>`;
+const frameHTML = b => sbar(b) + (b.html || '');
+let timers = [];
+function arm(root, still) {
+  root.querySelectorAll('[data-at]').forEach(el => {
+    const t = +el.dataset.at || 0;
+    if (still || t <= 0) el.classList.add('on');
+    else timers.push(setTimeout(() => el.classList.add('on'), t));
+  });
+  root.querySelectorAll('[data-off]').forEach(el => {
+    const t = +el.dataset.off || 0;
+    if (still) el.classList.add('off');
+    else timers.push(setTimeout(() => el.classList.add('off'), t));
+  });
+}
+
+/* ---------- storyboard mode ---------- */
+if (BOARD) {
+  const F = document.querySelector('#board .frames');
+  F.innerHTML = BEATS.map((b, i) => `
+    <section class="frame" id="frame-${i + 1}">
+      <div class="fmeta"><b>${pad(i + 1)}</b><span>${esc(b.time)} s</span><em>${esc(b.screen)}</em></div>
+      <div class="mini"><div class="phone"><div class="screen" data-surface="${esc(b.surface)}">${frameHTML(b)}</div><div class="homebar"></div></div></div>
+      <p class="fwhat">${esc(b.what)}</p>
+      <p class="fcap">${esc(b.caption)}</p>
+    </section>`).join('');
+  arm(F, true);
+} else {
+
+/* ---------- story mode: player ---------- */
+const SCREEN = $('screen'), PHONE = $('phone'), TL = $('tl');
+let cur = START, playing = !STILL, adv = null, SCALE = 1;
+TL.innerHTML = BEATS.map((b, i) => `<div title="${i + 1}. ${esc(b.screen)}"><i></i></div>`).join('');
+TL.onclick = e => { const d = e.target.closest('#tl > div'); if (d) show([...TL.children].indexOf(d)); };
+
+function show(i) {
+  timers.forEach(clearTimeout); timers = []; clearTimeout(adv);
+  cur = (i + BEATS.length) % BEATS.length;
+  const b = BEATS[cur];
+  SCREEN.setAttribute('data-surface', b.surface);
+  SCREEN.innerHTML = frameHTML(b);
+  $('kicker').textContent = pad(cur + 1) + ' · ' + b.screen;
+  $('cap').textContent = b.caption;
+  $('sub').textContent = b.what;
+  const tx = $('txt'); tx.classList.remove('cap-anim'); void tx.offsetWidth; tx.classList.add('cap-anim');
+  [...TL.children].forEach((d, j) => { const bar = d.firstChild; bar.style.transition = 'none'; bar.style.width = j < cur ? '100%' : '0'; });
+  const bar = TL.children[cur].firstChild; void bar.offsetWidth;
+  if (playing) { bar.style.transition = `width ${b.dur}ms linear`; bar.style.width = '100%'; adv = setTimeout(() => show(cur + 1), b.dur); }
+  else bar.style.width = '100%';
+  arm(SCREEN, !playing);
+  document.body.setAttribute('data-beat', cur + 1);
+  if (history.replaceState) history.replaceState(null, '', location.pathname + location.search + '#beat=' + (cur + 1) + (playing ? '' : '&still'));
+}
+function toggle() {
+  playing = !playing;
+  document.body.classList.toggle('paused', !playing);
+  if (playing) { show(cur); return; }
+  clearTimeout(adv); timers.forEach(clearTimeout); timers = [];
+  const bar = TL.children[cur].firstChild; bar.style.width = getComputedStyle(bar).width; bar.style.transition = 'none';
+  SCREEN.querySelectorAll('[data-at]').forEach(el => el.classList.add('on'));
+  SCREEN.querySelectorAll('[data-off]').forEach(el => el.classList.add('off'));
+}
+addEventListener('keydown', e => {
+  if (e.key === ' ') { e.preventDefault(); toggle(); }
+  else if (e.key === 'ArrowRight') show(cur + 1);
+  else if (e.key === 'ArrowLeft') show(cur - 1);
+  else if (e.key === 'r' || e.key === 'R') show(0);
+});
+function fit() {
+  const box = $('phoneBox');
+  if (VERT) {
+    const th = Math.round(innerHeight * 0.30);
+    document.body.style.setProperty('--txth', th + 'px');
+    SCALE = Math.min((innerHeight - th - innerHeight * 0.04) / 760, (innerWidth * 0.86) / 380);
+  } else {
+    const wide = innerWidth >= 980;
+    SCALE = Math.max(.42, Math.min(1.15, (innerHeight - 48) / 760, wide ? (innerWidth - 600) / 380 : (innerWidth - 32) / 380));
+  }
+  PHONE.style.transform = `scale(${SCALE})`;
+  box.style.width = 380 * SCALE + 'px'; box.style.height = 760 * SCALE + 'px';
+}
+addEventListener('resize', fit); fit();
+addEventListener('hashchange', () => {              /* #beat=N[&still] typed into the address bar */
+  const m = location.hash.match(/beat=(\d+)/); if (!m) return;
+  if (/still/.test(location.hash) && playing) { playing = false; document.body.classList.add('paused'); }
+  show(+m[1] - 1);
+});
+if (STILL) document.body.classList.add('paused');
+show(START);
+window.__story = { beats: BEATS, show, toggle, get current() { return cur; }, get playing() { return playing; }, totalSeconds: TOTAL_SECONDS };
+}
+</script>
+</body>
+</html>

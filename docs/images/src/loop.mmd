@@ -1,0 +1,17 @@
+%% The loop. Source of docs/images/loop.png and of the loop block in README.md; keep the two in step.
+flowchart TB
+  subgraph loop["One feature  ·  products/&lt;code&gt;/&lt;feature&gt;/"]
+    direction LR
+    I[INTAKE] --> Q[QUESTION] --> A[ALIGN] --> P[PRODUCE] --> G[GATE] --> R[REVIEW] --> D[DECIDE] --> H[HANDOFF]
+  end
+  subgraph durable["Durable context  ·  context/  decisions/  qa/"]
+    CB["surfaces/&lt;surface&gt;/current-behaviour.md  ·  one row per live behaviour"]
+  end
+  L[LAND]
+  C[COMPOUND]
+  S["sessions/  tasks/  memory"]
+  L -- "appends rows once, archives the folder" --> durable
+  durable -- "a PRD reads rows, not history" --> loop
+  loop -- "engineering builds and releases" --> L
+  L --> C
+  C -- "lessons, memory, handoff" --> S

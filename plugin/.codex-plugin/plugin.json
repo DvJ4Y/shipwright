@@ -1,0 +1,15 @@
+{
+  "name": "shipwright",
+  "version": "0.1.0",
+  "description": "Product-management skills, read-only reviewer agents and session hooks: intake, questions, PRDs, mockups, reviews, decisions, handoffs and landing.",
+  "author": { "name": "Shipwright contributors" },
+  "license": "MIT",
+  "keywords": ["product-management", "prd", "discovery", "review", "mockup", "handoff", "decision-log"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Shipwright",
+    "shortDescription": "Run agentic product work as a system, not a chatbot.",
+    "developerName": "Shipwright contributors",
+    "category": "Productivity"
+  }
+}

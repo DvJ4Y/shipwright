@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Git pre-commit hook: run the pack check on the staged files only.
+# Install (from the repo root):
+#   cp scripts/pre-commit.example .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# Skip once:  git commit --no-verify
+# The check also compares plugin/skills with .agents/skills when a skill, hook, agent,
+# LICENSE or .mcp.json is staged, so run `bash scripts/build-plugin.sh` and stage plugin/ too.
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+files=()
+while IFS= read -r f; do
+  [ -n "$f" ] && files+=("$f")
+done < <(git diff --cached --name-only --diff-filter=ACMR)
+
+[ "${#files[@]}" -eq 0 ] && exit 0
+
+if ! bash "$ROOT/scripts/check-pack.sh" --quiet "${files[@]}"; then
+  echo "pre-commit: the pack check found problems in the staged files." >&2
+  echo "            See them with: bash scripts/check-pack.sh ${files[*]}" >&2
+  exit 1
+fi

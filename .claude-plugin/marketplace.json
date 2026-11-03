@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "shipwright",
+  "description": "A harness for running agentic product work as a system: intake, questions, PRDs, mockups, reviews, decisions, handoffs and landing, with one worked example.",
+  "owner": {
+    "name": "Shipwright contributors"
+  },
+  "plugins": [
+    {
+      "name": "shipwright",
+      "source": "./plugin",
+      "description": "Product-management skills, read-only reviewer agents and session hooks for Claude Code. Generated from .agents/skills, .claude/agents and .agents/hooks by scripts/build-plugin.sh.",
+      "category": "productivity",
+      "keywords": ["product-management", "prd", "discovery", "review", "mockup", "handoff"]
+    }
+  ]
+}

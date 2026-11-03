@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Shipwright icon. Source of assets/icon.png and plugin/.claude-plugin/icon.png.
+       A loop around a document: the product loop around the durable context. -->
+  <rect width="1024" height="1024" rx="208" fill="#1F2933"/>
+  <path d="M 512 202 A 310 310 0 1 1 243.5 357" fill="none" stroke="#F5F7FA" stroke-width="64" stroke-linecap="round"/>
+  <polygon points="278,296 292,385 195,329" fill="#F5F7FA"/>
+  <path d="M412 420 a28 28 0 0 1 28 -28 H556 L612 448 V604 a28 28 0 0 1 -28 28 H440 a28 28 0 0 1 -28 -28 Z" fill="#F5F7FA"/>
+  <polygon points="556,392 556,448 612,448" fill="#9AA5B1"/>
+  <rect x="452" y="488" width="120" height="20" rx="10" fill="#1F2933"/>
+  <rect x="452" y="530" width="120" height="20" rx="10" fill="#1F2933"/>
+  <rect x="452" y="572" width="78" height="20" rx="10" fill="#1F2933"/>
+</svg>

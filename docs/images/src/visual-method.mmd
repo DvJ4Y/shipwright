@@ -1,0 +1,9 @@
+%% The visual method. Source of docs/images/visual-method.png and of the visual-method block in README.md; keep the two in step.
+flowchart LR
+  S["1 · Story<br/>script → storyboard → hi-fi → video<br/>“Is this the right direction?”"]
+  W["2 · L0 wireframe<br/>grey boxes · one data chip per field · six state strips<br/>“Which data does each screen show, and does it exist today?”"]
+  H["3 · Hi-fi or prototype<br/>the surface palette · clickable · a screen-and-click map<br/>“Does the chosen option work in the surface's own look?”"]
+  K["check_wireframe_data.py<br/>five checks: chip resolves · one chip per field ·<br/>strip vocabulary · disposition · storage claim"]
+  S --> W --> H
+  W -. "exit 0 before anyone sees it" .-> K
+  K -. "a failing check blocks the share" .-> W

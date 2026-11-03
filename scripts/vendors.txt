@@ -1,0 +1,55 @@
+# scripts/vendors.txt — vendor names that must not appear outside the adapter and query-tool files.
+# Read by scripts/check-pack.sh (check "company-word"). One name per line; whole-word; anything
+# after "#" is a comment. Two sections:
+#
+#   [case-insensitive]  matched in any case (the default section)
+#   [capitalised-only]  ordinary English words that are also vendor names; matched only when
+#                       capitalised, so "a linear scale" and "the notion of" pass
+#
+# Add the vendors you must not name outside adapters. Write the capability instead: the
+# tracker, event analytics, the SQL replica, the BI tool, the WhatsApp BSP, telephony, AI
+# calling, payments, the identity-check provider. Names you must never publish at all go in
+# scripts/vendors.local.txt (gitignored, same format, read if present).
+
+[case-insensitive]
+# issue trackers (GitHub Issues and Linear are the two shipped adapters; Linear is capitalised-only below)
+jira
+asana
+trello
+clickup
+monday.com
+# event analytics
+posthog
+mixpanel
+# SQL query tools and BI
+redash
+metabase
+tableau
+looker
+power bi
+# messaging and telephony
+twilio
+messagebird
+sendgrid
+mailchimp
+plivo
+ringcentral
+aircall
+# payments
+paypal
+adyen
+braintree
+# identity and auth
+auth0
+okta
+supabase
+firebase
+onfido
+jumio
+
+[capitalised-only]
+Linear
+Notion
+Amplitude
+Superset
+Stripe

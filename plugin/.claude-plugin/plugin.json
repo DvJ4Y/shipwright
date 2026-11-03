@@ -1,0 +1,12 @@
+{
+  "name": "shipwright",
+  "displayName": "Shipwright",
+  "version": "0.1.0",
+  "description": "Product-management skills, read-only reviewer agents and session hooks: intake, questions, PRDs, mockups, reviews, decisions, handoffs and landing.",
+  "author": { "name": "Shipwright contributors" },
+  "license": "MIT",
+  "homepage": "https://github.com/DvJ4Y/shipwright",
+  "repository": "https://github.com/DvJ4Y/shipwright",
+  "privacyPolicyUrl": "https://github.com/DvJ4Y/shipwright/blob/main/PRIVACY.md",
+  "keywords": ["product-management", "prd", "discovery", "review", "mockup", "handoff", "decision-log"]
+}

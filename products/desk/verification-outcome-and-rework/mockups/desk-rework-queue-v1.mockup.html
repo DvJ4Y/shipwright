@@ -1,0 +1,410 @@
+<!doctype html>
+<!--
+status: draft
+version: 1
+supersedes: —
+decision_refs: [D-002, D-004, D-006, D-007]
+why: Shows the officer the rework view of the verification queue, the return-a-document panel with the field that differs and the rule, and the compliance audit view, with every field traced to internal/data-packet.csv
+last_updated: 2026-11-02
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>verification-outcome-and-rework — Desk · a rework item lands in the queue with the rule that fired · L0 data contract</title>
+<style>
+  :root{
+    --ink:#1b1b1b; --ink-2:#4a4a4a; --ink-3:#6e6e6e;
+    --line:#c9c9c9; --line-2:#e2e2e2;
+    --bg:#ffffff; --box:#f4f4f4; --box-2:#ececec; --box-3:#dcdcdc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:28px;background:var(--bg);color:var(--ink);
+       font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  h1{font-size:19px;margin:0 0 4px}
+  h2{font-size:15px;margin:0;padding:10px 12px;border:1px solid var(--line);
+     background:var(--box-2);text-transform:uppercase;letter-spacing:.04em}
+  h3{font-size:13px;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2)}
+  .meta{color:var(--ink-3);font-size:12px;margin:0 0 20px}
+
+  /* frame = one screen; state = one state block inside it */
+  .frame{border:1px solid var(--line);margin:0 0 26px;background:var(--bg)}
+  .framehead{padding:10px 12px;border-bottom:1px solid var(--line);background:var(--box-2)}
+  .framehead .sub{font-size:12px;color:var(--ink-2);margin-top:3px}
+  .state{border-top:1px solid var(--line-2);padding:0 12px 14px}
+  .strip{margin:0 -12px 12px;padding:5px 12px;background:var(--box-3);
+         font-size:11px;font-weight:700;letter-spacing:.09em}
+  .note{font-size:12px;color:var(--ink-2);margin:6px 0}
+
+  /* fields */
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .grid.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .f{border:1px solid var(--line-2);background:var(--box);padding:8px 9px}
+  .f .lbl{font-size:12px;font-weight:600}
+  .f .val{font-size:13px;color:var(--ink-2);margin:3px 0 5px;min-height:17px}
+  .f.ro{background:var(--box-2)}                    /* read-only on this surface */
+  .f.req .lbl:after{content:" *";color:var(--ink)}  /* required */
+  .chip{display:block;font:10px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;
+        color:var(--ink-3);border-top:1px dashed var(--line);padding-top:4px;word-break:break-word}
+
+  /* repeating rows, lists, actions */
+  .row{border:1px solid var(--line-2);background:var(--box);padding:8px 9px;margin:0 0 8px}
+  .btn{display:inline-block;border:1px solid var(--ink-2);background:var(--bg);
+       padding:5px 11px;font-size:12px;margin:0 6px 6px 0}
+  .btn.pri{background:var(--box-3)}
+  .btn.off{border-color:var(--line);color:var(--ink-3)}   /* disabled / not permitted */
+  .tag{display:inline-block;border:1px solid var(--line);background:var(--box-2);
+       padding:1px 6px;font-size:11px;margin-right:5px}
+  .slot{border:1px dashed var(--line);background:var(--bg);padding:18px 9px;text-align:center;
+        font-size:12px;color:var(--ink-3);margin:0 0 8px}
+
+  table{border-collapse:collapse;width:100%;font-size:12px;margin:8px 0}
+  th,td{border:1px solid var(--line-2);padding:5px 7px;text-align:left;vertical-align:top}
+  th{background:var(--box-2);font-weight:600}
+
+  .page{max-width:480px}                                                  /* customer web frames */
+  .phone{max-width:360px;border:1px solid var(--line);margin-bottom:26px} /* field app frames */
+  .cols{display:grid;grid-template-columns:180px minmax(0,1fr);gap:0}     /* console shell */
+  .cols .nav{border-right:1px solid var(--line-2);background:var(--box);padding:10px;font-size:12px}
+  .cols .nav div{padding:4px 0}
+  .cols .nav .sel{font-weight:700;text-decoration:underline}
+  .cols .body{padding:0 12px 12px}
+  .legend{border:1px solid var(--line);background:var(--box);padding:10px 12px;margin:0 0 22px;font-size:12px}
+</style>
+</head>
+<body>
+
+<h1>Verification outcome and rework — Desk</h1>
+<p class="meta">L0 data contract · surface: Desk (internal ops console) · products/desk/verification-outcome-and-rework · v1 · status: draft</p>
+
+<div class="legend">
+  <p><strong>Feature:</strong> verification-outcome-and-rework · <strong>Surface:</strong> Desk — verification officer, with the support agent and compliance officer views where the role changes the screen · <strong>Outcome:</strong> a rework item lands in the queue with its reason code, the field that differs and the rule that fired; a provider failure shows as PROVIDER-FAILED and never as a blank or a decline; every regulated action on the case is an audit row · <strong>Context:</strong> <code>context/</code> last verified 2026-11-02; D-004 and D-006 PENDING; D-002 LOCKED (queue order).</p>
+  <p><strong>Drawn against:</strong> <code>context/surfaces/desk/current-behaviour.md</code> rows DESK-001 to DESK-006, DESK-009, DESK-010 (2026-11-02). No production screenshot is in this repo; the shell is derived from those rows. The feature extends DESK-004 (field that differs) and fills the queue gap for cases with more than one open item.</p>
+  <p>Greyscale wireframe. Fictional data. Fixtures are labelled examples, not verified calculations, approved policy or working integrations.</p>
+  <p><strong>Chip:</strong> <code>[ POINT-ID · unit/type · provenance · current storage · disposition ]</code> — every chip resolves to a row in <code>../internal/data-packet.csv</code>. Dispositions: reuse · extend · proposed new · configure · derive · unresolved. Strips: EMPTY · PARTIAL · MISSING · RESTRICTED · PROVIDER-FAILED · REWORK — meanings in <code>tools/wireframe-kit/kit.md</code>.</p>
+  <p><strong>Copy:</strong> Desk ships in English. The customer-facing text is shown as an English preview; the message goes out in the customer's language.</p>
+</div>
+
+<!-- ============================================================ S1 -->
+<div class="frame" id="desk-s1">
+  <div class="framehead">
+    <h2>S1 · Verification queue — rework view</h2>
+    <div class="sub">Actor: verification officer · Entry: Desk → Queue · Exit: open a case (S2) · Order: tier 3 first, then oldest (DESK-001); rework and PROVIDER-FAILED rows keep their position</div>
+  </div>
+  <div class="cols">
+    <div class="nav"><div class="sel">Queue</div><div>Cases</div><div>Refer queue</div><div>Placement</div><div>Claims</div><div>Audit</div></div>
+    <div class="body">
+
+      <!-- REWORK -->
+      <section class="state" id="desk-s1-rework">
+        <div class="strip">REWORK</div>
+        <p class="note">Rows with open rework items. New in the row: the open-item count and the reason codes, so the officer sees a case with several items as one case (gap in desk/current-behaviour.md).</p>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0001</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Policyholder</div><div class="val">Customer A</div><span class="chip">[ CUS-02 · text · customer · h_customer.full_name · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Tier</div><div class="val">3</div><span class="chip">[ VER-02 · enum: 1 | 2 | 3 · derived · h_case.risk_tier · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Sub-status</div><div class="val">rework</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Open items</div><div class="val">2</div><span class="chip">[ RWK-08 · count · derived · derived — open h_rework_item rows per case · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Reasons</div><div class="val">unreadable · mismatched</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Clock</div><div class="val">18 h of 24 h (example) — stopped: rework raised</div><span class="chip">[ VER-03 · hours of commitment · derived · derived — h_verification.queued_at vs service level · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Hold in</div><div class="val">5 days (example)</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Replacement</div><div class="val">not started — field visit booked</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached · field · h_rework_item.replacement_status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Identity</div><div class="val">verified</div><span class="chip">[ PRV-01 · enum: verified | not matched | provider-failed · provider · h_verification.provider_result · reuse ]</span></div>
+          </div>
+          <span class="btn">Open case</span>
+        </div>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0003</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Policyholder</div><div class="val">Customer B</div><span class="chip">[ CUS-02 · text · customer · h_customer.full_name · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Tier</div><div class="val">2</div><span class="chip">[ VER-02 · enum: 1 | 2 | 3 · derived · h_case.risk_tier · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Sub-status</div><div class="val">rework</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Open items</div><div class="val">1</div><span class="chip">[ RWK-08 · count · derived · derived — open h_rework_item rows per case · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Reasons</div><div class="val">missing</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Clock</div><div class="val">6 h of 24 h (example) — stopped: rework raised</div><span class="chip">[ VER-03 · hours of commitment · derived · derived — h_verification.queued_at vs service level · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Hold in</div><div class="val">7 days (example)</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+          </div>
+          <span class="btn">Open case</span>
+        </div>
+        <p class="note">The 7-day window is D-004 PENDING. Rework raised stops the verification clock; the re-check clock starts on resubmission (policies/service-levels.md).</p>
+      </section>
+
+      <!-- EMPTY -->
+      <section class="state" id="desk-s1-empty">
+        <div class="strip">EMPTY</div>
+        <p class="note">No case in the queue has an open rework item. The rework view shows an empty list with this sentence, not a zero count. The first-verification view is unaffected.</p>
+      </section>
+
+      <!-- PARTIAL -->
+      <section class="state" id="desk-s1-partial">
+        <div class="strip">PARTIAL</div>
+        <p class="note">A case with two items where one replacement has arrived and awaits re-check. The row says what is done and what is outstanding.</p>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0001</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Sub-status</div><div class="val">rework</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Open items</div><div class="val">1 of 2</div><span class="chip">[ RWK-08 · count · derived · derived — open h_rework_item rows per case · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Replacement</div><div class="val">attached — from the field (DESK-006)</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached · field · h_rework_item.replacement_status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Shop licence</div><div class="val">received — re-check due</div><span class="chip">[ DOC-02 · enum: received | accepted | unreadable | mismatched | missing · ops · h_document.status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Re-check clock</div><div class="val">4 h of 12 h (example)</div><span class="chip">[ VER-03 · hours of commitment · derived · derived — h_verification.queued_at vs service level · derive ]</span></div>
+          </div>
+          <span class="btn pri">Re-check</span>
+        </div>
+      </section>
+
+      <!-- MISSING -->
+      <section class="state" id="desk-s1-missing">
+        <div class="strip">MISSING</div>
+        <p class="note">A <code>mismatched</code> item raised before this feature has no "field that differs". The absence is shown as MISSING with what to do, never as a blank cell or a dash.</p>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0004</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Reasons</div><div class="val">mismatched</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Field that differs</div><div class="val">MISSING — not recorded on items raised before this feature; add on re-check</div><span class="chip">[ RWK-02 · enum of case-record fields · ops · none — no current path established · proposed new ]</span></div>
+            <div class="f ro"><div class="lbl">Record says</div><div class="val">cannot be derived until the field is set</div><span class="chip">[ RWK-03 · text (case value) · derived · derived — h_case / h_customer column named by RWK-02 · derive ]</span></div>
+          </div>
+          <span class="btn">Open case</span>
+        </div>
+      </section>
+
+      <!-- RESTRICTED -->
+      <section class="state" id="desk-s1-restricted">
+        <div class="strip">RESTRICTED</div>
+        <p class="note">Support agent view of the same row. The agent sees stage, sub-status and the items but cannot set <code>rework</code>, <code>refer</code> or <code>declined</code> (DESK-010). The compliance-only restriction is on S3.</p>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0001</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Sub-status</div><div class="val">rework</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Open items</div><div class="val">2</div><span class="chip">[ RWK-08 · count · derived · derived — open h_rework_item rows per case · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Reasons</div><div class="val">unreadable · mismatched</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+          </div>
+          <span class="btn off">Return document</span><span class="btn off">Set refer</span><span class="btn off">Set declined</span><span class="btn">Open case (read-only)</span>
+        </div>
+      </section>
+
+      <!-- PROVIDER-FAILED -->
+      <section class="state" id="desk-s1-provider-failed">
+        <div class="strip">PROVIDER-FAILED</div>
+        <p class="note">The identity-check provider did not answer within 90 seconds (example). The row shows PROVIDER-FAILED, keeps its position (DESK-002; risk-tiers policy) and is never declined. The verification clock pauses (service-levels clock rules).</p>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0005</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Policyholder</div><div class="val">Customer C</div><span class="chip">[ CUS-02 · text · customer · h_customer.full_name · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Tier</div><div class="val">2</div><span class="chip">[ VER-02 · enum: 1 | 2 | 3 · derived · h_case.risk_tier · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Sub-status</div><div class="val">open — never declined on a provider failure</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Identity</div><div class="val">PROVIDER-FAILED</div><span class="chip">[ PRV-01 · enum: verified | not matched | provider-failed · provider · h_verification.provider_result · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Retries</div><div class="val">attempt 2 of 2 — limit 2 (D-007 PENDING, recommended value)</div><span class="chip">[ PRV-02 · count / limit · provider · none — no current path established · unresolved ]</span></div>
+            <div class="f ro"><div class="lbl">Clock</div><div class="val">paused — provider (6 h of 24 h, example)</div><span class="chip">[ VER-03 · hours of commitment · derived · derived — h_verification.queued_at vs service level · derive ]</span></div>
+            <div class="f ro"><div class="lbl">Open items</div><div class="val">none yet</div><span class="chip">[ RWK-08 · count · derived · derived — open h_rework_item rows per case · derive ]</span></div>
+          </div>
+          <span class="btn">Open case</span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ S2 -->
+<div class="frame" id="desk-s2">
+  <div class="framehead">
+    <h2>S2 · Case — return a document, and the identity panel</h2>
+    <div class="sub">Actor: verification officer · Entry: S1 row → case → a document · Exit: save creates the rework item (DESK-004); Harbor list and WhatsApp message update (HUB-008); an audit event is written</div>
+  </div>
+  <div class="cols">
+    <div class="nav"><div>Queue</div><div class="sel">Cases</div><div>Refer queue</div><div>Placement</div><div>Claims</div><div>Audit</div></div>
+    <div class="body">
+
+      <!-- REWORK -->
+      <section class="state" id="desk-s2-rework">
+        <div class="strip">REWORK</div>
+        <p class="note">Return panel for a <code>mismatched</code> document. New: the field that differs (required for this reason), what the record says, and the rule that fired carried onto the item and into the customer text.</p>
+        <div class="grid c3">
+          <div class="f ro"><div class="lbl">Document</div><div class="val">Address proof</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Reference</div><div class="val">DOC-REF-0002 · version 1</div><span class="chip">[ DOC-03 · id + version · derived · h_document.reference · reuse ]</span></div>
+          <div class="f req"><div class="lbl">Document status</div><div class="val">mismatched</div><span class="chip">[ DOC-02 · enum: received | accepted | unreadable | mismatched | missing · ops · h_document.status · reuse ]</span></div>
+          <div class="f req"><div class="lbl">Reason code</div><div class="val">mismatched — select: unreadable | mismatched | missing</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+          <div class="f req"><div class="lbl">Field that differs</div><div class="val">Shop address — select: policyholder name | shop address | date of birth</div><span class="chip">[ RWK-02 · enum of case-record fields · ops · none — no current path established · proposed new ]</span></div>
+          <div class="f ro"><div class="lbl">Record says</div><div class="val">12 Market Road, Ward 4 — entered at quote</div><span class="chip">[ RWK-03 · text (case value) · derived · derived — h_case / h_customer column named by RWK-02 · derive ]</span></div>
+          <div class="f ro"><div class="lbl">Rule that fired</div><div class="val">ADDR-MATCH-01 · address on the proof must match the quoted shop address · input: 7 Station Lane</div><span class="chip">[ RWK-04 · rule name + input · derived · h_verification.rules_fired[] · extend ]</span></div>
+          <div class="f ro"><div class="lbl">Customer text (preview)</div><div class="val">Your address proof shows a different address from the one you gave us (12 Market Road). Upload a proof for 12 Market Road, or correct the address in your case. — sent in the customer's language</div><span class="chip">[ RWK-05 · text in customer language · config · config — message template per reason code and language · extend ]</span></div>
+          <div class="f ro"><div class="lbl">Customer's next step</div><div class="val">re-upload, or correct the case detail</div><span class="chip">[ RWK-06 · enum: re-upload | field capture | correct the case detail · derived · h_rework_item.next_step · configure ]</span></div>
+          <div class="f ro"><div class="lbl">Field verifier may resolve on site</div><div class="val">No — mismatched goes back to the customer (D-006 PENDING)</div><span class="chip">[ RWK-10 · yes | no per reason code · config · none — no current path established · configure ]</span></div>
+          <div class="f ro"><div class="lbl">Hold if not resubmitted in</div><div class="val">7 days from save (D-004 PENDING)</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+          <div class="f"><div class="lbl">Internal note (never sent to the customer)</div><div class="val">free text — officers only; customer text comes from templates (R2)</div><span class="chip">[ RWK-05 · text in customer language · config · config — message template per reason code and language · extend ]</span></div>
+        </div>
+        <span class="btn pri">Save and return document</span><span class="btn">Cancel</span>
+        <p class="note">On save: rework item created; case sub-status <code>rework</code>; verification clock stops; audit event under record retention (regulated-actions.md); the customer message names the rule and asks nothing new (consent and disclosure).</p>
+      </section>
+
+      <!-- PARTIAL -->
+      <section class="state" id="desk-s2-partial">
+        <div class="strip">PARTIAL</div>
+        <p class="note">The officer has picked the reason but not the field that differs. The panel says what is outstanding; save is not permitted until the field is set.</p>
+        <div class="grid c3">
+          <div class="f req"><div class="lbl">Reason code</div><div class="val">mismatched</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+          <div class="f req"><div class="lbl">Field that differs</div><div class="val">required for mismatched — not set</div><span class="chip">[ RWK-02 · enum of case-record fields · ops · none — no current path established · proposed new ]</span></div>
+          <div class="f ro"><div class="lbl">Customer text (preview)</div><div class="val">waiting for the field that differs</div><span class="chip">[ RWK-05 · text in customer language · config · config — message template per reason code and language · extend ]</span></div>
+        </div>
+        <span class="btn off">Save and return document</span><span class="btn">Cancel</span>
+      </section>
+
+      <!-- MISSING -->
+      <section class="state" id="desk-s2-missing">
+        <div class="strip">MISSING</div>
+        <p class="note">Return panel for a checklist item with no file. The item is named with why the insurer needs it; the customer and the field verifier see the same reason.</p>
+        <div class="grid c3">
+          <div class="f ro"><div class="lbl">Document</div><div class="val">Stock photo set</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+          <div class="f req"><div class="lbl">Document status</div><div class="val">missing</div><span class="chip">[ DOC-02 · enum: received | accepted | unreadable | mismatched | missing · ops · h_document.status · reuse ]</span></div>
+          <div class="f req"><div class="lbl">Reason code</div><div class="val">missing</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Why the insurer needs it</div><div class="val">Evidences the stock and storage for the stock sum insured</div><span class="chip">[ DOC-05 · text per item · config · config — checklist column · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Capture tip</div><div class="val">Front, interior, storage, and the stock register page or billing screen</div><span class="chip">[ DOC-04 · text per item · config · config — Field slot text (FLD-002) · extend ]</span></div>
+          <div class="f ro"><div class="lbl">Customer's next step</div><div class="val">upload on Harbor, or the field verifier captures on site</div><span class="chip">[ RWK-06 · enum: re-upload | field capture | correct the case detail · derived · h_rework_item.next_step · configure ]</span></div>
+          <div class="f ro"><div class="lbl">Field verifier may resolve on site</div><div class="val">Yes — missing may be captured on site (D-006 PENDING)</div><span class="chip">[ RWK-10 · yes | no per reason code · config · none — no current path established · configure ]</span></div>
+        </div>
+        <span class="btn pri">Save and return document</span><span class="btn">Cancel</span>
+      </section>
+
+      <!-- PROVIDER-FAILED -->
+      <section class="state" id="desk-s2-provider-failed">
+        <div class="strip">PROVIDER-FAILED</div>
+        <p class="note">Identity panel on the case after a provider failure. Decline is never permitted on a provider failure; manual verification opens after the retry limit and records the method (regulated-actions.md, identity verification).</p>
+        <div class="grid c3">
+          <div class="f ro"><div class="lbl">Provider result</div><div class="val">provider-failed — no answer within 90 s (example)</div><span class="chip">[ PRV-01 · enum: verified | not matched | provider-failed · provider · h_verification.provider_result · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Retries</div><div class="val">2 attempts — limit 2 reached (D-007 PENDING, recommended value); manual verification offered</div><span class="chip">[ PRV-02 · count / limit · provider · none — no current path established · unresolved ]</span></div>
+          <div class="f ro"><div class="lbl">Provider response reference</div><div class="val">PRV-REF-0001 — the evidence record for this attempt</div><span class="chip">[ AUD-04 · id · derived · h_audit_event.evidence_ref · reuse ]</span></div>
+          <div class="f"><div class="lbl">Manual verification method</div><div class="val">select: document inspection | video call | field visit — available after the retry limit</div><span class="chip">[ VER-04 · enum: document inspection | video call | field visit · ops · none — no current path established · proposed new ]</span></div>
+          <div class="f ro"><div class="lbl">Identity number</div><div class="val">0000 0000 0001 (fixture) — full value on this screen only; this view is an audit event</div><span class="chip">[ AUD-07 · text; last 4 outside verification · document · h_customer.identity_number · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Sub-status</div><div class="val">open</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+        </div>
+        <span class="btn off">Retry now (not in this version — retries run on the policy)</span><span class="btn off">Verify manually (after the limit)</span><span class="btn off">Set declined — never on a provider failure</span>
+      </section>
+
+      <!-- EMPTY · RESTRICTED -->
+      <section class="state" id="desk-s2-empty">
+        <div class="strip">EMPTY</div>
+        <p class="note"><strong>Not applicable on this screen.</strong> The return panel opens from a document on a case that has a checklist (HUB-004). A checklist item with no file is MISSING, not EMPTY.</p>
+      </section>
+      <section class="state" id="desk-s2-restricted">
+        <div class="strip">RESTRICTED</div>
+        <p class="note"><strong>Not applicable on this screen.</strong> The panel does not open for the support agent (DESK-010); S1 RESTRICTED shows the disabled actions. The compliance-only view is S3.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ S3 -->
+<div class="frame" id="desk-s3">
+  <div class="framehead">
+    <h2>S3 · Audit view — regulated actions on the case</h2>
+    <div class="sub">Actor: verification officer (own actions) · compliance officer and ops lead (every row) · Entry: case → Audit (DESK-009) · Exit: the evidence record</div>
+  </div>
+  <div class="cols">
+    <div class="nav"><div>Queue</div><div>Cases</div><div>Refer queue</div><div>Placement</div><div>Claims</div><div class="sel">Audit</div></div>
+    <div class="body">
+
+      <!-- RESTRICTED -->
+      <section class="state" id="desk-s3-restricted">
+        <div class="strip">RESTRICTED</div>
+        <p class="note">Verification officer's view: own actions only (data-handling policy, "Audit view"). The consent record and the retention schedule exist on the case but are compliance-only. The identity number is masked to the last 4 characters outside the verification screen. Each view of a masked value is itself an audit event.</p>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Action</div><div class="val">identity verification</div><span class="chip">[ AUD-01 · enum: regulated action · derived · h_audit_event.action · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Actor</div><div class="val">verification officer</div><span class="chip">[ AUD-02 · enum: role · derived · h_audit_event.actor_role · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Time</div><div class="val">2 Nov, 10:14 (example)</div><span class="chip">[ AUD-03 · timestamp · derived · h_audit_event.occurred_at · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Evidence</div><div class="val">PRV-REF-0001</div><span class="chip">[ AUD-04 · id · derived · h_audit_event.evidence_ref · reuse ]</span></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Action</div><div class="val">record retention — rework item raised</div><span class="chip">[ AUD-01 · enum: regulated action · derived · h_audit_event.action · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Actor</div><div class="val">verification officer</div><span class="chip">[ AUD-02 · enum: role · derived · h_audit_event.actor_role · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Time</div><div class="val">2 Nov, 10:31 (example)</div><span class="chip">[ AUD-03 · timestamp · derived · h_audit_event.occurred_at · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Evidence</div><div class="val">DOC-REF-0002</div><span class="chip">[ AUD-04 · id · derived · h_audit_event.evidence_ref · reuse ]</span></div>
+          </div>
+        </div>
+        <div class="grid c3">
+          <div class="f ro"><div class="lbl">Consent record</div><div class="val">RESTRICTED — compliance officer only</div><span class="chip">[ AUD-05 · version; time; channel; language · customer · h_audit_event (action consent) — channel and language have no path · unresolved ]</span></div>
+          <div class="f ro"><div class="lbl">Delete after</div><div class="val">RESTRICTED — compliance officer only</div><span class="chip">[ AUD-06 · date · derived/backfilled · derived — h_policy.end_at + 7 years · derive ]</span></div>
+          <div class="f ro"><div class="lbl">Identity number</div><div class="val">•••• •••• 0001 (last 4)</div><span class="chip">[ AUD-07 · text; last 4 outside verification · document · h_customer.identity_number · reuse ]</span></div>
+        </div>
+      </section>
+
+      <!-- REWORK -->
+      <section class="state" id="desk-s3-rework">
+        <div class="strip">REWORK</div>
+        <p class="note">Compliance officer's view of the same case: every regulated action, including the rework item and the replacement captured on site. Both are record-retention events (regulated-actions.md, "The worked feature").</p>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Action</div><div class="val">record retention — rework item raised</div><span class="chip">[ AUD-01 · enum: regulated action · derived · h_audit_event.action · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Actor</div><div class="val">verification officer</div><span class="chip">[ AUD-02 · enum: role · derived · h_audit_event.actor_role · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Time</div><div class="val">2 Nov, 10:31 (example)</div><span class="chip">[ AUD-03 · timestamp · derived · h_audit_event.occurred_at · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Evidence</div><div class="val">DOC-REF-0002 · reason mismatched · rule ADDR-MATCH-01</div><span class="chip">[ AUD-04 · id · derived · h_audit_event.evidence_ref · reuse ]</span></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="grid c4">
+            <div class="f ro"><div class="lbl">Action</div><div class="val">record retention — replacement captured on site</div><span class="chip">[ AUD-01 · enum: regulated action · derived · h_audit_event.action · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Actor</div><div class="val">field verifier</div><span class="chip">[ AUD-02 · enum: role · derived · h_audit_event.actor_role · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Time</div><div class="val">3 Nov, 15:02 (example)</div><span class="chip">[ AUD-03 · timestamp · derived · h_audit_event.occurred_at · reuse ]</span></div>
+            <div class="f ro"><div class="lbl">Evidence</div><div class="val">DOC-REF-0001 · version 2</div><span class="chip">[ AUD-04 · id · derived · h_audit_event.evidence_ref · reuse ]</span></div>
+          </div>
+        </div>
+        <div class="grid c3">
+          <div class="f ro"><div class="lbl">Consent record</div><div class="val">text version 3 · 1 Oct (example) — see PARTIAL for the gap</div><span class="chip">[ AUD-05 · version; time; channel; language · customer · h_audit_event (action consent) — channel and language have no path · unresolved ]</span></div>
+          <div class="f ro"><div class="lbl">Delete after</div><div class="val">not issued yet: last customer action + 2 years → 3 Nov 2028 (example); becomes policy end + 7 years on issue</div><span class="chip">[ AUD-06 · date · derived/backfilled · derived — h_policy.end_at + 7 years · derive ]</span></div>
+          <div class="f ro"><div class="lbl">Identity number</div><div class="val">•••• •••• 0001 (last 4; full value only on the verification screen)</div><span class="chip">[ AUD-07 · text; last 4 outside verification · document · h_customer.identity_number · reuse ]</span></div>
+        </div>
+      </section>
+
+      <!-- PARTIAL -->
+      <section class="state" id="desk-s3-partial">
+        <div class="strip">PARTIAL</div>
+        <p class="note">The consent record has the text version and time but not the channel and language the register requires. <code>h_audit_event.metadata</code> has been empty since the August release (context/05, trap 2). Where channel and language should live is unresolved; the owner is the compliance officer.</p>
+        <div class="grid c3">
+          <div class="f ro"><div class="lbl">Consent record</div><div class="val">version 3 · 1 Oct (example) · channel: no evidence · language: no evidence</div><span class="chip">[ AUD-05 · version; time; channel; language · customer · h_audit_event (action consent) — channel and language have no path · unresolved ]</span></div>
+          <div class="f ro"><div class="lbl">Action</div><div class="val">consent and disclosure</div><span class="chip">[ AUD-01 · enum: regulated action · derived · h_audit_event.action · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Actor</div><div class="val">customer</div><span class="chip">[ AUD-02 · enum: role · derived · h_audit_event.actor_role · reuse ]</span></div>
+        </div>
+      </section>
+
+      <!-- MISSING -->
+      <section class="state" id="desk-s3-missing">
+        <div class="strip">MISSING</div>
+        <p class="note">A manual identity verification done before this feature has no recorded method. The register requires it ("manual method where used"). The absence is shown as MISSING, not as a blank evidence cell.</p>
+        <div class="grid c4">
+          <div class="f ro"><div class="lbl">Action</div><div class="val">identity verification — manual</div><span class="chip">[ AUD-01 · enum: regulated action · derived · h_audit_event.action · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Actor</div><div class="val">verification officer</div><span class="chip">[ AUD-02 · enum: role · derived · h_audit_event.actor_role · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Time</div><div class="val">14 Oct, 16:40 (example)</div><span class="chip">[ AUD-03 · timestamp · derived · h_audit_event.occurred_at · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Method</div><div class="val">MISSING — no path existed before this feature</div><span class="chip">[ VER-04 · enum: document inspection | video call | field visit · ops · none — no current path established · proposed new ]</span></div>
+        </div>
+      </section>
+
+      <!-- PROVIDER-FAILED -->
+      <section class="state" id="desk-s3-provider-failed">
+        <div class="strip">PROVIDER-FAILED</div>
+        <p class="note">Each provider attempt is an identity-verification audit row, including the failed one. The row shows the result and the provider response reference, never a successful zero.</p>
+        <div class="grid c4">
+          <div class="f ro"><div class="lbl">Action</div><div class="val">identity verification — provider attempt 2</div><span class="chip">[ AUD-01 · enum: regulated action · derived · h_audit_event.action · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Result</div><div class="val">provider-failed (timeout 90 s, example)</div><span class="chip">[ PRV-01 · enum: verified | not matched | provider-failed · provider · h_verification.provider_result · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Time</div><div class="val">2 Nov, 10:14 (example)</div><span class="chip">[ AUD-03 · timestamp · derived · h_audit_event.occurred_at · reuse ]</span></div>
+          <div class="f ro"><div class="lbl">Evidence</div><div class="val">PRV-REF-0001</div><span class="chip">[ AUD-04 · id · derived · h_audit_event.evidence_ref · reuse ]</span></div>
+        </div>
+      </section>
+
+      <!-- EMPTY -->
+      <section class="state" id="desk-s3-empty">
+        <div class="strip">EMPTY</div>
+        <p class="note"><strong>Not applicable on this screen.</strong> Every case carries at least the consent event before it reaches <code>Verification</code> (consent is obtained before the identity check). An empty audit view on a case at this stage is a defect to raise, not a state to design.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<p class="meta">End of Desk wireframe. Harbor: <code>harbor-verification-outcome-v1.mockup.html</code> · Field: <code>field-replacement-capture-v1.mockup.html</code>.</p>
+</body>
+</html>

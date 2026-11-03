@@ -1,0 +1,11 @@
+%% The four context layers. Source of docs/images/layers.png and of the layers block in README.md; keep the two in step.
+flowchart TB
+  D["Durable  ·  context/  decisions/  qa/<br/>what the product should do: company, lifecycle, surfaces, policies,<br/>regulated actions, glossary, metrics, decisions, one current-behaviour row per live behaviour"]
+  C["Change  ·  products/&lt;code&gt;/&lt;feature&gt;/<br/>one feature: discovery → PRD → mockups → brief → issue pack → reviews<br/>shared/ is handed over; internal/ is the reasoning"]
+  M["Memory  ·  the agent's memory directory<br/>one fact per file: how you work, how the tools behave"]
+  S["Session  ·  sessions/  tasks/<br/>a handoff under 50 lines, a daily archive, todo, lessons"]
+  D -- "a PRD reads rows and cites ids" --> C
+  C -- "/land appends rows, once" --> D
+  C -- "/session end" --> S
+  S -- "/session end writes facts" --> M
+  S -- "the weekly miner finds drift" --> D

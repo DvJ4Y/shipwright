@@ -1,0 +1,32 @@
+# scripts/people.txt — person names that must not appear in plans.
+# Read by scripts/check-pack.sh (check "person-name"). One name per line; whole-word,
+# case-sensitive. Anything after "#" is a comment. Three sections:
+#
+#   [team]          names denied everywhere in the repo. Add your team's first names and
+#                   surnames here, one per line, so a plan never carries a person's name.
+#   [personas]      the example persona first names. Denied everywhere except the paths
+#                   listed under [persona-paths].
+#   [persona-paths] path prefixes (relative to the repo root) where persona first names
+#                   may appear: the persona cards, the worked example, the docs that
+#                   explain the rule, and the profile.
+#
+# Role words ("the product lead", "a verification officer") are never names; use them.
+
+[team]
+# Fictional examples — replace with your own, then remove the "#":
+# Ananya
+# Rao
+
+[personas]
+Meera
+Arjun
+Priya
+
+[persona-paths]
+context/personas/
+context/01-company.md
+products/desk/verification-outcome-and-rework/
+docs/
+README.md
+AGENTS.md
+_profile.md

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  automations/schedule/launchd.plist.example — macOS alternative to cron for the weekly sync.
+  launchd runs a missed job at next wake, which cron does not; use this on a laptop.
+
+  This plist runs the COMPRESSOR on Sunday 19:00. For the MINER, copy this file, change:
+    - Label                  → com.shipwright.miner
+    - the ProgramArguments   → "miner" instead of "compressor"
+    - Hour                   → 20
+    - StandardOutPath / StandardErrorPath → .../_runs/launchd-miner.log
+  and install the copy the same way. The Monday interview is interactive and is not scheduled;
+  run `bash automations/run.sh interview` by hand.
+
+  Install:
+    1. Replace /path/to/shipwright (three places) with your repo root. Absolute path, no ~.
+    2. Check the PATH value below includes the directory `command -v claude` prints.
+    3. cp automations/schedule/launchd.plist.example ~/Library/LaunchAgents/com.shipwright.compressor.plist
+    4. launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.shipwright.compressor.plist
+    5. Test now:  launchctl kickstart -k gui/$(id -u)/com.shipwright.compressor
+    6. Check sessions/weekly/_runs/compressor-<date>.log.
+  Remove:  launchctl bootout gui/$(id -u)/com.shipwright.compressor
+
+  Weekday: 0 = Sunday. Hour is 24-hour local time.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.shipwright.compressor</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/path/to/shipwright/automations/run.sh</string>
+    <string>compressor</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/path/to/shipwright</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>0</integer>
+    <key>Hour</key>
+    <integer>19</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <key>StandardOutPath</key>
+  <string>/path/to/shipwright/sessions/weekly/_runs/launchd-compressor.log</string>
+  <key>StandardErrorPath</key>
+  <string>/path/to/shipwright/sessions/weekly/_runs/launchd-compressor.log</string>
+
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>

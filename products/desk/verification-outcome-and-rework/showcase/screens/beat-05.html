@@ -1,0 +1,22 @@
+<!-- Beat 5 · Harbor · status page · NOT live: "ask for a visit" from the status page; rework and provider-failed on one screen (extends HUB-008, HUB-009). -->
+<div class="app" data-clock="9:20 AM">
+  <div class="bar">Your policy <small>In progress <span class="tag">customer language</span></small></div>
+  <div class="body" style="gap:10px">
+    <div class="steps"><i class="done"></i><i class="done"></i><i class="done"></i><i class="now"></i><i></i></div>
+    <div class="card err">
+      <div class="h2">Identity proof — returned, needs a new photo</div>
+      <p class="p small">We could not read the name and the number on the photo.</p>
+      <p class="p small"><b>Tip:</b> daylight, flat on a table, all four corners in the frame.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+        <div class="btn sm primary">Upload a new photo</div>
+        <div class="btn sm hl-at stay" data-at="3600">Ask for a visit to the shop</div>
+      </div>
+    </div>
+    <div class="card warn" data-at="1200">
+      <div class="h2">Identity check</div>
+      <p class="p small" style="margin:0">We could not complete the identity check. We will retry; nothing is needed from you.</p>
+    </div>
+    <div class="msg" data-at="2200" style="align-self:flex-end;border-radius:12px 12px 4px 12px"><b>Harbor Cover</b><br>Your identity proof needs a new photo — we could not read the name and number. Your policy waits for it. Take it in daylight, flat on a table, or ask us to visit the shop. Tap: your status page. <span class="tag">customer language</span><span class="time">9:20 AM</span></div>
+    <div class="toast" data-at="4600">A verifier will visit within 3 days. We will message the time.</div>
+  </div>
+</div>

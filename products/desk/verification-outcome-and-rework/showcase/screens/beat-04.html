@@ -1,0 +1,28 @@
+<!-- Beat 4 · Desk · verification queue · live (DESK-001, DESK-002). PROVIDER-FAILED shown honestly; never declined. -->
+<div class="app" data-clock="9:19 AM">
+  <div class="bar">Desk <small>Verification queue · 14 open</small></div>
+  <div class="body" style="gap:10px">
+    <div style="display:flex;gap:6px"><span class="chip p">Tier, then age</span><span class="chip">Rework</span><span class="chip">Provider-failed</span></div>
+    <div class="table" style="--cols:82px 44px 40px 1fr">
+      <div class="tr head"><span>Case</span><span>Tier</span><span>Age</span><span>Status</span></div>
+      <div class="tr"><span>CASE-0409</span><span class="chip t3">T3</span><span>21 h</span><span><span class="chip">open</span></span></div>
+      <div class="tr"><span>CASE-0412</span><span class="chip t2">T2</span><span>16 h</span><span><span class="chip refer">refer</span></span></div>
+      <div class="tr sel" style="align-items:start;padding-top:8px;padding-bottom:8px;row-gap:2px">
+        <span><b>CASE-0417</b><br><span class="tiny muted">Meera</span></span>
+        <span class="chip t1">T1</span>
+        <span>2 h<br><span class="tiny muted" data-at="3400">paused</span></span>
+        <span>
+          <span class="chip warn">rework</span>
+          <span style="position:relative;display:inline-block;min-width:150px;vertical-align:middle">
+            <span class="tiny muted" data-at="800" data-off="3400"><i class="spin"></i>identity check · 90 s</span>
+            <span class="chip pf" data-at="3400" data-fx="pop" style="position:absolute;left:0;top:-2px">PROVIDER-FAILED</span>
+          </span>
+        </span>
+        <span class="tiny muted" style="grid-column:1/-1" data-at="4400">No answer in 90 s; the retry timed out too. The retry queue holds the check. Customer told: nothing needed.</span>
+      </div>
+      <div class="tr"><span>CASE-0421</span><span class="chip t1">T1</span><span>1 h</span><span><span class="chip">open</span></span></div>
+      <div class="tr"><span>CASE-0423</span><span class="chip t1">T1</span><span>0 h</span><span><span class="chip">open</span></span></div>
+    </div>
+    <div class="card" data-at="5000" style="padding:10px 12px"><div class="small"><b>What the row says.</b> The provider failed, not the customer. The verification clock is paused. Sub-status stays <span class="chip warn">rework</span>, never <span class="chip">declined</span>.</div></div>
+  </div>
+</div>

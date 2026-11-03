@@ -1,0 +1,59 @@
+id,prompt,expected_skill
+T01,"I want to work on the rework reason codes — where do I start?",product-loop
+T02,"New request from the ops lead: verification officers want a case's open rework items shown as one row. What's the process for this?",product-loop
+T03,"Pick this up: the replacement-document capture in the Field app needs work. Plan this feature.",product-loop
+T04,"Is the verification-outcome feature ready for engineering?",product-loop
+T05,"Plan this initiative: claim acknowledgement across Harbor, Desk and WhatsApp.",product-loop
+T06,"Help me decide: should the rework message show the rule name or only the reason code?",decide
+T07,"I'm torn between a 24-hour and a 48-hour hold window before a case lapses. Challenge my thinking.",decide
+T08,"Log this decision: a field verifier may capture a replacement document only against an open rework item.",decide
+T09,"Is a self-serve document re-upload in Harbor worth building? Write the business case.",product-discovery
+T10,"Why are customers dropping at the Documents stage? Size this before we commit anything.",product-discovery
+T11,"Benchmark how other small-business insurance distributors handle returned documents.",product-discovery
+T12,"Prioritise these three ideas for the verification queue: bulk rework, auto-refer on provider failure, officer notes.",product-discovery
+T13,"Write the PRD for verification outcome and rework.",prd-writer
+T14,"Draft the requirements for the Desk rework queue.",prd-writer
+T15,"Spec this out: the identity check must never decline a case on a provider failure, and the manual verification method must be recorded.",prd-writer
+T16,"Update the PRD: the field verifier can capture a replacement document on site.",prd-writer
+T17,"Mock up the Desk rework queue with the six state strips.",mockup
+T18,"How should the verification outcome screen look in Harbor? Show me three options.",mockup
+T19,"Make the rework flow clickable so the ops lead can walk through it.",mockup
+T20,"Storyboard the customer's path from a returned document to a resubmission.",mockup
+T21,"Write the copy for the returned-document message in Harbor.",product-copy
+T22,"What should the button say when the customer has to upload the shop licence again?",product-copy
+T23,"How do we tell the customer no when the eligibility engine declines the quote?",product-copy
+T24,"Translate the rework message into the customer's language.",localisation-copy
+T25,"This translation of the consent screen sounds bookish — make it colloquial.",localisation-copy
+T26,"Review the strings export for the Field app before it goes to the native reviewer.",localisation-copy
+T27,"What would customers think of a second document request two days after the first?",persona-panel
+T28,"How would a verification officer use the new rework queue? Run the personas.",persona-panel
+T29,"Persona check on the Harbor verification-outcome mockup — who would struggle with it?",persona-panel
+T30,"Review the verification-outcome PRD before I send it to the engineering lead.",review
+T31,"Red-team the rework feature — what could kill it?",review
+T32,"Gate this: the PRD touches consent and disclosure. Is the evidence record enough?",review
+T33,"Check my PRD against the record-retention row of the regulated-actions register.",review
+T34,"Did we build what we meant? Compare the rework queue PRD with what is in production.",review
+T35,"Write the engineering brief for verification outcome and rework.",engineering-brief
+T36,"What areas are touched if the rework item carries the rule that fired?",engineering-brief
+T37,"Brief the engineering lead on the Field replacement capture.",engineering-brief
+T38,"Pull the rework cycle time for the September cohort.",data-analysis
+T39,"What's the conversion from Quote to Eligibility this month?",data-analysis
+T40,"Define a metric for document completeness at first submission.",data-analysis
+T41,"Sanity-check this number: a 61% verification first-pass rate.",data-analysis
+T42,"Create the tickets for the rework feature from the approved PRD and brief.",issue-tracker
+T43,"Run the weekly pulse — what's stale in the tracker?",issue-tracker
+T44,"Reconcile the cycle: what was planned against what reached production?",issue-tracker
+T45,"Write the release notes for this cycle and set the PRD to shipped.",issue-tracker
+T46,"Publish the issue pack to the tracker.",issue-tracker
+T47,"Here are the notes from the ops review — process this meeting.",meeting-processor
+T48,"Action items from today's founder sync, please.",meeting-processor
+T49,"Summarise this call with the insurer partner and tell me what we decided.",meeting-processor
+T50,"This shipped: the rework queue is in production. Land it.",land
+T51,"Merge the PRD into current behaviour for the verification-outcome feature.",land
+T52,"Update current behaviour for Desk from the shipped PRD.",land
+T53,"What shipped but isn't landed?",land
+T54,"Land the rework feature.",land
+T55,"Checkpoint the session and save state before I run out of context.",none
+T56,"End the session: rewrite the handoff and archive it.",none
+T57,"It's my first day with this workspace — run the onboarding and set up my profile.",none
+T58,"Set up my profile: I'm a designer on the customer lane.",none

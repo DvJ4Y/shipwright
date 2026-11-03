@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git mv:*)",
+      "Bash(ls:*)",
+      "Bash(wc:*)",
+      "Bash(bash tools/query/run-sql.sh:*)",
+      "Bash(bash scripts/link-harness.sh --dry-run:*)",
+      "mcp__tracker__list_issues",
+      "mcp__tracker__get_issue",
+      "mcp__tracker__list_projects",
+      "mcp__tracker__get_project",
+      "mcp__tracker__list_teams",
+      "mcp__tracker__list_cycles",
+      "mcp__tracker__list_issue_statuses",
+      "mcp__tracker__list_issue_labels",
+      "mcp__tracker__list_comments",
+      "WebSearch",
+      "WebFetch"
+    ],
+    "ask": [
+      "mcp__tracker__save_issue",
+      "mcp__tracker__save_comment",
+      "mcp__tracker__save_project",
+      "Bash(bash scripts/build-plugin.sh:*)",
+      "Bash(bash scripts/link-harness.sh:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Bash(printenv:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.agents/hooks/session_start.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.agents/hooks/stop_handoff.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.agents/hooks/guard_edits.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+# Local build folder — never committed
+_build/
+
+# Vendor names you must never publish (scripts/check-pack.sh reads it if present)
+scripts/vendors.local.txt
+
+# Personal, machine-specific agent settings — may hold paths or secrets
+.claude/settings.local.json
+.claude/.state/
+.codex/.state/
+
+# Hand-made entries moved aside by scripts/link-harness.sh
+.claude/_retired/
+
+# Secrets — never commit
+.env
+.env.*
+
+# Eval run results and automation run logs (carry absolute paths)
+evals/results-*
+sessions/weekly/_runs/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+node_modules/

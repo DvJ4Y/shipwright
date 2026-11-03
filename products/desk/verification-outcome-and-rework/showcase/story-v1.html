@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verification outcome and rework story</title>
+<!--
+  Built by tools/story-builder/build_story.py — do not edit by hand; edit the script and rebuild.
+  Script: products/desk/verification-outcome-and-rework/showcase/story-script.md · beats: 12 · loop: 75 s · mode: story · palette: context/design/tokens.md · surface: harbor
+  Controls: Space pause/resume · ← → step · R restart · click a progress segment to jump.
+  URL options: ?layout=vertical (9:16 for video) · ?layout=board (greyscale storyboard) ·
+  #beat=N (open beat N) · #beat=N&still (static frame, no autoplay).
+  Self-contained: inline CSS and JS, no network, system fonts.
+-->
+<style>
+:root{
+  /* Greys first. The build injects the surface palette after this comment; later values win.
+     With no palette (storyboard build) every colour below stays grey. */
+  --story-p:#3D3D3D;--story-pd:#262626;--story-acc:#6E6E6E;
+  --story-bg:#ECEEF1;--story-ink:#1F1F1F;--story-ink2:#5C5C5C;--story-line:#D4D7DB;
+  --neutral-900:#1F2933;--neutral-600:#52606D;--neutral-400:#9AA5B1;--neutral-200:#E4E7EB;--neutral-050:#F5F7FA;--white:#FFFFFF;--harbor-primary:#0E6B6B;--harbor-primary-dark:#0A4F4F;--harbor-accent:#F2A33A;--harbor-success:#2E8B57;--harbor-warning:#C98A00;--harbor-error:#B3261E;--desk-primary:#1F3A5F;--desk-accent:#3E7CB1;--tier-3:#B3261E;--tier-2:#C98A00;--tier-1:#52606D;--status-rework:#D97706;--status-refer:#7C3AED;--status-pass:#2E8B57;--status-provider-failed:#1F2933;--status-provider-failed-bg:#FDE68A;--field-primary:#2F6F3E;--field-accent:#E07A1F;--field-error:#B3261E;--field-surface:#FFFFFF;--field-surface-bg:#F5F7FA;--story-p:var(--harbor-primary);--story-pd:var(--harbor-primary-dark,var(--harbor-primary));--story-acc:var(--harbor-accent,var(--harbor-primary));--story-bg:var(--neutral-050,#ECEEF1);--story-ink:var(--neutral-900,#1F1F1F);--story-ink2:var(--neutral-600,#5C5C5C);--story-line:var(--neutral-200,#D4D7DB);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--story-bg);color:var(--story-ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+/* ---------- stage: landscape (default) ---------- */
+#stage{height:100%;display:flex;align-items:center;justify-content:center;gap:72px;padding:24px}
+#panel{width:460px;max-width:46vw}
+#brand{font-weight:700;color:var(--story-p);font-size:17px;letter-spacing:.01em;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+#brand i{width:28px;height:28px;border-radius:8px;background:var(--story-p);display:inline-block}
+#framing{display:inline-block;border:1.5px solid var(--story-acc);color:var(--story-ink);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:34px}
+#kicker{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--story-ink2);font-weight:600}
+#cap{font-size:34px;line-height:1.16;font-weight:700;letter-spacing:-.015em;margin:12px 0 14px;color:var(--story-ink)}
+#sub{font-size:16px;line-height:1.5;color:var(--story-ink2);min-height:72px}
+#txt.cap-anim{animation:capIn .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes capIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#tl{display:flex;gap:5px;margin:34px 0 14px}
+#tl div{flex:1;height:5px;border-radius:3px;background:var(--story-line);overflow:hidden;cursor:pointer}
+#tl div i{display:block;height:100%;width:0;background:var(--story-p)}
+#keys{font-size:12px;color:var(--story-ink2)}
+#keys kbd{font-family:inherit;border:1px solid var(--story-line);border-radius:4px;padding:1px 6px;background:#fff;margin:0 2px}
+body.paused #keys::after{content:" · paused";font-weight:700;color:var(--story-p)}
+
+/* ---------- phone ---------- */
+#phoneBox{flex:none;position:relative}
+.phone{width:380px;height:760px;border-radius:46px;background:#1A1C20;padding:10px;box-shadow:0 36px 80px rgba(20,25,35,.28),inset 0 0 0 2px #2C2F35;position:relative}
+#phone{transform-origin:top left;position:absolute;top:0;left:0}
+.phone::before{content:"";position:absolute;top:20px;left:50%;width:84px;height:8px;margin-left:-42px;border-radius:4px;background:#0B0C0E;z-index:200}
+.phone::after{content:"";position:absolute;top:19px;left:50%;margin-left:30px;width:10px;height:10px;border-radius:50%;background:#0B0C0E;box-shadow:inset 0 0 0 2px #23262B;z-index:200}
+.screen{width:360px;height:740px;border-radius:36px;overflow:hidden;position:relative;background:#fff}
+.homebar{position:absolute;bottom:16px;left:50%;width:112px;height:4px;margin-left:-56px;border-radius:2px;background:#1A1C20;opacity:.45;z-index:150}
+.sbar{position:absolute;top:0;left:0;right:0;height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 26px;font-size:12px;font-weight:600;color:var(--ink,#1F1F1F);z-index:100;pointer-events:none}
+.sbar .sig{display:flex;align-items:flex-end;gap:2px}
+.sbar .sig i{width:3px;background:currentColor;border-radius:1px}
+.sbar .sig i:nth-child(1){height:4px}.sbar .sig i:nth-child(2){height:6px}.sbar .sig i:nth-child(3){height:8px}
+.sbar .sig b{width:18px;height:8px;border:1.5px solid currentColor;border-radius:2px;margin-left:5px;position:relative}
+.sbar .sig b::after{content:"";position:absolute;left:1px;top:1px;bottom:1px;width:11px;background:currentColor;border-radius:1px}
+
+/* ---------- vertical 9:16 layout (?layout=vertical) ---------- */
+body.vert #stage{flex-direction:column;justify-content:flex-start;gap:0;padding:0}
+body.vert #panel{order:-1;width:100%;max-width:none;text-align:center;height:var(--txth,320px);padding:5vh 6vw 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+body.vert #brand{font-size:2.2vw;margin-bottom:1vh}
+body.vert #framing{font-size:1.4vw;margin-bottom:2.2vh;padding:.5vh 1.6vw}
+body.vert #kicker{font-size:1.5vw}
+body.vert #cap{font-size:3.6vw;max-width:88vw;margin:1.2vh 0 1vh}
+body.vert #sub{font-size:1.9vw;max-width:80vw;min-height:0}
+body.vert #tl{width:70vw;margin:2vh auto 0}
+body.vert #keys{display:none}
+
+/* ---------- storyboard board (?layout=board or a storyboard build) ---------- */
+#board{display:none}
+body.board{overflow:auto;background:#F2F2F2}
+body.board #stage{display:none}
+body.board #board{display:block;padding:28px 32px 48px;filter:grayscale(1)}
+#board header{max-width:1200px;margin:0 auto 22px}
+#board header h1{font-size:22px;margin-bottom:6px}
+#board header p{font-size:14px;color:#555;line-height:1.5;max-width:760px}
+#board .frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:26px 22px;max-width:1240px;margin:0 auto}
+#board .frame{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:14px 14px 16px}
+#board .fmeta{font-size:12px;color:#555;display:flex;gap:8px;align-items:baseline;margin-bottom:10px}
+#board .fmeta b{font-size:15px;color:#1F1F1F}
+#board .fmeta em{font-style:normal;margin-left:auto;text-align:right}
+#board .mini{width:238px;height:476px;position:relative;margin:0 auto}
+#board .mini .phone{transform:scale(.626);transform-origin:top left;position:absolute;top:0;left:0}
+#board .fwhat{font-size:12.5px;line-height:1.45;color:#333;margin-top:12px;min-height:54px}
+#board .fcap{font-size:13.5px;line-height:1.35;font-weight:700;color:#1F1F1F;margin-top:8px;border-top:1px solid #E6E6E6;padding-top:8px}
+@media print{body.board #board{padding:0}#board .frame{break-inside:avoid}}
+
+/* ---------- timed reveals inside a beat ---------- */
+.screen [data-at]{opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
+.screen [data-at].on{opacity:1;transform:none}
+.screen [data-off].off{opacity:0;pointer-events:none;transition:opacity .3s ease}
+.screen [data-fx="pop"]{transform:scale(.92)}
+.screen [data-fx="pop"].on{transform:none}
+.screen [data-at].stay{opacity:1;transform:none}            /* always visible; data-at only adds .on */
+.screen .hl-at.on{outline:2.5px solid var(--acc);outline-offset:2px;border-radius:10px}
+
+/* ---------- screen primitives (write fragments with these; no CSS needed) ---------- */
+.screen{
+  --p:#4A4A4A;--pd:#333333;--acc:#777777;--ok:#5A5A5A;--warn:#6A6A6A;--err:#444444;
+  --refer:var(--status-refer,#5A5A5A);--pf:var(--status-provider-failed,#222222);--pf-bg:var(--status-provider-failed-bg,#E0E0E0);
+  --t1:var(--tier-1,#777777);--t2:var(--tier-2,#666666);--t3:var(--tier-3,#444444);
+  --ink:var(--neutral-900,#1F1F1F);--ink2:var(--neutral-600,#5C5C5C);--ink3:var(--neutral-400,#9A9A9A);
+  --line:var(--neutral-200,#E3E3E3);--bg:var(--neutral-050,#F5F5F5);--card:var(--white,#FFFFFF);
+  --fs:16px;--fl:14px;--fh:22px;--fd:28px;--lh:1.5;--btn:48px;
+  font-family:inherit;color:var(--ink)}
+.screen[data-surface="harbor"]{--p:var(--harbor-primary,#4A4A4A);--pd:var(--harbor-primary-dark,var(--p));--acc:var(--harbor-accent,var(--p));--ok:var(--harbor-success,var(--status-pass,var(--p)));--warn:var(--harbor-warning,var(--status-rework,#6A6A6A));--err:var(--harbor-error,var(--tier-3,#444444));--fs:16px;--fl:14px;--fh:22px;--fd:28px;--lh:1.5;--btn:48px}
+.screen[data-surface="desk"]{--p:var(--desk-primary,#4A4A4A);--pd:var(--desk-primary-dark,var(--p));--acc:var(--desk-accent,var(--p));--ok:var(--desk-success,var(--status-pass,var(--p)));--warn:var(--desk-warning,var(--status-rework,#6A6A6A));--err:var(--desk-error,var(--tier-3,#444444));--fs:14px;--fl:12px;--fh:18px;--fd:22px;--lh:1.4}
+.screen[data-surface="field"]{--p:var(--field-primary,#4A4A4A);--pd:var(--field-primary-dark,var(--p));--acc:var(--field-accent,var(--p));--ok:var(--field-success,var(--status-pass,var(--p)));--warn:var(--field-warning,var(--status-rework,#6A6A6A));--err:var(--field-error,var(--tier-3,#444444));--fs:18px;--fl:14px;--fh:24px;--fd:28px;--lh:1.5;--btn:56px}
+.screen[data-surface="end-card"]{--p:var(--story-p);--pd:var(--story-pd);--acc:var(--story-acc)}
+.screen .app{position:absolute;inset:0;padding-top:28px;background:var(--bg);color:var(--ink);font-size:var(--fs);line-height:var(--lh);display:flex;flex-direction:column;overflow:hidden}
+.screen .bar{background:var(--p);color:#fff;padding:10px 16px;font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px;min-height:52px;flex:none}
+.screen .bar small{font-weight:500;opacity:.9;font-size:12px;margin-left:auto;white-space:nowrap}
+.screen .bar.light{background:var(--card);color:var(--ink);border-bottom:1px solid var(--line)}
+.screen .body{padding:14px 16px;flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px;position:relative}
+.screen .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.screen .card.err{border-color:var(--err);box-shadow:inset 4px 0 0 var(--err)}
+.screen .card.warn{border-color:var(--warn);box-shadow:inset 4px 0 0 var(--warn)}
+.screen .card.ok{border-color:var(--ok);box-shadow:inset 4px 0 0 var(--ok)}
+.screen .card.acc{border-color:var(--acc);box-shadow:inset 4px 0 0 var(--acc)}
+.screen .h1{font-size:var(--fh);font-weight:700;line-height:1.25;margin:0 0 6px}
+.screen .h2{font-size:var(--fs);font-weight:700;margin:0 0 4px}
+.screen .p{margin:0 0 6px}
+.screen .muted{color:var(--ink2)}.screen .faint{color:var(--ink3)}
+.screen .small{font-size:var(--fl)}.screen .tiny{font-size:11px;line-height:1.35}
+.screen .display{font-size:var(--fd);font-weight:800;line-height:1.1;color:var(--pd);letter-spacing:-.01em}
+.screen .accent{color:var(--acc)}.screen .ok-t{color:var(--ok)}.screen .err-t{color:var(--err)}.screen .warn-t{color:var(--warn)}
+.screen .btn{display:flex;align-items:center;justify-content:center;height:var(--btn);border-radius:10px;border:1.5px solid var(--p);color:var(--p);background:var(--card);font-weight:700;font-size:var(--fs);padding:0 16px;text-align:center;flex:none}
+.screen .btn.primary{background:var(--p);border-color:var(--p);color:#fff}
+.screen .btn.ghost{border-color:transparent;background:transparent}
+.screen .btn.sm{height:36px;font-size:var(--fl);border-radius:8px}
+.screen .chip{display:inline-flex;align-items:center;gap:6px;padding:1px 10px;border-radius:999px;font-size:12px;font-weight:700;background:var(--line);color:var(--ink2);line-height:1.7;white-space:nowrap;vertical-align:middle}
+.screen .chip.ok{background:var(--ok);color:#fff}.screen .chip.warn{background:var(--warn);color:#fff}.screen .chip.err{background:var(--err);color:#fff}
+.screen .chip.acc{background:var(--acc);color:#1F1F1F}.screen .chip.refer{background:var(--refer);color:#fff}
+.screen .chip.pf{background:var(--pf-bg);color:var(--pf);letter-spacing:.04em}
+.screen .chip.t1{background:var(--t1);color:#fff}.screen .chip.t2{background:var(--t2);color:#fff}.screen .chip.t3{background:var(--t3);color:#fff}
+.screen .chip.outline{background:transparent;border:1.5px solid currentColor}
+.screen .chip.p{background:var(--p);color:#fff}
+.screen .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.screen .row:last-child{border-bottom:0}
+.screen .row .grow{flex:1;min-width:0}
+.screen .ph{border-radius:8px;background:linear-gradient(135deg,#D7DBE0,#B9C0C8);min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:var(--fl);font-weight:600;text-align:center;padding:8px}
+.screen .ph.dark{background:linear-gradient(135deg,#2B2F36,#0F1114);color:#7A8089}
+.screen .ph.good{background:linear-gradient(135deg,#E8EDF2,#C9D2DB);color:#3B4753}
+.screen .ph.sq{width:64px;height:64px;min-height:0;flex:none}
+.screen .table{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.screen .tr{display:grid;grid-template-columns:var(--cols,1fr);align-items:center;min-height:40px;border-bottom:1px solid var(--line);font-size:var(--fl);padding:0 10px;gap:6px}
+.screen .tr:last-child{border-bottom:0}
+.screen .tr.head{color:var(--ink2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:10.5px;min-height:30px;background:var(--bg)}
+.screen .tr.sel{box-shadow:inset 3px 0 0 var(--acc)}
+.screen .msg{background:var(--card);border:1px solid var(--line);border-radius:12px 12px 12px 4px;padding:10px 12px;font-size:var(--fl);line-height:1.4;max-width:88%;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.screen .msg .time{display:block;text-align:right;color:var(--ink3);font-size:11px;margin-top:4px}
+.screen .toast{position:absolute;left:16px;right:16px;bottom:22px;background:var(--ink);color:#fff;border-radius:10px;padding:12px 14px;font-size:var(--fl);line-height:1.4;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:20}
+.screen .tag{display:inline-block;border:1px dashed var(--ink3);color:var(--ink2);border-radius:4px;padding:0 6px;font-size:10.5px;line-height:1.7;vertical-align:middle;white-space:nowrap}
+.screen .bar .tag{border-color:rgba(255,255,255,.7);color:rgba(255,255,255,.92)}
+.screen .bar.light .tag{border-color:var(--ink3);color:var(--ink2)}
+.screen .nav{margin-top:auto;display:flex;border-top:1px solid var(--line);background:var(--card);flex:none}
+.screen .nav div{flex:1;text-align:center;padding:10px 0 26px;font-size:11px;font-weight:600;color:var(--ink3)}
+.screen .nav .on{color:var(--p)}
+.screen .steps{display:flex;gap:5px;align-items:center}
+.screen .steps i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.screen .steps i.done{background:var(--ok)}.screen .steps i.now{background:var(--acc)}
+.screen .kv{display:grid;grid-template-columns:1fr auto;gap:5px 12px;font-size:var(--fl);align-items:baseline}
+.screen .kv b{font-weight:700;color:var(--ink);text-align:right}
+.screen .field{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--card)}
+.screen .field label{display:block;font-size:12px;color:var(--ink2);margin-bottom:2px}
+.screen .hl{outline:2.5px solid var(--acc);outline-offset:2px;border-radius:10px}
+.screen .end{position:absolute;inset:0;background:var(--story-p);color:#fff;padding:60px 28px 40px;display:flex;flex-direction:column;gap:18px}
+.screen .end .display{color:#fff;font-size:30px}
+.screen .end .muted{color:rgba(255,255,255,.78)}
+.screen .end .line{height:2px;background:rgba(255,255,255,.3);width:56px}
+.screen .end .roles div{padding:5px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:14px}
+.screen .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--ink3);border-top-color:var(--p);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.screen .check{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--ok);color:#fff;font-size:12px;align-items:center;justify-content:center;flex:none;font-weight:700}
+.screen .box{display:inline-flex;width:18px;height:18px;border-radius:4px;border:1.5px solid var(--ink3);flex:none;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700}
+.screen .box.on{background:var(--p);border-color:var(--p)}
+.screen .placeholder{position:absolute;inset:0;padding:60px 24px;background:repeating-linear-gradient(45deg,#F3F3F3,#F3F3F3 12px,#EBEBEB 12px,#EBEBEB 24px);color:#444;display:flex;flex-direction:column;gap:14px}
+.screen .placeholder .h1{font-size:20px}
+.screen .placeholder .note{margin-top:auto;font-size:12px;color:#777}
+</style>
+</head>
+<body class="">
+
+<div id="stage">
+  <div id="panel">
+    <div id="brand"><i></i><span>Harbor Cover</span></div>
+    <div id="framing">Product vision, not shipped</div>
+    <div id="txt">
+      <div id="kicker"></div>
+      <div id="cap"></div>
+      <div id="sub"></div>
+    </div>
+    <div id="tl"></div>
+    <div id="keys"><kbd>Space</kbd> pause · <kbd>←</kbd> <kbd>→</kbd> step · <kbd>R</kbd> restart</div>
+  </div>
+  <div id="phoneBox">
+    <div id="phone" class="phone">
+      <div id="screen" class="screen"></div>
+      <div class="homebar"></div>
+    </div>
+  </div>
+</div>
+
+<div id="board">
+  <header>
+    <h1>Verification outcome and rework story — storyboard</h1>
+    <p>Greyscale on purpose: this frame set is a direction check on sequence and layout, not on colour.
+    One frame per beat; the caption under each frame is the line the viewer reads. Framing: Product vision, not shipped.</p>
+  </header>
+  <div class="frames"></div>
+</div>
+
+<script>
+const BEATS = [{"n": 1, "time": "0–6", "start": 0.0, "end": 6.0, "dur": 6000, "surface": "harbor", "screen": "Harbor · quote", "what": "Day 1, 7:40 PM. Shop type, sum insured and location are filled in. The premium range appears before any question is asked. One button: see if the shop fits", "caption": "The price comes before the questions.", "clock": "7:40 PM", "html": "<div class=\"app\" data-clock=\"7:40 PM\">\n  <div class=\"bar\">Harbor Cover <small>Quote <span class=\"tag\">customer language<\/span><\/small><\/div>\n  <div class=\"body\">\n    <div class=\"steps\"><i class=\"now\"><\/i><i><\/i><i><\/i><i><\/i><i><\/i><\/div>\n    <div class=\"card\">\n      <div class=\"kv\">\n        <span class=\"muted\">Shop type<\/span><b>Grocery and general store<\/b>\n        <span class=\"muted\">Sum insured<\/span><b>₹4,00,000<\/b>\n        <span class=\"muted\">Location<\/span><b>Market Road<\/b>\n      <\/div>\n    <\/div>\n    <div class=\"card acc\" data-at=\"900\" data-fx=\"pop\">\n      <div class=\"small muted\">Your premium, a year<\/div>\n      <div class=\"display\">₹3,800 – ₹4,600<\/div>\n      <p class=\"p small\" style=\"margin-top:6px\">Covers the building, the contents and the stock against fire, theft and flood.<\/p>\n      <p class=\"small muted\" style=\"margin:0\">The exact amount comes after six short questions.<\/p>\n    <\/div>\n    <div class=\"btn primary\" data-at=\"2600\">See if my shop fits<\/div>\n    <p class=\"tiny faint\" style=\"text-align:center\">No fee to see the price. No call needed.<\/p>\n  <\/div>\n<\/div>"}, {"n": 2, "time": "6–12", "start": 6.0, "end": 12.0, "dur": 6000, "surface": "harbor", "screen": "Harbor · documents", "what": "8:05 PM. The checklist for a shop policy: four items, each with the reason the insurer needs it. Her son uploads the identity proof; the thumbnail is dark. The item shows received", "caption": "One paper at a time, each with the reason it is needed.", "clock": "8:05 PM", "html": "<div class=\"app\" data-clock=\"8:05 PM\">\n  <div class=\"bar\">Documents <small>Shop policy <span class=\"tag\">customer language<\/span><\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"steps\"><i class=\"done\"><\/i><i class=\"done\"><\/i><i class=\"now\"><\/i><i><\/i><i><\/i><\/div>\n    <p class=\"small muted\" style=\"margin:0\">Four papers for a shop policy. Each one says why the insurer needs it. Send one at a time.<\/p>\n    <div class=\"card\" style=\"padding:2px 14px\">\n      <div class=\"row\">\n        <div class=\"ph sq dark\" data-at=\"1200\">dark<\/div>\n        <div class=\"grow\"><div class=\"h2\">Identity proof<\/div><div class=\"small muted\">Names the policyholder. Any photo identity document.<\/div><\/div>\n        <span style=\"position:relative;display:inline-block\"><span class=\"chip outline\" data-off=\"1800\">needed<\/span><span class=\"chip ok\" data-at=\"1800\" style=\"position:absolute;left:0;top:0\">received<\/span><\/span>\n      <\/div>\n      <div class=\"row\"><div class=\"ph sq good\">licence<\/div><div class=\"grow\"><div class=\"h2\">Shop licence<\/div><div class=\"small muted\">Shows the shop trades at this address.<\/div><\/div><span class=\"chip ok\">received<\/span><\/div>\n      <div class=\"row\"><div class=\"ph sq good\">bill<\/div><div class=\"grow\"><div class=\"h2\">Address proof<\/div><div class=\"small muted\">Ties the shop to the location quoted.<\/div><\/div><span class=\"chip ok\">received<\/span><\/div>\n      <div class=\"row\"><div class=\"ph sq good\">4 photos<\/div><div class=\"grow\"><div class=\"h2\">Stock photo set<\/div><div class=\"small muted\">Front, inside, storage, register page.<\/div><\/div><span class=\"chip ok\">received<\/span><\/div>\n    <\/div>\n    <div class=\"btn primary\" data-at=\"2800\">Send for checking<\/div>\n    <div class=\"toast\" data-at=\"3600\">All four papers are in. We check them within one working day. You can replace a photo until then.<\/div>\n  <\/div>\n<\/div>"}, {"n": 3, "time": "12–19", "start": 12.0, "end": 19.0, "dur": 7000, "surface": "desk", "screen": "Desk · case view", "what": "Day 2, 9:15 AM. The officer opens CASE-0417. The identity proof preview shows no readable name or number. The officer picks the reason `unreadable`; the capture tip and the rule that fired fill in. Return document", "caption": "The officer names the reason once, with the tip that fixes it.", "clock": "9:15 AM", "html": "<div class=\"app\" data-clock=\"9:15 AM\">\n  <div class=\"bar\">Desk <small>Verification · CASE-0417<\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"card\" style=\"padding:10px 12px\">\n      <div class=\"row\" style=\"padding:0;border:0\"><div class=\"grow\"><div class=\"h2\">Meera · Grocery and general store<\/div><div class=\"small muted\">Shop policy · ₹4,00,000 · Market Road<\/div><\/div><span class=\"chip t1\">Tier 1<\/span><\/div>\n      <div class=\"small muted\" style=\"margin-top:6px\">In queue 2 h 10 m · service level 24 h · <span class=\"chip\">open<\/span><\/div>\n    <\/div>\n    <div class=\"h2\" style=\"margin:2px 0 0\">Identity proof<\/div>\n    <div class=\"ph dark\" style=\"min-height:104px\">Name and number not visible<\/div>\n    <div class=\"small muted\" style=\"margin-bottom:-4px\">Reason code<\/div>\n    <div style=\"display:flex;gap:8px\"><span class=\"chip p stay\" data-at=\"1400\">unreadable<\/span><span class=\"chip\">mismatched<\/span><span class=\"chip\">missing<\/span><\/div>\n    <div class=\"field\" data-at=\"2400\"><label>Capture tip — goes to the customer with the reason<\/label>Daylight, flat on a table, all four corners in the frame.<\/div>\n    <div class=\"field\" data-at=\"3200\"><label>Rule that fired<\/label>ID-READ-01 · name, photo and number must be legible<\/div>\n    <div class=\"btn primary\" data-at=\"4000\">Return document<\/div>\n    <div class=\"toast\" data-at=\"5200\">Rework item RW-0417-1 created · customer told · verification clock stopped<\/div>\n  <\/div>\n<\/div>"}, {"n": 4, "time": "19–26", "start": 19.0, "end": 26.0, "dur": 7000, "surface": "desk", "screen": "Desk · verification queue", "what": "9:19 AM. The identity check runs against the registry. The provider does not answer in 90 seconds; the retry times out too. The row shows PROVIDER-FAILED; the clock pauses; the case stays open", "caption": "When the provider fails, the queue says so. The case is never declined for it.", "clock": "9:19 AM", "html": "<div class=\"app\" data-clock=\"9:19 AM\">\n  <div class=\"bar\">Desk <small>Verification queue · 14 open<\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div style=\"display:flex;gap:6px\"><span class=\"chip p\">Tier, then age<\/span><span class=\"chip\">Rework<\/span><span class=\"chip\">Provider-failed<\/span><\/div>\n    <div class=\"table\" style=\"--cols:82px 44px 40px 1fr\">\n      <div class=\"tr head\"><span>Case<\/span><span>Tier<\/span><span>Age<\/span><span>Status<\/span><\/div>\n      <div class=\"tr\"><span>CASE-0409<\/span><span class=\"chip t3\">T3<\/span><span>21 h<\/span><span><span class=\"chip\">open<\/span><\/span><\/div>\n      <div class=\"tr\"><span>CASE-0412<\/span><span class=\"chip t2\">T2<\/span><span>16 h<\/span><span><span class=\"chip refer\">refer<\/span><\/span><\/div>\n      <div class=\"tr sel\" style=\"align-items:start;padding-top:8px;padding-bottom:8px;row-gap:2px\">\n        <span><b>CASE-0417<\/b><br><span class=\"tiny muted\">Meera<\/span><\/span>\n        <span class=\"chip t1\">T1<\/span>\n        <span>2 h<br><span class=\"tiny muted\" data-at=\"3400\">paused<\/span><\/span>\n        <span>\n          <span class=\"chip warn\">rework<\/span>\n          <span style=\"position:relative;display:inline-block;min-width:150px;vertical-align:middle\">\n            <span class=\"tiny muted\" data-at=\"800\" data-off=\"3400\"><i class=\"spin\"><\/i>identity check · 90 s<\/span>\n            <span class=\"chip pf\" data-at=\"3400\" data-fx=\"pop\" style=\"position:absolute;left:0;top:-2px\">PROVIDER-FAILED<\/span>\n          <\/span>\n        <\/span>\n        <span class=\"tiny muted\" style=\"grid-column:1/-1\" data-at=\"4400\">No answer in 90 s; the retry timed out too. The retry queue holds the check. Customer told: nothing needed.<\/span>\n      <\/div>\n      <div class=\"tr\"><span>CASE-0421<\/span><span class=\"chip t1\">T1<\/span><span>1 h<\/span><span><span class=\"chip\">open<\/span><\/span><\/div>\n      <div class=\"tr\"><span>CASE-0423<\/span><span class=\"chip t1\">T1<\/span><span>0 h<\/span><span><span class=\"chip\">open<\/span><\/span><\/div>\n    <\/div>\n    <div class=\"card\" data-at=\"5000\" style=\"padding:10px 12px\"><div class=\"small\"><b>What the row says.<\/b> The provider failed, not the customer. The verification clock is paused. Sub-status stays <span class=\"chip warn\">rework<\/span>, never <span class=\"chip\">declined<\/span>.<\/div><\/div>\n  <\/div>\n<\/div>"}, {"n": 5, "time": "26–33", "start": 26.0, "end": 33.0, "dur": 7000, "surface": "harbor", "screen": "Harbor · status page", "what": "9:20 AM. Meera's status page: the identity proof is returned with the reason and a capture tip, and two routes — upload a new photo, or ask for a visit. A second line says the identity check will be retried and nothing is needed from her. The same message arrives on WhatsApp. She taps \"Ask for a visit\"", "caption": "A plain reason and a route she can choose, in her language.", "clock": "9:20 AM", "html": "<div class=\"app\" data-clock=\"9:20 AM\">\n  <div class=\"bar\">Your policy <small>In progress <span class=\"tag\">customer language<\/span><\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"steps\"><i class=\"done\"><\/i><i class=\"done\"><\/i><i class=\"done\"><\/i><i class=\"now\"><\/i><i><\/i><\/div>\n    <div class=\"card err\">\n      <div class=\"h2\">Identity proof — returned, needs a new photo<\/div>\n      <p class=\"p small\">We could not read the name and the number on the photo.<\/p>\n      <p class=\"p small\"><b>Tip:<\/b> daylight, flat on a table, all four corners in the frame.<\/p>\n      <div style=\"display:flex;flex-direction:column;gap:8px;margin-top:6px\">\n        <div class=\"btn sm primary\">Upload a new photo<\/div>\n        <div class=\"btn sm hl-at stay\" data-at=\"3600\">Ask for a visit to the shop<\/div>\n      <\/div>\n    <\/div>\n    <div class=\"card warn\" data-at=\"1200\">\n      <div class=\"h2\">Identity check<\/div>\n      <p class=\"p small\" style=\"margin:0\">We could not complete the identity check. We will retry; nothing is needed from you.<\/p>\n    <\/div>\n    <div class=\"msg\" data-at=\"2200\" style=\"align-self:flex-end;border-radius:12px 12px 4px 12px\"><b>Harbor Cover<\/b><br>Your identity proof needs a new photo — we could not read the name and number. Your policy waits for it. Take it in daylight, flat on a table, or ask us to visit the shop. Tap: your status page. <span class=\"tag\">customer language<\/span><span class=\"time\">9:20 AM<\/span><\/div>\n    <div class=\"toast\" data-at=\"4600\">A verifier will visit within 3 days. We will message the time.<\/div>\n  <\/div>\n<\/div>"}, {"n": 6, "time": "33–38", "start": 33.0, "end": 38.0, "dur": 5000, "surface": "field", "screen": "Field · route", "what": "Day 3, 10:50 AM. The verifier's day lists Meera's shop with one open rework item, the reason and the tip, before the visit starts", "caption": "The visit knows what is open before the verifier arrives.", "clock": "10:50 AM", "html": "<div class=\"app\" data-clock=\"10:50 AM\">\n  <div class=\"bar\">Today <small>5 visits · 2 open rework<\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"card acc\" data-at=\"500\" data-fx=\"pop\">\n      <div class=\"row\" style=\"padding:0 0 8px;border:0\"><div class=\"grow\"><div class=\"h2\">1 · Meera General Store<\/div><div class=\"small muted\">Market Road · replacement capture<\/div><\/div><span class=\"chip acc\">1 open<\/span><\/div>\n      <div class=\"small\" style=\"border-top:1px solid var(--line);padding-top:8px\" data-at=\"1600\"><b>Identity proof<\/b> · returned as unreadable<br><span class=\"muted\">Name and number not visible. Capture flat, in daylight, all corners in the frame.<\/span><\/div>\n    <\/div>\n    <div class=\"card\"><div class=\"row\" style=\"padding:0;border:0\"><div class=\"grow\"><div class=\"h2\">2 · Hill Top Hardware<\/div><div class=\"small muted\">Inspection · open storage photos<\/div><\/div><span class=\"chip\">0 open<\/span><\/div><\/div>\n    <div class=\"card\"><div class=\"row\" style=\"padding:0;border:0\"><div class=\"grow\"><div class=\"h2\">3 · Corner Pharmacy<\/div><div class=\"small muted\">Replacement · stock register page<\/div><\/div><span class=\"chip acc\">1 open<\/span><\/div><\/div>\n    <p class=\"small muted\" style=\"margin:0;text-align:center\">2 more visits<\/p>\n    <div class=\"btn primary\" style=\"margin-top:auto\" data-at=\"2600\">Start route<\/div>\n  <\/div>\n<\/div>"}, {"n": 7, "time": "38–45", "start": 38.0, "end": 45.0, "dur": 7000, "surface": "field", "screen": "Field · replacement capture", "what": "11:25 AM. The capture slot states what the officer needs to see. The photo is taken flat, in daylight. The network is weak: pending send, then replacement sent", "caption": "The slot says what the officer needs to see. Captured once.", "clock": "11:25 AM", "html": "<div class=\"app\" data-clock=\"11:25 AM\">\n  <div class=\"bar\">CASE-0417 <small>Identity proof · replacement<\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"card\"><div class=\"small\"><b>What the officer needs to see<\/b><br><span class=\"muted\">Name, photo and number, all legible. Flat on a table, in daylight, all four corners in the frame.<\/span><\/div><\/div>\n    <div style=\"position:relative;min-height:220px\">\n      <div class=\"ph\" style=\"position:absolute;inset:0;min-height:220px\" data-off=\"1200\">Camera<\/div>\n      <div class=\"ph good\" style=\"position:absolute;inset:0;min-height:220px\" data-at=\"1200\" data-fx=\"pop\">Identity proof · captured<br><span class=\"small\">name · photo · number legible<\/span><\/div>\n    <\/div>\n    <div style=\"position:relative;min-height:30px\">\n      <span class=\"chip acc\" data-at=\"2200\" data-off=\"4200\">pending send · weak network<\/span>\n      <span class=\"chip ok\" data-at=\"4200\" style=\"position:absolute;left:0;top:0\">replacement sent<\/span>\n    <\/div>\n    <p class=\"small muted\" style=\"margin:0\">Saves on the phone and sends when the network returns. The officer re-checks the same day.<\/p>\n    <div class=\"btn primary\" style=\"margin-top:auto\" data-at=\"1600\">Send replacement<\/div>\n  <\/div>\n<\/div>"}, {"n": 8, "time": "45–52", "start": 45.0, "end": 52.0, "dur": 7000, "surface": "desk", "screen": "Desk · case view", "what": "11:40 AM. The replacement is attached to the rework item and the case is back at its original queue position. The identity check answers in seconds: verified. Every item accepted; the rules re-run confirm the tier; outcome pass. The evidence record is written", "caption": "The replacement lands on the item. The check passes. No search.", "clock": "11:40 AM", "html": "<div class=\"app\" data-clock=\"11:40 AM\">\n  <div class=\"bar\">Desk <small>Verification · CASE-0417<\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"card ok\" data-at=\"300\"><div class=\"small\"><b>Replacement attached<\/b> to RW-0417-1 by the field verifier, 11:31 AM. Case back at its original queue position.<\/div><\/div>\n    <div class=\"table\" style=\"--cols:1fr auto\">\n      <div class=\"tr head\"><span>Check<\/span><span>Outcome<\/span><\/div>\n      <div class=\"tr\"><span>Identity · provider<br><span class=\"tiny muted\" data-at=\"1400\">answered in 4 s · IDC-88213<\/span><\/span><span style=\"position:relative;display:inline-block\"><span class=\"chip pf\" data-off=\"1400\">PROVIDER-FAILED<\/span><span class=\"chip ok\" data-at=\"1400\" style=\"position:absolute;right:0;top:0\">verified<\/span><\/span><\/div>\n      <div class=\"tr\"><span>Identity proof (replacement)<\/span><span class=\"chip ok\" data-at=\"2000\">accepted<\/span><\/div>\n      <div class=\"tr\"><span>Shop licence<\/span><span class=\"chip ok\">accepted<\/span><\/div>\n      <div class=\"tr\"><span>Address proof<\/span><span class=\"chip ok\">accepted<\/span><\/div>\n      <div class=\"tr\"><span>Stock photo set<\/span><span class=\"chip ok\">accepted<\/span><\/div>\n      <div class=\"tr\"><span>Rules re-run on verified data<\/span><span class=\"chip ok\" data-at=\"2800\">tier confirmed<\/span><\/div>\n    <\/div>\n    <div class=\"row\" style=\"border:0;padding:2px 0\" data-at=\"3800\" data-fx=\"pop\"><span class=\"h2\" style=\"margin:0\">Outcome<\/span><span class=\"chip ok\" style=\"font-size:14px;padding:3px 14px\">PASS<\/span><\/div>\n    <div class=\"btn primary\" data-at=\"4200\">Confirm · send to Placement<\/div>\n    <div class=\"card\" data-at=\"4800\" style=\"padding:8px 12px\"><div class=\"tiny muted\">Evidence record written: provider reference, result, time, officer role. RW-0417-1 closed with the replacement and the rule that fired.<\/div><\/div>\n  <\/div>\n<\/div>"}, {"n": 9, "time": "52–57", "start": 52.0, "end": 57.0, "dur": 5000, "surface": "desk", "screen": "Desk · placement", "what": "12:30 PM. The placement specialist sees each insurer partner's appetite for a grocery in this band. Partner A fits at ₹4,250. Submit; accepted; payment link sent", "caption": "The verified record goes to the best-fit insurer.", "clock": "12:30 PM", "html": "<div class=\"app\" data-clock=\"12:30 PM\">\n  <div class=\"bar\">Desk <small>Placement · CASE-0417<\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"small muted\">Grocery and general store · band A · verified record attached<\/div>\n    <div class=\"table\" style=\"--cols:1fr auto auto\">\n      <div class=\"tr head\"><span>Insurer partner<\/span><span>Appetite<\/span><span>Premium<\/span><\/div>\n      <div class=\"tr hl-at stay\" data-at=\"1200\"><span><b>Partner A<\/b><br><span class=\"tiny muted\">API · issues the same day<\/span><\/span><span class=\"chip ok\">fits<\/span><span><b>₹4,250<\/b><\/span><\/div>\n      <div class=\"tr\"><span>Partner B<br><span class=\"tiny muted\">API<\/span><\/span><span class=\"chip ok\">fits<\/span><span>₹4,400<\/span><\/div>\n      <div class=\"tr\"><span>Partner C<br><span class=\"tiny muted\">email and shared sheet<\/span><\/span><span class=\"chip\">below appetite<\/span><span class=\"muted\">—<\/span><\/div>\n      <div class=\"tr\"><span>Partner D<br><span class=\"tiny muted\">API<\/span><\/span><span class=\"chip\">asks for inspection<\/span><span>₹4,100<\/span><\/div>\n    <\/div>\n    <div class=\"btn primary\" data-at=\"2000\">Submit to Partner A<\/div>\n    <div class=\"row\" style=\"border:0;padding:6px 0 0\" data-at=\"3000\"><span class=\"small\">Partner A response<\/span><span class=\"chip ok\">accepted<\/span><\/div>\n    <div class=\"row\" style=\"border:0;padding:0\" data-at=\"4000\"><span class=\"small\">Payment link · ₹4,250<\/span><span class=\"chip ok\">sent on WhatsApp<\/span><\/div>\n  <\/div>\n<\/div>"}, {"n": 10, "time": "57–63", "start": 57.0, "end": 63.0, "dur": 6000, "surface": "harbor", "screen": "Harbor · payment", "what": "12:45 PM. Meera sees the insurer, the cover, the final premium and what it includes and leaves out, and that Harbor Cover's commission is paid by the insurer. She consents to share her verified details and pays ₹4,250", "caption": "She sees the insurer and the final premium, and pays where she already is.", "clock": "12:45 PM", "html": "<div class=\"app\" data-clock=\"12:45 PM\">\n  <div class=\"bar\">Your policy <small>Ready to pay <span class=\"tag\">customer language<\/span><\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"steps\"><i class=\"done\"><\/i><i class=\"done\"><\/i><i class=\"done\"><\/i><i class=\"done\"><\/i><i class=\"now\"><\/i><\/div>\n    <div class=\"card\">\n      <div class=\"kv\">\n        <span class=\"muted\">Insurer<\/span><b>Partner A<\/b>\n        <span class=\"muted\">Cover<\/span><b>Shop · ₹4,00,000<\/b>\n        <span class=\"muted\">Includes<\/span><b>Building, contents, stock<\/b>\n        <span class=\"muted\">Leaves out<\/span><b>Cash, vehicles<\/b>\n      <\/div>\n    <\/div>\n    <div class=\"card acc\"><div class=\"small muted\">Your premium, a year<\/div><div class=\"display\">₹4,250<\/div><div class=\"tiny muted\" style=\"margin-top:4px\">Inside the range you saw first: ₹3,800 – ₹4,600. Nothing is added later.<\/div><\/div>\n    <p class=\"tiny muted\" style=\"margin:0\">Harbor Cover is paid a commission by the insurer. It is not added to your premium.<\/p>\n    <div class=\"row\" style=\"border:0;padding:2px 0\"><span class=\"box stay\" data-at=\"1400\">✓<\/span><span class=\"small grow\">I agree to share my verified details with Partner A.<\/span><\/div>\n    <div class=\"btn primary\" data-at=\"2200\">Pay ₹4,250<\/div>\n    <div class=\"toast\" data-at=\"3600\">Payment received. Partner A is issuing your policy.<\/div>\n  <\/div>\n<\/div>"}, {"n": 11, "time": "63–69", "start": 63.0, "end": 69.0, "dur": 6000, "surface": "harbor", "screen": "Harbor · policy issued", "what": "4:10 PM. Policy issued. The policy document is on the page, the cooling-off period is stated in plain words, and one tap reaches the team. The WhatsApp message carries the same", "caption": "The policy is real, the cooling-off is stated, and she knows who to call.", "clock": "4:10 PM", "html": "<div class=\"app\" data-clock=\"4:10 PM\">\n  <div class=\"bar\">Your policy <small>Active <span class=\"tag\">customer language<\/span><\/small><\/div>\n  <div class=\"body\" style=\"gap:10px\">\n    <div class=\"card ok\" data-at=\"300\" data-fx=\"pop\">\n      <div class=\"row\" style=\"padding:0;border:0\"><div class=\"grow\"><div class=\"h2\">Policy issued<\/div><div class=\"small muted\">Shop policy · Partner A · POL-0417<\/div><\/div><span class=\"chip ok\">issued<\/span><\/div>\n    <\/div>\n    <div class=\"card\" style=\"padding:2px 14px\">\n      <div class=\"row\"><div class=\"grow\"><div class=\"h2\">Policy document<\/div><div class=\"small muted\">Also sent on WhatsApp<\/div><\/div><div class=\"btn sm\">Open<\/div><\/div>\n      <div class=\"row\"><div class=\"grow\"><div class=\"h2\">Changed your mind?<\/div><div class=\"small muted\">Cancel within 15 days for a full refund. Tell us on any channel.<\/div><\/div><\/div>\n      <div class=\"row\"><div class=\"grow\"><div class=\"h2\">Something happens at the shop<\/div><div class=\"small muted\">Open a claim here, any time. You get a reference at once.<\/div><\/div><\/div>\n    <\/div>\n    <div class=\"btn primary\" data-at=\"1500\">Talk to our team<\/div>\n    <div class=\"msg\" data-at=\"2600\" style=\"align-self:flex-end;border-radius:12px 12px 4px 12px\"><b>Harbor Cover<\/b><br>Your shop policy is issued — POL-0417 with Partner A, ₹4,00,000 cover. The document is attached. You can cancel within 15 days for a full refund. Questions: reply here. <span class=\"tag\">customer language<\/span><span class=\"time\">4:10 PM<\/span><\/div>\n  <\/div>\n<\/div>"}, {"n": 12, "time": "69–75", "start": 69.0, "end": 75.0, "dur": 6000, "surface": "end-card", "screen": "End card", "what": "Who touched the case: Meera and her son, the verification officer, the field verifier, the placement specialist, the insurer partner, the ops lead's queue, the compliance officer's evidence records. The loop restarts", "caption": "One paper. Fixed once. One visit. One policy.", "clock": "4:12 PM", "html": "<style>.screen[data-surface=\"end-card\"] .sbar{color:#fff}<\/style>\n<div class=\"app\" data-clock=\"4:12 PM\">\n  <div class=\"end\">\n    <div class=\"small\" style=\"font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8\">Harbor Cover<\/div>\n    <div class=\"display\" data-at=\"300\">One paper.<br>Fixed once.<br>One visit.<br>One policy.<\/div>\n    <div class=\"line\"><\/div>\n    <div class=\"small muted\" data-at=\"1200\">Who touched the case<\/div>\n    <div class=\"roles\" data-at=\"1200\">\n      <div>Meera and her son<\/div>\n      <div>Verification officer<\/div>\n      <div>Field verifier<\/div>\n      <div>Placement specialist<\/div>\n      <div>Insurer partner<\/div>\n      <div>Ops lead — the queue and its clock<\/div>\n      <div>Compliance officer — the evidence records<\/div>\n    <\/div>\n    <div class=\"tiny muted\" style=\"margin-top:auto\" data-at=\"2400\">Product vision, not shipped. Demo case, demo numbers.<\/div>\n  <\/div>\n<\/div>"}];
+const TOTAL_SECONDS = 75;
+
+/* ---------- options from the URL ---------- */
+const Q = location.search + ' ' + location.hash;
+const BOARD = document.body.classList.contains('board') || /layout=board/.test(Q);
+const VERT = /layout=vertical/.test(Q);
+const STILL = /(^|[&#?\s])still(=|&|$|\s)/.test(Q);
+const bm = Q.match(/beat=(\d+)/);
+const START = bm ? Math.max(0, Math.min(BEATS.length - 1, +bm[1] - 1)) : 0;
+if (VERT) document.body.classList.add('vert');
+if (BOARD) document.body.classList.add('board');
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad = n => String(n).padStart(2, '0');
+const sbar = b => `<div class="sbar"><span class="clk">${esc(b.clock || '9:41')}</span><span class="sig"><i></i><i></i><i></i><b></b></span></div>`;
+const frameHTML = b => sbar(b) + (b.html || '');
+let timers = [];
+function arm(root, still) {
+  root.querySelectorAll('[data-at]').forEach(el => {
+    const t = +el.dataset.at || 0;
+    if (still || t <= 0) el.classList.add('on');
+    else timers.push(setTimeout(() => el.classList.add('on'), t));
+  });
+  root.querySelectorAll('[data-off]').forEach(el => {
+    const t = +el.dataset.off || 0;
+    if (still) el.classList.add('off');
+    else timers.push(setTimeout(() => el.classList.add('off'), t));
+  });
+}
+
+/* ---------- storyboard mode ---------- */
+if (BOARD) {
+  const F = document.querySelector('#board .frames');
+  F.innerHTML = BEATS.map((b, i) => `
+    <section class="frame" id="frame-${i + 1}">
+      <div class="fmeta"><b>${pad(i + 1)}</b><span>${esc(b.time)} s</span><em>${esc(b.screen)}</em></div>
+      <div class="mini"><div class="phone"><div class="screen" data-surface="${esc(b.surface)}">${frameHTML(b)}</div><div class="homebar"></div></div></div>
+      <p class="fwhat">${esc(b.what)}</p>
+      <p class="fcap">${esc(b.caption)}</p>
+    </section>`).join('');
+  arm(F, true);
+} else {
+
+/* ---------- story mode: player ---------- */
+const SCREEN = $('screen'), PHONE = $('phone'), TL = $('tl');
+let cur = START, playing = !STILL, adv = null, SCALE = 1;
+TL.innerHTML = BEATS.map((b, i) => `<div title="${i + 1}. ${esc(b.screen)}"><i></i></div>`).join('');
+TL.onclick = e => { const d = e.target.closest('#tl > div'); if (d) show([...TL.children].indexOf(d)); };
+
+function show(i) {
+  timers.forEach(clearTimeout); timers = []; clearTimeout(adv);
+  cur = (i + BEATS.length) % BEATS.length;
+  const b = BEATS[cur];
+  SCREEN.setAttribute('data-surface', b.surface);
+  SCREEN.innerHTML = frameHTML(b);
+  $('kicker').textContent = pad(cur + 1) + ' · ' + b.screen;
+  $('cap').textContent = b.caption;
+  $('sub').textContent = b.what;
+  const tx = $('txt'); tx.classList.remove('cap-anim'); void tx.offsetWidth; tx.classList.add('cap-anim');
+  [...TL.children].forEach((d, j) => { const bar = d.firstChild; bar.style.transition = 'none'; bar.style.width = j < cur ? '100%' : '0'; });
+  const bar = TL.children[cur].firstChild; void bar.offsetWidth;
+  if (playing) { bar.style.transition = `width ${b.dur}ms linear`; bar.style.width = '100%'; adv = setTimeout(() => show(cur + 1), b.dur); }
+  else bar.style.width = '100%';
+  arm(SCREEN, !playing);
+  document.body.setAttribute('data-beat', cur + 1);
+  if (history.replaceState) history.replaceState(null, '', location.pathname + location.search + '#beat=' + (cur + 1) + (playing ? '' : '&still'));
+}
+function toggle() {
+  playing = !playing;
+  document.body.classList.toggle('paused', !playing);
+  if (playing) { show(cur); return; }
+  clearTimeout(adv); timers.forEach(clearTimeout); timers = [];
+  const bar = TL.children[cur].firstChild; bar.style.width = getComputedStyle(bar).width; bar.style.transition = 'none';
+  SCREEN.querySelectorAll('[data-at]').forEach(el => el.classList.add('on'));
+  SCREEN.querySelectorAll('[data-off]').forEach(el => el.classList.add('off'));
+}
+addEventListener('keydown', e => {
+  if (e.key === ' ') { e.preventDefault(); toggle(); }
+  else if (e.key === 'ArrowRight') show(cur + 1);
+  else if (e.key === 'ArrowLeft') show(cur - 1);
+  else if (e.key === 'r' || e.key === 'R') show(0);
+});
+function fit() {
+  const box = $('phoneBox');
+  if (VERT) {
+    const th = Math.round(innerHeight * 0.30);
+    document.body.style.setProperty('--txth', th + 'px');
+    SCALE = Math.min((innerHeight - th - innerHeight * 0.04) / 760, (innerWidth * 0.86) / 380);
+  } else {
+    const wide = innerWidth >= 980;
+    SCALE = Math.max(.42, Math.min(1.15, (innerHeight - 48) / 760, wide ? (innerWidth - 600) / 380 : (innerWidth - 32) / 380));
+  }
+  PHONE.style.transform = `scale(${SCALE})`;
+  box.style.width = 380 * SCALE + 'px'; box.style.height = 760 * SCALE + 'px';
+}
+addEventListener('resize', fit); fit();
+addEventListener('hashchange', () => {              /* #beat=N[&still] typed into the address bar */
+  const m = location.hash.match(/beat=(\d+)/); if (!m) return;
+  if (/still/.test(location.hash) && playing) { playing = false; document.body.classList.add('paused'); }
+  show(+m[1] - 1);
+});
+if (STILL) document.body.classList.add('paused');
+show(START);
+window.__story = { beats: BEATS, show, toggle, get current() { return cur; }, get playing() { return playing; }, totalSeconds: TOTAL_SECONDS };
+}
+</script>
+</body>
+</html>
