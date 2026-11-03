@@ -26,3 +26,6 @@ Thumbs.db
 __pycache__/
 *.pyc
 node_modules/
+
+# Local review captures of the published page
+screenshot/

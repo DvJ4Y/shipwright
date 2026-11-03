@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — the front page
+
+- **README** — a centred header with the icon, a navigation row, a "Look first" table that walks the worked feature artifact by artifact, the three diagrams as rendered images, and links on every path.
+- **Story GIF** — five beats instead of the opening three: the quote, the return, the provider failure, the replacement accepted, the end card.
+- **Repository** — marked as a template; Discussions on; `.gitattributes` so the language bar reflects the pack, not its mockups; a social preview card in `assets/`.
+- **Worked example** — the PRD and the brief at v1.1, in review; v1.0 archived.
+
 ## 0.1.0 — first public release
 
 - **Name** — Shipwright. Repository `DvJ4Y/shipwright`; plugin `shipwright@shipwright`.

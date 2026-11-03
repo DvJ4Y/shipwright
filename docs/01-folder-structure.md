@@ -32,7 +32,8 @@ means an agent skill writes it during the loop. "Script" means a command regener
 | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` | How to report, propose and contribute; the code of conduct | person | no |
 | `PRIVACY.md` | What the pack does with data: nothing leaves your machine except through the services you configure. The plugin manifest links to it | person | no |
 | `.github/` | Three issue templates and the pull-request checklist | person | no |
-| `assets/` | The plugin icon: `icon.svg` is the source, `icon.png` the render the plugin builder copies | person | no |
+| `assets/` | The plugin icon (`icon.svg` source, `icon.png` render the plugin builder copies) and the social preview card (`social-preview.svg`, `.png`) | person | no |
+| `.gitattributes` | Marks mockups, docs and `plugin/` so GitHub's language bar counts the pack's own code | person | no |
 
 ## Agent configuration
 

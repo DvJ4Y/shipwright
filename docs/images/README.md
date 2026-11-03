@@ -17,10 +17,11 @@ re-render, replace the image. Nothing here is a screenshot of a real product.
 
 | Image | Source | Rendered how |
 |---|---|---|
-| `loop.png` | `src/loop.mmd`. The loop block in `README.md` carries the same text | Mermaid, neutral theme, in a headless browser; text colour and borders from the shared neutral scale in `context/design/tokens.md` |
-| `layers.png` | `src/layers.mmd`. The four-layers block in `README.md` carries the same text | the same |
-| `visual-method.png` | `src/visual-method.mmd`. The visual-method block in `README.md` carries the same text | the same |
-| `story.gif` | `products/desk/verification-outcome-and-rework/showcase/story-v1.mp4`, which the story builder recorded from `story-v1.html`. The clip covers the first three beats of the twelve in `showcase/story-script.md` | ffmpeg: ten frames a second, 720 px wide, one palette built from the whole clip |
+| `loop.png` | `src/loop.mmd`. The README shows this image | Mermaid, neutral theme, in a headless browser; text colour and borders from the shared neutral scale in `context/design/tokens.md` |
+| `layers.png` | `src/layers.mmd`. The README shows this image | the same |
+| `visual-method.png` | `src/visual-method.mmd`. The README shows this image | the same |
+| `story.gif` | `products/desk/verification-outcome-and-rework/showcase/story-v1.mp4` (all twelve beats). The GIF is five beats cut from it: 1 (the quote), 3 (the officer returns a document), 4 (the provider failure), 8 (the replacement accepted) and 12 (the end card) | ffmpeg: each beat cut at eight frames a second, 640 px wide, joined, one palette for the whole clip |
+| `../../assets/social-preview.png` | `assets/social-preview.svg` — the card GitHub shows when the repo link is shared; upload it under Settings → Social preview | headless browser, 1280 × 640 |
 | `story-frame-quote.png` | the same video, one frame from beat 1 (Harbor, the quote) | ffmpeg, one frame |
 | `story-frame-documents.png` | the same video, one frame from beat 2 (Harbor, the documents) | ffmpeg, one frame |
 | `story-frame-desk.png` | the same video, one frame from beat 3 (Desk, the case view) | ffmpeg, one frame |
@@ -31,8 +32,7 @@ slide that uses a frame must say so (`docs/04-visual-method.md`).
 
 ## Re-rendering a diagram
 
-The `.mmd` under `src/` is the source. The README block is a copy of it, so GitHub renders
-the diagram without an image. Change both when you change one.
+The `.mmd` under `src/` is the source; the README shows the rendered PNG, because GitHub's own Mermaid theme shrinks wide diagrams.
 
 Any Mermaid renderer works. With mermaid-cli:
 
@@ -48,8 +48,12 @@ with other settings produces a different-looking but equally correct image.
 
 ```bash
 V=products/desk/verification-outcome-and-rework/showcase/story-v1.mp4
-ffmpeg -i $V -vf "fps=10,scale=720:-1:flags=lanczos,palettegen=stats_mode=diff" /tmp/palette.png
-ffmpeg -i $V -i /tmp/palette.png -lavfi "fps=10,scale=720:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" docs/images/story.gif
+i=0; for r in "0.5 5" "12.5 6" "19.5 6" "45.5 6" "69 5"; do set -- $r
+  ffmpeg -ss $1 -t $2 -i $V -vf "fps=8,scale=640:-1:flags=lanczos" -an /tmp/c$i.mp4
+  echo "file '/tmp/c$i.mp4'" >> /tmp/list.txt; i=$((i+1)); done
+ffmpeg -f concat -safe 0 -i /tmp/list.txt -c copy /tmp/hero.mp4
+ffmpeg -i /tmp/hero.mp4 -vf "palettegen=stats_mode=diff" /tmp/palette.png
+ffmpeg -i /tmp/hero.mp4 -i /tmp/palette.png -lavfi "paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" docs/images/story.gif
 ffmpeg -ss 4.5 -i $V -frames:v 1 docs/images/story-frame-quote.png
 ```
 

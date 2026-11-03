@@ -11,7 +11,7 @@ last_updated: 2026-11-02
 
 # Verification outcome and rework — feature folder
 
-Read `shared/prd.md` first. This folder shows the **pre-land state**: the PRD is approved, the
+Read `shared/prd.md` first. This folder shows the **pre-land state**: the PRD is at v1.1, in review, the
 brief is written, the issue pack is approved and not published, and nothing has shipped.
 `internal/land-rehearsal.md` shows what `/land` would do once a release note confirms
 production; the three surface files already carry those rows marked `rehearsal`.
@@ -36,8 +36,8 @@ so `/mockup` and `/product-copy` were not re-run. Customer-language strings are 
 
 | File | What it is | Status |
 |---|---|---|
-| `shared/prd.md` | WHAT and WHY: users, rules R1–R14, information and audit, states, acceptance A1–A16, metrics, impact | `approved` v1.0 (gate owner PENDING, default applied — P-10) |
-| `shared/eng-brief.md` | Capability, reuse locations, configuration, invariants, 17 scenarios, evidence, observability, open inputs | `approved`; `aligned_on: —` (engineering alignment is the owner's conversation — P-13) |
+| `shared/prd.md` | WHAT and WHY: users, rules R1–R14, information and audit, states, acceptance A1–A16, metrics, impact | `in-review` v1.1 — the late file, the missing template, the missed visit and a provider failure with open items folded into existing criteria (P-25 to P-27); the gate on v1.1 has not run. v1.0, `approved`, is in `archive/superseded-2026-11-03/` |
+| `shared/eng-brief.md` | Capability, reuse locations, configuration, invariants, 17 scenarios, evidence, observability, open inputs | `in-review` v1.1, follows PRD v1.1; `aligned_on: —` (engineering alignment is the owner's conversation — P-13). v1.0 is in `archive/superseded-2026-11-03/` |
 
 ## Internal — the reasoning
 
