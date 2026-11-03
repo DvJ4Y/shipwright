@@ -20,7 +20,7 @@ re-render, replace the image. Nothing here is a screenshot of a real product.
 | `loop.png` | `src/loop.mmd`. The README shows this image | Mermaid, neutral theme, in a headless browser; text colour and borders from the shared neutral scale in `context/design/tokens.md` |
 | `layers.png` | `src/layers.mmd`. The README shows this image | the same |
 | `visual-method.png` | `src/visual-method.mmd`. The README shows this image | the same |
-| `story.gif` | `products/desk/verification-outcome-and-rework/showcase/story-v1.mp4` (all twelve beats). The GIF is five beats cut from it: 1 (the quote), 3 (the officer returns a document), 4 (the provider failure), 8 (the replacement accepted) and 12 (the end card) | ffmpeg: each beat cut at eight frames a second, 640 px wide, joined, one palette for the whole clip |
+| `story.gif` | `products/desk/verification-outcome-and-rework/showcase/story-v2.mp4` (all twelve beats). The GIF is six beats cut from it: 1 (the quote), 3 (the officer returns a document), 4 (the provider failure), 5 (the customer's plain reason and routes), 8 (the replacement accepted) and 12 (the end card) | ffmpeg: each beat cut at eight frames a second, 640 px wide, joined, one palette for the whole clip |
 | `../../assets/social-preview.png` | `assets/social-preview.svg` — the card GitHub shows when the repo link is shared; upload it under Settings → Social preview | headless browser, 1280 × 640 |
 | `story-frame-quote.png` | the same video, one frame from beat 1 (Harbor, the quote) | ffmpeg, one frame |
 | `story-frame-documents.png` | the same video, one frame from beat 2 (Harbor, the documents) | ffmpeg, one frame |
@@ -47,8 +47,8 @@ with other settings produces a different-looking but equally correct image.
 ## Re-cutting the GIF and the stills
 
 ```bash
-V=products/desk/verification-outcome-and-rework/showcase/story-v1.mp4
-i=0; for r in "0.5 5" "12.5 6" "19.5 6" "45.5 6" "69 5"; do set -- $r
+V=products/desk/verification-outcome-and-rework/showcase/story-v2.mp4
+i=0; for r in "0.5 5" "12.5 6" "19.5 6" "26.5 6" "45.5 6" "69 5"; do set -- $r
   ffmpeg -ss $1 -t $2 -i $V -vf "fps=8,scale=640:-1:flags=lanczos" -an /tmp/c$i.mp4
   echo "file '/tmp/c$i.mp4'" >> /tmp/list.txt; i=$((i+1)); done
 ffmpeg -f concat -safe 0 -i /tmp/list.txt -c copy /tmp/hero.mp4

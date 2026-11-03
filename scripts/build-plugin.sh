@@ -18,7 +18,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PLUGIN="$ROOT/plugin"
 NAME="shipwright"
-VERSION="${PLUGIN_VERSION:-0.1.1}"
+VERSION="${PLUGIN_VERSION:-0.1.2}"
 DESCRIPTION="Product-management skills, read-only reviewer agents and session hooks: intake, questions, PRDs, mockups, reviews, decisions, handoffs and landing."
 CHECK=0
 [ "${1:-}" = "--check" ] && CHECK=1

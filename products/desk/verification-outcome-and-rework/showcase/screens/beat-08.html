@@ -1,19 +1,18 @@
-<!-- Beat 8 · Desk · case view · NOT live: the replacement re-checked without a search (extends DESK-006). -->
+<!-- Beat 8 · Desk · case view · NOT live: the replacement as a new version of the item, and the manual verification after the retry limit (extends DESK-006; PRD A8, A10, R9). -->
 <div class="app" data-clock="11:40 AM">
   <div class="bar">Desk <small>Verification · CASE-0417</small></div>
   <div class="body" style="gap:10px">
-    <div class="card ok" data-at="300"><div class="small"><b>Replacement attached</b> to RW-0417-1 by the field verifier, 11:31 AM. Case back at its original queue position.</div></div>
+    <div class="card ok" data-at="300"><div class="small"><b>Replacement attached</b> to RW-0417-1 as version 2, by the field verifier, 11:31 AM. Case back at its original queue position.</div></div>
     <div class="table" style="--cols:1fr auto">
       <div class="tr head"><span>Check</span><span>Outcome</span></div>
-      <div class="tr"><span>Identity · provider<br><span class="tiny muted" data-at="1400">answered in 4 s · IDC-88213</span></span><span style="position:relative;display:inline-block"><span class="chip pf" data-off="1400">PROVIDER-FAILED</span><span class="chip ok" data-at="1400" style="position:absolute;right:0;top:0">verified</span></span></div>
-      <div class="tr"><span>Identity proof (replacement)</span><span class="chip ok" data-at="2000">accepted</span></div>
-      <div class="tr"><span>Shop licence</span><span class="chip ok">accepted</span></div>
-      <div class="tr"><span>Address proof</span><span class="chip ok">accepted</span></div>
-      <div class="tr"><span>Stock photo set</span><span class="chip ok">accepted</span></div>
-      <div class="tr"><span>Rules re-run on verified data</span><span class="chip ok" data-at="2800">tier confirmed</span></div>
+      <div class="tr"><span>Identity proof · version 2</span><span class="chip ok" data-at="1000">accepted</span></div>
+      <div class="tr"><span>Identity · provider<br><span class="tiny muted">3 of 3 attempts on day 2 · retry limit reached</span></span><span class="chip pf">PROVIDER-FAILED</span></div>
+      <div class="tr"><span>Shop licence · address proof · stock photos</span><span class="chip ok">accepted</span></div>
     </div>
-    <div class="row" style="border:0;padding:2px 0" data-at="3800" data-fx="pop"><span class="h2" style="margin:0">Outcome</span><span class="chip ok" style="font-size:14px;padding:3px 14px">PASS</span></div>
-    <div class="btn primary" data-at="4200">Confirm · send to Placement</div>
-    <div class="card" data-at="4800" style="padding:8px 12px"><div class="tiny muted">Evidence record written: provider reference, result, time, officer role. RW-0417-1 closed with the replacement and the rule that fired.</div></div>
+    <div class="field" data-at="1700"><label>Manual verification — after the retry limit</label><div class="row" style="padding:0;border:0"><span class="small">Method: document inspection</span><span class="chip ok" data-at="2300">verified</span></div></div>
+    <div class="row" style="border:0;padding:2px 0" data-at="2900"><span class="small">Rules re-run on verified data</span><span class="chip ok">tier confirmed</span></div>
+    <div class="row" style="border:0;padding:2px 0" data-at="3400" data-fx="pop"><span class="h2" style="margin:0">Outcome</span><span class="chip ok" style="font-size:14px;padding:3px 14px">PASS</span></div>
+    <div class="btn primary" data-at="4000">Confirm · send to Placement</div>
+    <div class="card" data-at="4600" style="padding:8px 12px"><div class="tiny muted">Evidence records written: the manual verification (method, result, officer role, time, the three failed attempts) and the replacement (version 2, field verifier, time). RW-0417-1 closed.</div></div>
   </div>
 </div>

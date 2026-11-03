@@ -2,12 +2,12 @@
 title: "Readiness record: Verification outcome and rework"
 type: readiness-record
 status: passed
-version: 1.0
+version: 1.1
 tier: M
 owner: product lead (ops and platform)
 decision_refs: [P-10, P-12, P-13]
 why: Product-to-engineering handover gate for Verification outcome and rework
-last_updated: 2026-11-02
+last_updated: 2026-11-04
 ---
 
 # Readiness record: Verification outcome and rework
@@ -42,3 +42,23 @@ Not yet — P-13; the brief's `aligned_on` stays `—`.
 **Reason:** ten checks pass; zero open markers; the brief is approved with `aligned_on: —` until engineering alignment (P-13); the issue pack is approved and not published (P-12).
 
 Gate: approve · By: product lead (ops and platform) (PENDING — default applied) · On: 2026-11-02 · Reason: ten readiness checks pass with evidence; handover waits only for engineering alignment
+
+## Re-check for PRD v1.1 (2026-11-04)
+
+Inputs: `shared/prd.md` v1.1 and `shared/eng-brief.md` v1.1 after the gate in
+`internal/review-2026-11-04-gate.md`; `internal/issue-pack.md` v1.1; mockups v2; data packet (40 points).
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| 1 | Objective, use cases and non-goals approved | PASS | §1 maps `POL-M1` to G1 and `VER-M2` to G2; P-27 |
+| 2 | Current behaviour and reuse checked | PASS with notes | §3 unchanged; brief column names not in `context/05` are open for the alignment conversation |
+| 3 | Partner- or segment-specific behaviour is configuration | PASS | R3 template per language, R5 switch per region, R9 timeout and retry limit with owners |
+| 4 | Roles, permissions, regulated actions and evidence | PASS | §8 consent record and consent status split (P-33); R6 consent for the re-run |
+| 5 | States covered | PASS | §8; QA rows for EMPTY, PARTIAL, MISSING, `cancelled` and the v1.1 additions |
+| 6 | PRD and mockup agree | PASS with notes | Mockups v2 match v1.1 except where the gate changed the rule afterwards: Harbor S4 shows "may upload" after a missed visit (PRD: rebook or upload, window resumes); Harbor MISSING shows the reason text alone for a missing template (PRD: only the requirement line falls back); Desk has no officer-run retry control (PRD R9 until the retry queue is live). The PRD wins; redraw in v2.1 |
+| 7 | Issues map to acceptance criteria | PASS | Issue pack v1.1 trace: R11 to S1 and S2; S2 and S4 summaries follow v1.1 |
+| 8 | Older requirements are crosswalked | PASS | `internal/crosswalk.md` "v1.0 → v1.1" |
+| 9 | Open inputs have owners | PASS | P-28 to P-33 and D-008 PENDING with owners; open: the clock-resume wording in the service-levels policy (ops lead), retention reset on an unissued case (compliance officer), which days a visit may be booked, whether "take another look" counts as a resubmission, which documents are offered after a lapse, the regulated action for a shop-address correction |
+| 10 | The brief separates outcomes from engineering-owned design | PASS | §1 opens with the ask; §10 answers cite rules; retry spacing is engineering's |
+
+Result: passed on v1.1, with the notes above.

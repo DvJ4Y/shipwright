@@ -1,0 +1,391 @@
+<!doctype html>
+<!--
+status: draft
+version: 2
+supersedes: harbor-verification-outcome-v1.mockup.html
+decision_refs: [D-004, D-006, D-007]
+why: Redraws the customer rework list against PRD v1.1 — per-item paths, the send-by window, the correction confirm, visit, second return, on hold and lapsed — with every field traced to internal/data-packet.csv
+last_updated: 2026-11-04
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>verification-outcome-and-rework — Harbor · a returned document is fixed once · L0 data contract · v2</title>
+<style>
+  :root{
+    --ink:#1b1b1b; --ink-2:#4a4a4a; --ink-3:#6e6e6e;
+    --line:#c9c9c9; --line-2:#e2e2e2;
+    --bg:#ffffff; --box:#f4f4f4; --box-2:#ececec; --box-3:#dcdcdc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:28px;background:var(--bg);color:var(--ink);
+       font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  h1{font-size:19px;margin:0 0 4px}
+  h2{font-size:15px;margin:0;padding:10px 12px;border:1px solid var(--line);
+     background:var(--box-2);text-transform:uppercase;letter-spacing:.04em}
+  h3{font-size:13px;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2)}
+  .meta{color:var(--ink-3);font-size:12px;margin:0 0 20px}
+
+  /* frame = one screen; state = one state block inside it */
+  .frame{border:1px solid var(--line);margin:0 0 26px;background:var(--bg)}
+  .framehead{padding:10px 12px;border-bottom:1px solid var(--line);background:var(--box-2)}
+  .framehead .sub{font-size:12px;color:var(--ink-2);margin-top:3px}
+  .state{border-top:1px solid var(--line-2);padding:0 12px 14px}
+  .strip{margin:0 -12px 12px;padding:5px 12px;background:var(--box-3);
+         font-size:11px;font-weight:700;letter-spacing:.09em}
+  .note{font-size:12px;color:var(--ink-2);margin:6px 0}
+
+  /* fields */
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .grid.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .f{border:1px solid var(--line-2);background:var(--box);padding:8px 9px}
+  .f .lbl{font-size:12px;font-weight:600}
+  .f .val{font-size:13px;color:var(--ink-2);margin:3px 0 5px;min-height:17px}
+  .f.ro{background:var(--box-2)}                    /* read-only on this surface */
+  .f.req .lbl:after{content:" *";color:var(--ink)}  /* required */
+  .chip{display:block;font:10px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;
+        color:var(--ink-3);border-top:1px dashed var(--line);padding-top:4px;word-break:break-word}
+
+  /* repeating rows, lists, actions */
+  .row{border:1px solid var(--line-2);background:var(--box);padding:8px 9px;margin:0 0 8px}
+  .btn{display:inline-block;border:1px solid var(--ink-2);background:var(--bg);
+       padding:5px 11px;font-size:12px;margin:0 6px 6px 0}
+  .btn.pri{background:var(--box-3)}
+  .btn.off{border-color:var(--line);color:var(--ink-3)}   /* disabled / not permitted */
+  .tag{display:inline-block;border:1px solid var(--line);background:var(--box-2);
+       padding:1px 6px;font-size:11px;margin-right:5px}
+  .slot{border:1px dashed var(--line);background:var(--bg);padding:18px 9px;text-align:center;
+        font-size:12px;color:var(--ink-3);margin:0 0 8px}
+
+  table{border-collapse:collapse;width:100%;font-size:12px;margin:8px 0}
+  th,td{border:1px solid var(--line-2);padding:5px 7px;text-align:left;vertical-align:top}
+  th{background:var(--box-2);font-weight:600}
+
+  .page{max-width:480px}                                                  /* customer web frames */
+  .phone{max-width:360px;border:1px solid var(--line);margin-bottom:26px} /* field app frames */
+  .cols{display:grid;grid-template-columns:180px minmax(0,1fr);gap:0}     /* console shell */
+  .cols .nav{border-right:1px solid var(--line-2);background:var(--box);padding:10px;font-size:12px}
+  .cols .nav div{padding:4px 0}
+  .cols .nav .sel{font-weight:700;text-decoration:underline}
+  .cols .body{padding:0 12px 12px}
+  .legend{border:1px solid var(--line);background:var(--box);padding:10px 12px;margin:0 0 22px;font-size:12px}
+</style>
+</head>
+<body>
+
+<h1>Verification outcome and rework — Harbor</h1>
+<p class="meta">L0 data contract · surface: Harbor (customer web app) · products/desk/verification-outcome-and-rework · v2 · status: draft · screenshot check: not run · variation axis: Screen</p>
+
+<div class="legend">
+  <p><strong>Feature:</strong> verification-outcome-and-rework · <strong>Surface:</strong> Harbor · <strong>Outcome:</strong> a returned document is fixed once — the customer sees which paper, which detail differs, the requirement in plain words, the accepted alternatives, the recovery paths and the send-by window per item; a provider failure is never a decline · <strong>Context:</strong> drawn against <code>shared/prd.md</code> v1.1 (§4, R1–R14, §7, §8, A1–A16); <code>context/</code> last verified 2026-11-02.</p>
+  <p><strong>Drawn against:</strong> <code>context/surfaces/harbor/current-behaviour.md</code> rows HUB-003, HUB-004, HUB-005, HUB-006, HUB-007, HUB-008, HUB-009 (2026-11-02). No production screenshot is in this repo; the shell is derived from those rows. <strong>Changed from v1:</strong> per-item recovery paths per R4 (correct the detail, ask our team to take another look); "talk to our team" on every message; accepted alternatives and the requirement in plain words on every item; the send-by window per item, never "Not shown" on a returned item; new frames S2 (second return), S3 (correct a detail, with the premium warning), S4 (visit being arranged), S5 (on hold), S6 (lapsed); the missing-template case; PROVIDER-FAILED with no send-by field when nothing is returned, and combined with open items.</p>
+  <p>Greyscale wireframe. Fictional data. Fixtures are labelled examples, not verified calculations, approved policy or working integrations.</p>
+  <p><strong>Chip:</strong> <code>[ POINT-ID · unit/type · provenance · current storage · disposition ]</code> — every chip resolves to a row in <code>internal/data-packet.csv</code>. Strips: EMPTY · PARTIAL · MISSING · RESTRICTED · PROVIDER-FAILED · REWORK — meanings in <code>tools/wireframe-kit/kit.md</code>. The PRD states ON HOLD and LAPSED as states; they sit under the REWORK strip on S5 and S6 because an item stays open.</p>
+  <p><strong>Copy:</strong> English, with <code>[customer language]</code> on every localised string (HUB-003). Strings are written for a relative who may read them. The customer never sees the risk tier, the configured rule name, an internal id or the identity number. WhatsApp carries one line per document plus the link to this page (R2).</p>
+</div>
+
+<!-- ============================================================ S1 -->
+<div class="frame page" id="harbor-s1">
+  <div class="framehead">
+    <h2>S1 · Your documents — status page</h2>
+    <div class="sub">Actor: customer (Customer A, grocery, shop policy) · Entry: WhatsApp message link or the status page · Exit: upload, ask for a visit (S4), correct a detail (S3), ask our team to take another look, or talk to our team</div>
+  </div>
+
+  <!-- REWORK -->
+  <section class="state" id="harbor-s1-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">Round 1. Two documents returned, nothing sent back yet. One list per case; each item carries its own paths and its own send-by window (R3, R4, R8).</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0001</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Policy for</div><div class="val">Customer A</div><span class="chip">[ CUS-02 · text · customer · h_customer.full_name · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Status [customer language]</div><div class="val">Two documents need your attention [customer language]</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send [customer language]</div><div class="val">2 of 2 [customer language]</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    </div>
+
+    <h3>Returned document 1 of 2</h3>
+    <div class="row">
+      <div class="grid">
+        <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Shop licence [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">What happened [customer language]</div><div class="val">We could not read it [customer language]</div><span class="chip">[ DOC-02 · enum: received | accepted | unreadable | mismatched | missing · ops · h_document.status · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">What it means for your policy [customer language]</div><div class="val">We need it before we can find your insurer. Nothing else stops. [customer language]</div><span class="chip">[ RWK-05 · text in customer language · config · config — message template per reason code and language · extend ]</span></div>
+        <div class="f ro"><div class="lbl">What we need to see [customer language]</div><div class="val">The licence number and the shop name, clear enough to read. [customer language]</div><span class="chip">[ RWK-17 · text per reason and language · config · none — no current path established · configure ]</span></div>
+        <div class="f ro"><div class="lbl">Tip [customer language]</div><div class="val">Lay it flat in daylight. Keep all four corners in the photo. [customer language]</div><span class="chip">[ DOC-04 · text per item · config · config — Field slot text (FLD-002) · extend ]</span></div>
+        <div class="f ro"><div class="lbl">You can also send [customer language]</div><div class="val">Trade licence certificate · shop registration certificate (example) [customer language]</div><span class="chip">[ DOC-06 · list of documents per item · config · none — no current path established · configure ]</span></div>
+        <div class="f ro"><div class="lbl">Replacement [customer language]</div><div class="val">Not received [customer language]</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">9 Nov — 7 days left (example) [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+      </div>
+      <span class="btn pri">Upload a new photo [customer language]</span><span class="btn">Ask for a visit [customer language]</span>
+      <p class="note">Paths for <code>unreadable</code>: a new upload or a visit (R4, A5). The visit button is absent when the region's visit switch is off (R5).</p>
+    </div>
+
+    <h3>Returned document 2 of 2</h3>
+    <div class="row">
+      <div class="grid">
+        <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Address proof [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">What happened [customer language]</div><div class="val">A detail is different from your case [customer language]</div><span class="chip">[ DOC-02 · enum: received | accepted | unreadable | mismatched | missing · ops · h_document.status · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">Which detail [customer language]</div><div class="val">Shop address [customer language]</div><span class="chip">[ RWK-02 · enum of case-record fields · ops · none — no current path established · proposed new ]</span></div>
+        <div class="f ro"><div class="lbl">What your case says [customer language]</div><div class="val">12 Market Road, Ward 4 (example)</div><span class="chip">[ RWK-03 · text (case value) · derived · derived — h_case / h_customer column named by RWK-02 · derive ]</span></div>
+        <div class="f ro"><div class="lbl">What it means for your policy [customer language]</div><div class="val">The insurer covers the shop at one address. Both must agree. [customer language]</div><span class="chip">[ RWK-05 · text in customer language · config · config — message template per reason code and language · extend ]</span></div>
+        <div class="f ro"><div class="lbl">What we need to see [customer language]</div><div class="val">The address on the proof must be the shop address in your case. [customer language]</div><span class="chip">[ RWK-17 · text per reason and language · config · none — no current path established · configure ]</span></div>
+        <div class="f ro"><div class="lbl">You can also send [customer language]</div><div class="val">Electricity bill for the shop · rent agreement (example) [customer language]</div><span class="chip">[ DOC-06 · list of documents per item · config · none — no current path established · configure ]</span></div>
+        <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">9 Nov — 7 days left (example) [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+      </div>
+      <span class="btn pri">Upload a different proof [customer language]</span><span class="btn">Correct the shop address [customer language]</span><span class="btn">Ask our team to take another look [customer language]</span>
+      <p class="note">Paths for <code>mismatched</code>: a new upload, correct the detail (S3), or ask our team to take another look. No visit (R4, A5).</p>
+    </div>
+
+    <h3>Your consent</h3>
+    <div class="f ro"><div class="lbl">What you agreed to [customer language]</div><div class="val">On 1 Oct (example) you agreed that we may check these documents. Given on WhatsApp. We ask for nothing outside this list. [customer language]</div><span class="chip">[ AUD-05 · version; time; channel; language · customer · h_audit_event (action consent) — channel and language have no path · unresolved ]</span></div>
+    <span class="btn">Talk to our team [customer language]</span>
+    <p class="note">A12: what was agreed, when and on which channel. Channel and language have no current evidence path (AUD-05 unresolved). "Talk to our team" is on every message (R14).</p>
+  </section>
+
+  <!-- EMPTY -->
+  <section class="state" id="harbor-s1-empty">
+    <div class="strip">EMPTY</div>
+    <p class="note">Verification has started; no document has been returned. Shown as a sentence, never as a zero count. No send-by field: nothing is waiting on the customer.</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0002</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Status [customer language]</div><div class="val">Being checked — nothing is needed from you [customer language]</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">When [customer language]</div><div class="val">Within one working day (example) [customer language]</div><span class="chip">[ VER-03 · hours of commitment · derived · derived — h_verification.queued_at vs service level · derive ]</span></div>
+    </div>
+    <span class="btn">Talk to our team [customer language]</span>
+  </section>
+
+  <!-- PARTIAL -->
+  <section class="state" id="harbor-s1-partial">
+    <div class="strip">PARTIAL</div>
+    <p class="note">Four items returned. One is done, one was sent back and waits for re-check, one has a visit being arranged, one is not received. "Still to send" counts items with no resubmission (R10): 2 of 4.</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Status [customer language]</div><div class="val">Some documents still need your attention [customer language]</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send [customer language]</div><div class="val">2 of 4 [customer language]</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    </div>
+    <div class="row"><div class="grid">
+      <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Shop front photo [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement [customer language]</div><div class="val">Done [customer language]</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+    </div></div>
+    <div class="row"><div class="grid">
+      <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Shop licence [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement [customer language]</div><div class="val">Received — being re-checked [customer language]</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">When [customer language]</div><div class="val">We check it within 12 hours (example) [customer language]</div><span class="chip">[ VER-03 · hours of commitment · derived · derived — h_verification.queued_at vs service level · derive ]</span></div>
+    </div></div>
+    <div class="row"><div class="grid">
+      <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Stock photo set [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement [customer language]</div><div class="val">Visit being arranged [customer language]</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Expected day [customer language]</div><div class="val">Thu 6 Nov (example) [customer language]</div><span class="chip">[ RWK-12 · request; expected day · customer · none — no current path established · proposed new ]</span></div>
+      <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">Paused until the visit [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+    </div></div>
+    <div class="row"><div class="grid">
+      <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Address proof [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement [customer language]</div><div class="val">Not received [customer language]</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">9 Nov — 4 days left (example) [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+    </div>
+    <span class="btn pri">Upload a different proof [customer language]</span><span class="btn">Correct the shop address [customer language]</span><span class="btn">Ask our team to take another look [customer language]</span></div>
+    <span class="btn">Talk to our team [customer language]</span>
+  </section>
+
+  <!-- MISSING -->
+  <section class="state" id="harbor-s1-missing">
+    <div class="strip">MISSING</div>
+    <p class="note">Three absences, each shown as a fact (§8 MISSING): a checklist item with no file; a reason with no template in the case language; a consent record from before this feature.</p>
+    <h3>A checklist item has no file</h3>
+    <div class="row">
+      <div class="grid">
+        <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Stock photo set — four photos [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">What happened [customer language]</div><div class="val">We have no photos yet [customer language]</div><span class="chip">[ DOC-02 · enum: received | accepted | unreadable | mismatched | missing · ops · h_document.status · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">Why we need it [customer language]</div><div class="val">The insurer needs them to cover your stock. [customer language]</div><span class="chip">[ DOC-05 · text per item · config · config — checklist column · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">Tip [customer language]</div><div class="val">Front, inside, storage, and the stock register page or billing screen. Daylight, no flash on glass. [customer language]</div><span class="chip">[ DOC-04 · text per item · config · config — Field slot text (FLD-002) · extend ]</span></div>
+        <div class="f ro"><div class="lbl">You can also send [customer language]</div><div class="val">A short shop video in place of the four photos (example) [customer language]</div><span class="chip">[ DOC-06 · list of documents per item · config · none — no current path established · configure ]</span></div>
+        <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">9 Nov — 7 days left (example) [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+      </div>
+      <span class="btn pri">Upload photos [customer language]</span><span class="btn">Ask for a visit [customer language]</span><span class="btn">Talk to our team [customer language]</span>
+    </div>
+    <h3>No template for this reason in the case language</h3>
+    <div class="row">
+      <div class="grid">
+        <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Shop licence [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">What happened [customer language]</div><div class="val">We could not read it [customer language]</div><span class="chip">[ DOC-02 · enum: received | accepted | unreadable | mismatched | missing · ops · h_document.status · reuse ]</span></div>
+      </div>
+      <span class="btn">Talk to our team [customer language]</span>
+      <p class="note">R3, A4: the reason text shows alone and the gap is reported to the customer lane. The PRD does not say whether the paths, the alternatives and the send-by window still show in this case, so they are not drawn.</p>
+    </div>
+    <h3>Consent recorded before this feature</h3>
+    <div class="f ro"><div class="lbl">What you agreed to [customer language]</div><div class="val">On 3 Aug (example) you agreed that we may check these documents. Channel: not recorded. [customer language]</div><span class="chip">[ AUD-05 · version; time; channel; language · customer · h_audit_event (action consent) — channel and language have no path · unresolved ]</span></div>
+    <p class="note">A12: a record from before this feature shows "not recorded" for channel and language. No backfill (compliance officer default, §11).</p>
+  </section>
+
+  <!-- RESTRICTED -->
+  <section class="state" id="harbor-s1-restricted">
+    <div class="strip">RESTRICTED</div>
+    <p class="note"><strong>Not applicable on this screen.</strong> The customer sees only their own case (§8 RESTRICTED). Withheld values — the risk tier, the configured rule name, internal ids, the identity number — are absent from the page, never marked as withheld (<code>context/policies/risk-tiers-and-routing.md</code>, <code>context/policies/data-handling-and-retention.md</code>).</p>
+  </section>
+
+  <!-- PROVIDER-FAILED -->
+  <section class="state" id="harbor-s1-provider-failed">
+    <div class="strip">PROVIDER-FAILED</div>
+    <p class="note">The identity-check provider did not answer within 90 seconds (example). Never declined; the word "declined" does not appear (HUB-009, R9).</p>
+    <h3>Nothing returned</h3>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Identity check [customer language]</div><div class="val">We could not complete the identity check. We will retry; nothing is needed from you. [customer language]</div><span class="chip">[ PRV-01 · enum: verified | not matched | provider-failed · provider · h_verification.provider_result · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Status [customer language]</div><div class="val">Being checked [customer language]</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+    </div>
+    <span class="btn">Talk to our team [customer language]</span>
+    <p class="note">No send-by field: nothing is returned, so nothing is waiting on the customer (§8 PROVIDER-FAILED).</p>
+    <h3>With open items — one combined message</h3>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Identity check [customer language]</div><div class="val">We could not complete the identity check. We will retry; nothing is needed from you for it. [customer language]</div><span class="chip">[ PRV-01 · enum: verified | not matched | provider-failed · provider · h_verification.provider_result · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send [customer language]</div><div class="val">1 of 1 [customer language]</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    </div>
+    <div class="row"><div class="grid">
+      <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Address proof [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">9 Nov — 5 days left; the identity check does not change this date (example) [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+    </div>
+    <span class="btn pri">Open this document [customer language]</span></div>
+    <span class="btn">Talk to our team [customer language]</span>
+    <p class="note">The send-by window keeps running during a provider failure (R8). Attempt count, retry limit and provider response reference are Desk fields.</p>
+  </section>
+</div>
+
+<!-- ============================================================ S2 -->
+<div class="frame page" id="harbor-s2">
+  <div class="framehead">
+    <h2>S2 · Returned again — round 2 on the same item</h2>
+    <div class="sub">Actor: customer · Entry: WhatsApp second-return message or S1 · Exit: upload, ask for a visit, ask our team to take another look, or talk to our team</div>
+  </div>
+  <section class="state" id="harbor-s2-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">A14: a second return opens a new round on the same item. The customer is told what changed, with the new requirement in plain words, and the take-another-look path. The visit path reopens for a reason resolvable on site (R5). The send-by window restarts (R8).</p>
+    <div class="row">
+      <div class="grid">
+        <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Shop licence [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+        <div class="f ro"><div class="lbl">Round [customer language]</div><div class="val">Second time we asked [customer language]</div><span class="chip">[ RWK-11 · round number · derived · none — no current path established · proposed new ]</span></div>
+        <div class="f ro"><div class="lbl">What changed [customer language]</div><div class="val">The licence number is clear now. The shop name is cut off at the edge. [customer language]</div><span class="chip">[ RWK-05 · text in customer language · config · config — message template per reason code and language · extend ]</span></div>
+        <div class="f ro"><div class="lbl">What we need to see [customer language]</div><div class="val">The shop name, in full, on the same licence. [customer language]</div><span class="chip">[ RWK-17 · text per reason and language · config · none — no current path established · configure ]</span></div>
+        <div class="f ro"><div class="lbl">You can also send [customer language]</div><div class="val">Trade licence certificate · shop registration certificate (example) [customer language]</div><span class="chip">[ DOC-06 · list of documents per item · config · none — no current path established · configure ]</span></div>
+        <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">14 Nov — 7 days left, new window (example) [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+      </div>
+      <span class="btn pri">Upload a new photo [customer language]</span><span class="btn">Ask for a visit [customer language]</span><span class="btn">Ask our team to take another look [customer language]</span><span class="btn">Talk to our team [customer language]</span>
+    </div>
+  </section>
+  <section class="state" id="harbor-s2-empty"><div class="strip">EMPTY</div><p class="note"><strong>Not applicable on this screen.</strong> S2 exists only for an item returned at least twice.</p></section>
+  <section class="state" id="harbor-s2-partial"><div class="strip">PARTIAL</div><p class="note"><strong>Not applicable on this screen.</strong> One item per frame; the case-level count is on S1 PARTIAL.</p></section>
+  <section class="state" id="harbor-s2-missing"><div class="strip">MISSING</div><p class="note"><strong>Not applicable on this screen.</strong> A missing template is drawn on S1 MISSING and behaves the same in round 2.</p></section>
+  <section class="state" id="harbor-s2-restricted"><div class="strip">RESTRICTED</div><p class="note"><strong>Not applicable on this screen.</strong> Harbor shows the customer's own case; withheld values are absent.</p></section>
+  <section class="state" id="harbor-s2-provider-failed"><div class="strip">PROVIDER-FAILED</div><p class="note"><strong>Not applicable on this screen.</strong> A provider failure never raises a rework item on the identity proof (R9); S1 shows the combined message.</p></section>
+</div>
+
+<!-- ============================================================ S3 -->
+<div class="frame page" id="harbor-s3">
+  <div class="framehead">
+    <h2>S3 · Correct a detail — confirm step</h2>
+    <div class="sub">Actor: customer, own case · Entry: S1 "Correct the shop address" on a <code>mismatched</code> item · Exit: confirm → the rules re-run → the new premium range, or the refer or declined screen with its recovery path (HUB-005, HUB-006) · NEW SCREEN NEEDED</div>
+  </div>
+  <section class="state" id="harbor-s3-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">R6, A15. The page says the premium range may change before the customer confirms. A correction is a resubmission at confirmation (R10). A name or date-of-birth correction also re-runs the identity check.</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Detail to correct [customer language]</div><div class="val">Shop address [customer language]</div><span class="chip">[ RWK-02 · enum of case-record fields · ops · none — no current path established · proposed new ]</span></div>
+      <div class="f ro"><div class="lbl">What your case says now [customer language]</div><div class="val">12 Market Road, Ward 4 (example)</div><span class="chip">[ RWK-03 · text (case value) · derived · derived — h_case / h_customer column named by RWK-02 · derive ]</span></div>
+      <div class="f req"><div class="lbl">Correct shop address [customer language]</div><div class="val">14 Market Road, Ward 4 (example)</div><span class="chip">[ RWK-14 · field; old; new; who; time · customer · none — no current path established · proposed new ]</span></div>
+    </div>
+    <p class="note"><strong>Before you confirm [customer language]:</strong> Your premium range may change after this correction. [customer language]</p>
+    <span class="btn pri">Confirm the new address [customer language]</span><span class="btn">Go back [customer language]</span><span class="btn">Talk to our team [customer language]</span>
+    <p class="note">After confirm the customer sees the new range on the existing quote screen, or the existing refer or declined screen with its recovery path. Neither is redrawn here. The evidence keeps who, the old value, the new value and the time (Desk S3).</p>
+  </section>
+  <section class="state" id="harbor-s3-empty"><div class="strip">EMPTY</div><p class="note"><strong>Not applicable on this screen.</strong> S3 opens only from a <code>mismatched</code> item, so the field and the case value are always set.</p></section>
+  <section class="state" id="harbor-s3-partial"><div class="strip">PARTIAL</div><p class="note"><strong>Not applicable on this screen.</strong> The PRD states no rule for a half-entered correction; the confirm button is the only exit that saves.</p></section>
+  <section class="state" id="harbor-s3-missing"><div class="strip">MISSING</div><p class="note"><strong>Not applicable on this screen.</strong> An item raised before this feature has no field; the customer cannot reach S3 from it until the officer sets the field on re-check (§8 MISSING).</p></section>
+  <section class="state" id="harbor-s3-restricted"><div class="strip">RESTRICTED</div><p class="note"><strong>Not applicable on this screen.</strong> Only the three configured fields on the customer's own case can be corrected (R6).</p></section>
+  <section class="state" id="harbor-s3-provider-failed"><div class="strip">PROVIDER-FAILED</div><p class="note"><strong>Not applicable on this screen.</strong> A re-run identity check that fails is shown on S1 PROVIDER-FAILED after confirm.</p></section>
+</div>
+
+<!-- ============================================================ S4 -->
+<div class="frame page" id="harbor-s4">
+  <div class="framehead">
+    <h2>S4 · Visit being arranged</h2>
+    <div class="sub">Actor: customer · Entry: S1 "Ask for a visit" on an <code>unreadable</code> or <code>missing</code> item · Exit: change the day, upload instead (closes the visit), or talk to our team · Should (A6)</div>
+  </div>
+  <section class="state" id="harbor-s4-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">A6, R5. The task goes to the region's field verifier, or the item joins an existing inspection task. The send-by window pauses until the capture (R8). An upload before the visit closes the task.</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Stock photo set [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement [customer language]</div><div class="val">Visit being arranged [customer language]</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Expected day [customer language]</div><div class="val">Thu 6 Nov (example) [customer language]</div><span class="chip">[ RWK-12 · request; expected day · customer · none — no current path established · proposed new ]</span></div>
+      <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">Paused until the visit [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+    </div>
+    <span class="btn">Change the day [customer language]</span><span class="btn">Upload instead [customer language]</span><span class="btn">Talk to our team [customer language]</span>
+    <p class="note">The PRD does not say which days the customer may pick or how the change reaches the field verifier, so the day picker is not drawn.</p>
+  </section>
+  <section class="state" id="harbor-s4-rework-missed">
+    <div class="strip">REWORK</div>
+    <p class="note">The visit missed its commitment (R5, A6). The customer is told and may upload.</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Expected day [customer language]</div><div class="val">Thu 6 Nov (example) — our visit did not happen. You can upload the photos now. [customer language]</div><span class="chip">[ RWK-12 · request; expected day · customer · none — no current path established · proposed new ]</span></div>
+    </div>
+    <span class="btn pri">Upload photos [customer language]</span><span class="btn">Talk to our team [customer language]</span>
+    <p class="note">The PRD does not say whether the send-by window resumes when a visit is missed, or whether the visit is re-booked; neither is drawn.</p>
+  </section>
+  <section class="state" id="harbor-s4-empty"><div class="strip">EMPTY</div><p class="note"><strong>Not applicable on this screen.</strong> S4 exists only after a visit request.</p></section>
+  <section class="state" id="harbor-s4-partial"><div class="strip">PARTIAL</div><p class="note"><strong>Not applicable on this screen.</strong> One item per frame; other items on the case are on S1.</p></section>
+  <section class="state" id="harbor-s4-missing"><div class="strip">MISSING</div><p class="note"><strong>Not applicable on this screen.</strong> The item's absence is shown on S1 MISSING before the visit is asked for.</p></section>
+  <section class="state" id="harbor-s4-restricted"><div class="strip">RESTRICTED</div><p class="note"><strong>Not applicable on this screen.</strong> When the region's visit switch is off, the visit path is absent from S1, not shown disabled (R5; Harbor never marks withheld paths).</p></section>
+  <section class="state" id="harbor-s4-provider-failed"><div class="strip">PROVIDER-FAILED</div><p class="note"><strong>Not applicable on this screen.</strong> The visit captures documents; the identity check is not part of it.</p></section>
+</div>
+
+<!-- ============================================================ S5 -->
+<div class="frame page" id="harbor-s5">
+  <div class="framehead">
+    <h2>S5 · Case on hold</h2>
+    <div class="sub">Actor: customer · Entry: WhatsApp on-hold message or the status page · Exit: any open path ends the hold; the case returns to the queue at its original position (R11, A16)</div>
+  </div>
+  <section class="state" id="harbor-s5-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">PRD state ON HOLD. The send-by window ended with an item open; the item stays open. The message gives what happened, what it means for the policy, the paths still open and the lapse date (R14, A16).</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Status [customer language]</div><div class="val">Your case is on hold [customer language]</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">What it means for your policy [customer language]</div><div class="val">We cannot find your insurer until we have this document. [customer language]</div><span class="chip">[ RWK-05 · text in customer language · config · config — message template per reason code and language · extend ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send [customer language]</div><div class="val">1 of 1 [customer language]</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+      <div class="f ro"><div class="lbl">Document [customer language]</div><div class="val">Shop licence [customer language]</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Send by [customer language]</div><div class="val">The time to send ended on 9 Nov (example) [customer language]</div><span class="chip">[ RWK-07 · days left · derived · derived — h_rework_item.raised_at + window · derive ]</span></div>
+      <div class="f ro"><div class="lbl">Case closes on [customer language]</div><div class="val">9 Dec, if nothing is sent (example) [customer language]</div><span class="chip">[ RWK-16 · date · derived · none — no current path established · derive ]</span></div>
+    </div>
+    <span class="btn pri">Upload a new photo [customer language]</span><span class="btn">Ask for a visit [customer language]</span><span class="btn">Talk to our team [customer language]</span>
+    <p class="note">The paths still open are the item's own: upload and visit for <code>unreadable</code> (§8 ON HOLD). A resubmission ends the hold; remaining items get a fresh window (R8).</p>
+  </section>
+  <section class="state" id="harbor-s5-empty"><div class="strip">EMPTY</div><p class="note"><strong>Not applicable on this screen.</strong> A case goes on hold only with an item open.</p></section>
+  <section class="state" id="harbor-s5-partial"><div class="strip">PARTIAL</div><p class="note"><strong>Not applicable on this screen.</strong> The PRD does not say whether an item awaiting re-check holds the case; only an open item with no resubmission is drawn.</p></section>
+  <section class="state" id="harbor-s5-missing"><div class="strip">MISSING</div><p class="note"><strong>Not applicable on this screen.</strong> A missing item on hold shows as on S1 MISSING with the hold fields above.</p></section>
+  <section class="state" id="harbor-s5-restricted"><div class="strip">RESTRICTED</div><p class="note"><strong>Not applicable on this screen.</strong> The referral agent's hold notification is on Field (FLD-009); Harbor shows the customer's own case.</p></section>
+  <section class="state" id="harbor-s5-provider-failed"><div class="strip">PROVIDER-FAILED</div><p class="note"><strong>Not applicable on this screen.</strong> The send-by window keeps running during a provider failure (R8), so a hold can follow one; the message is the same as above.</p></section>
+</div>
+
+<!-- ============================================================ S6 -->
+<div class="frame page" id="harbor-s6">
+  <div class="framehead">
+    <h2>S6 · Case lapsed</h2>
+    <div class="sub">Actor: customer · Entry: WhatsApp lapsed message or the status page · Exit: start again at <code>Quote</code> with documents offered for reuse (R11, A16)</div>
+  </div>
+  <section class="state" id="harbor-s6-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">PRD state LAPSED. 30 days (example) on hold with no customer action. The item is still open; only a verification officer closes an item (R10).</p>
+    <div class="grid">
+      <div class="f ro"><div class="lbl">Status [customer language]</div><div class="val">This case has closed. You can start again. [customer language]</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0001</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+    </div>
+    <p class="note"><strong>[customer language]</strong> We have kept your documents. When you start again, you can use them again. [customer language]</p>
+    <span class="btn pri">Start again [customer language]</span><span class="btn">Talk to our team [customer language]</span>
+    <p class="note">Documents are offered for reuse within the retention period (R11, R13). Which documents are offered is not listed here; the PRD names no rule for it.</p>
+  </section>
+  <section class="state" id="harbor-s6-empty"><div class="strip">EMPTY</div><p class="note"><strong>Not applicable on this screen.</strong> A case lapses only from on hold.</p></section>
+  <section class="state" id="harbor-s6-partial"><div class="strip">PARTIAL</div><p class="note"><strong>Not applicable on this screen.</strong> Lapsed is one message; no per-item list.</p></section>
+  <section class="state" id="harbor-s6-missing"><div class="strip">MISSING</div><p class="note"><strong>Not applicable on this screen.</strong> No item is listed.</p></section>
+  <section class="state" id="harbor-s6-restricted"><div class="strip">RESTRICTED</div><p class="note"><strong>Not applicable on this screen.</strong> The customer's own case only.</p></section>
+  <section class="state" id="harbor-s6-provider-failed"><div class="strip">PROVIDER-FAILED</div><p class="note"><strong>Not applicable on this screen.</strong> No check runs on a lapsed case.</p></section>
+</div>
+
+<p class="meta">End of Harbor wireframe v2. Desk: <code>desk-rework-queue-v2.mockup.html</code> · Field: <code>field-replacement-capture-v2.mockup.html</code> · v1: <code>harbor-verification-outcome-v1.mockup.html</code>.</p>
+</body>
+</html>

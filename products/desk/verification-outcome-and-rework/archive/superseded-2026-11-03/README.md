@@ -4,3 +4,4 @@
 |---|---|---|
 | `prd-v1.0.md` | `shared/prd.md` v1.1 | The cross-link check after the gate found four behaviours with a rule and no criterion, a goal mapped to the wrong metric, an attempt count without its timeout, and two views of the consent record; v1.1 folds them into existing criteria and rules. The crosswalk is `internal/crosswalk.md`, section "v1.0 → v1.1" |
 | `eng-brief-v1.0.md` | `shared/eng-brief.md` v1.1 | Follows the PRD: scenarios 5, 8 and 13 and the consent evidence row |
+| `issue-pack-v1.0.md` | `internal/issue-pack.md` v1.1 | Follows PRD v1.1 after the gate of 2026-11-04: S2 and S4 rule summaries, R11 traced to S2, mockup references to v2 |

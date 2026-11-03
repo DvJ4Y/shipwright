@@ -4,9 +4,9 @@ type: crosswalk
 status: approved
 version: 1.0
 owner: product lead (ops and platform)
-decision_refs: [P-04, P-06, P-08, P-19, D-004, D-006, D-007]
+decision_refs: [P-04, P-06, P-08, P-19, D-004, D-006, D-007, D-008]
 why: Shows where every earlier requirement for this feature went before anything is superseded, and (after the land rehearsal) where every PRD row landed
-last_updated: 2026-11-02
+last_updated: 2026-11-04
 ---
 
 # Crosswalk: earlier requirements → PRD v1.0
@@ -59,30 +59,30 @@ last_updated: 2026-11-02
 ## Landed (rehearsal 2026-11-02)
 
 > Appended by the land rehearsal (`internal/land-rehearsal.md`). Nothing shipped; the rows
-> exist in the surface files marked `rehearsal`. On a real landing the destinations cite the
+> exist in the surface files marked `rehearsal`. A rehearsal never prefixes a row. On a real landing the destinations cite the
 > archived PRD path.
 
 | PRD row (shared/prd.md v1.0) | Requirement (one line) | Treatment | Destination | Decision point |
 |---|---|---|---|---|
-| §9 A4, A5 | The rework list with the requirement, the detail and the paths | merged | HUB-013 | — |
-| §9 A15 | Corrected detail: warning, re-run, identity re-check | refined | HUB-014, DESK-018 | P-16 |
-| §9 A12 | Consent shown; nothing outside the consented checklist | refined | HUB-015, DESK-019 | P-06 |
+| §9 A4, A5 | The rework list with the requirement, the detail and the paths | merged | HUB-013 (replaces HUB-008 (prefix SUPERSEDED on a real landing)); the visit route is not in the rehearsal text: it is deferred with A6 | P-18 |
+| §9 A15 | Corrected detail: warning, re-run, identity re-check | refined | HUB-014, DESK-018 (extends DESK-009) | P-16 |
+| §9 A12 | Consent shown; nothing outside the consented checklist | refined | HUB-015, DESK-019 (extends DESK-009) | P-06 |
 | §9 A16 | On hold and lapsed messages | refined | HUB-016 | P-24, D-004 |
-| §9 A9 | Provider failure: customer message; Desk row; attempt evidence | merged | HUB-017, DESK-016 | P-03, D-007 |
+| §9 A9 | Provider failure: customer message; Desk row; attempt evidence | merged | HUB-017 (extends HUB-009), DESK-016 (extends DESK-002); both end "— regulated action: identity verification" | P-03, D-008 |
 | §9 A14 | Accepted and second return | merged | HUB-018, DESK-021 | P-02 |
 | §9 A6 | The visit path | deferred | — (returns in a later PRD or release) | P-18 |
-| §9 A1 | Return `mismatched` with the field | refined | DESK-012 | P-07 |
+| §9 A1 | Return `mismatched` with the field | refined | DESK-012 (replaces DESK-004 (prefix SUPERSEDED on a real landing)) | P-07 |
 | §9 A2 | Return `unreadable` or `missing` | carried | DESK-013 | — |
-| §9 A3 | Queue row for a multi-item case | refined | DESK-014 | P-15 |
-| §9 A8 | Resubmission attaches as a new version | merged | DESK-015, FLD-012 | P-15 |
+| §9 A3 | Queue row for a multi-item case | refined | DESK-014 (extends DESK-002) | P-15 |
+| §9 A8 | Resubmission attaches as a new version | merged | DESK-015 (replaces DESK-006 (prefix SUPERSEDED on a real landing)), FLD-012 (replaces FLD-005 (prefix SUPERSEDED on a real landing)) | P-15 |
 | §9 A10 | Manual verification with method and result | refined | DESK-017 | P-08, P-19 |
-| §9 A11, A15 | Evidence records in the audit view; the correction record | refined | DESK-018 | P-20, P-21 |
-| §9 A13 | Permissions and masking | merged | DESK-020, FLD-012, FLD-013 | P-20 |
-| §9 A7 | Field open items with capture allowed | refined | FLD-011 | D-006 |
-| §6 R1, R4, R9 configuration lists | Field list; resolvable on site; retry limit, method and result lists | deferred | policy rows marked proposed until production matches | P-07, D-006, D-007, P-08 |
+| §9 A11, A15 | Evidence records in the audit view; the correction record | refined | DESK-018 (extends DESK-009); regulated action: record retention (A11); identity verification (A15) | P-20, P-21 |
+| §9 A13 | Permissions and masking | merged | DESK-020 (extends DESK-010), FLD-012, FLD-013 | P-20 |
+| §9 A7 | Field open items with capture allowed | refined | FLD-011 (replaces FLD-005 (prefix SUPERSEDED on a real landing)) | D-006 |
+| §6 R1, R4, R9 configuration lists | Field list; resolvable on site; retry limit, method and result lists | deferred | policy rows marked proposed until production matches | P-07, D-006, D-008, P-08 |
 | §6 R8 pause rules | Window pauses from visit request to capture; runs on provider failure | deferred | `context/policies/service-levels.md#clock rules` | P-17 |
 | §6 R12, R13 | Masking and retention | not applicable | already in `context/policies/data-handling-and-retention.md` | P-20 |
-| §7 evidence kept | One suffix "— regulated action: <row>" per surface row it serves | refined | HUB-014, HUB-015, DESK-016 to DESK-020, FLD-012, FLD-013 | — |
+| §7 evidence kept | One suffix "— regulated action: <row>" per surface row it serves | refined | HUB-014, HUB-015, HUB-017, DESK-016 to DESK-020, FLD-012, FLD-013 | — |
 | §8 Harbor RESTRICTED; Field PROVIDER-FAILED | Cannot occur on that surface | not applicable | — | — |
 | §12 Data and events | Four new events; new data points | deferred | `context/05-numbers-data-and-traps.md` event list, after trigger 2 | P-14 |
 
@@ -90,3 +90,21 @@ last_updated: 2026-11-02
 rows + 1 data row = 25 PRD rows; 21 table rows cover them (criteria grouped where one row serves
 several). Unmapped: 0. QA rows that would flip to `Current` and the three that stay `Planned`
 are listed in `internal/land-rehearsal.md` section 6; the catalogs were not changed.
+
+## v1.0 → v1.1
+
+> PRD v1.1 (in review) folds four behaviours into existing criteria and changes one visibility
+> rule. No criterion is added. The surface rows at rehearsal keep the v1.0 wording; a real
+> landing writes the v1.1 wording.
+
+| Behaviour folded in v1.1 | Criterion | Rule | Surface row at rehearsal | QA rows |
+|---|---|---|---|---|
+| Missing template: the reason text shows alone; the gap is reported to the customer lane | A4 | R3 | HUB-013 | HUB-REW-008 |
+| Missed visit: the customer is told and may upload; the visit switch off per region; a second return reopens the visit path | A6 | R5 | none: A6 deferred (P-18) | HUB-REW-009 to HUB-REW-011 |
+| Provider failure with items open: sub-status unchanged; the clock stays stopped when a return stopped it | A9 | R7, R9 | HUB-017, DESK-016 | HUB-STS-001-T2, DESK-QUE-006 |
+| File during `on hold` ends the hold; a file after `Verification` is kept, not re-checked, and the customer is told | A16 | R8, R11 | HUB-016 | HUB-STS-004, HUB-STS-005, DESK-QUE-003, DESK-QUE-007 |
+| Consent record visibility: v1.0 gave it to the compliance officer and the ops lead; v1.1 gives it to the compliance officer only. The delete-after date stays with both | §8 RESTRICTED | — | DESK-019 | DESK-AUD-002 |
+
+D-008 (PENDING) supersedes D-007: the retries, the clock and the manual verification after the last
+retry. The point where the verification clock resumes is open; `context/policies/service-levels.md`
+does not state it.

@@ -10,7 +10,7 @@ and one fictional company run through a feature end to end, so you can see every
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-MIT-blue" alt="Licence MIT"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-0.1.1-lightgrey" alt="Version 0.1.1"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-0.1.2-lightgrey" alt="Version 0.1.2"></a>
   <a href="#start-in-sixty-seconds"><img src="https://img.shields.io/badge/Claude_Code-plugin-informational" alt="Claude Code plugin"></a>
   <a href="docs/09-running-your-agent.md"><img src="https://img.shields.io/badge/Codex-same_layout-informational" alt="Codex-compatible layout"></a>
   <a href="https://github.com/DvJ4Y/shipwright/stargazers"><img src="https://img.shields.io/github/stars/DvJ4Y/shipwright" alt="Stars"></a>
@@ -26,11 +26,11 @@ and one fictional company run through a feature end to end, so you can see every
   <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
-![The worked feature as a story: the quote, the officer returning a document, a provider failure that never declines, the replacement accepted, one policy](docs/images/story.gif)
+![The worked feature as a story: the quote, the officer returning a document, a provider failure that never declines, a plain reason and routes for the customer, the replacement accepted, one policy](docs/images/story.gif)
 
-<p align="center"><sub>Five beats from the worked feature's story. Product vision, not shipped; every number is a demo number.
+<p align="center"><sub>Six beats from the worked feature's story. Product vision, not shipped; every number is a demo number.
 <a href="products/desk/verification-outcome-and-rework/showcase/story-script.md">The twelve-beat script</a> ·
-<a href="products/desk/verification-outcome-and-rework/showcase/story-v1.mp4">the full video</a>.</sub></p>
+<a href="products/desk/verification-outcome-and-rework/showcase/story-v2.mp4">the full video</a>.</sub></p>
 
 ## Who it is for
 
@@ -72,7 +72,7 @@ Every artifact from one feature run through the loop, in the order the loop prod
 | Discovery | [Business case and verdict](products/desk/verification-outcome-and-rework/internal/discovery.md) |
 | Requirements | [PRD](products/desk/verification-outcome-and-rework/shared/prd.md) — WHAT and WHY, sixteen observable criteria |
 | Review | [Six-lens gate report](products/desk/verification-outcome-and-rework/internal/review-2026-11-02-gate.md) |
-| Wireframe | [Desk rework queue, L0](products/desk/verification-outcome-and-rework/mockups/desk-rework-queue-v1.mockup.html) — one data chip per field |
+| Wireframe | [Desk rework queue, L0](products/desk/verification-outcome-and-rework/mockups/desk-rework-queue-v2.mockup.html) — one data chip per field |
 | Handoff | [Engineering brief](products/desk/verification-outcome-and-rework/shared/eng-brief.md) · [issue pack](products/desk/verification-outcome-and-rework/internal/issue-pack.md) |
 | Land | [Land rehearsal](products/desk/verification-outcome-and-rework/internal/land-rehearsal.md) — what `/land` writes back when it ships |
 

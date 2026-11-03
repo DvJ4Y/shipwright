@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 — the worked example, end to end at v1.1
+
+- **PRD and brief v1.1, approved** after a second six-lens gate (`internal/review-2026-11-04-gate.md`): the missing-template fallback, the officer-run retries until the retry queue is live, the missed visit, the regional visit switch, lapse and concurrent capture, consent for the identity re-run. Issue pack v1.1; readiness re-checked.
+- **Mockups v2** for Harbor, Desk and Field, and the data packet refreshed to 40 points; the chip check passes.
+- **Story v2**, re-recorded: three identity-check attempts, the clock that stays stopped, a plain reason and every route for the customer, the manual verification. The README GIF is cut from it.
+- **QA** rows for every state the PRD names, and for the v1.1 additions. **Context**: surface files, the regulated-actions register and the metrics dictionary aligned; D-008 restates the retry rule.
+
 ## 0.1.1 — the front page
 
 - **README** — a centred header with the icon, a navigation row, a "Look first" table that walks the worked feature artifact by artifact, the three diagrams as rendered images, and links on every path.

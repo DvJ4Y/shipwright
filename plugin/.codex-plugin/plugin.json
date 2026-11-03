@@ -1,6 +1,6 @@
 {
   "name": "shipwright",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Product-management skills, read-only reviewer agents and session hooks: intake, questions, PRDs, mockups, reviews, decisions, handoffs and landing.",
   "author": { "name": "Shipwright contributors" },
   "license": "MIT",

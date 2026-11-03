@@ -13,6 +13,8 @@ last_updated: 2026-11-02
 # Field — current behaviour
 
 > Last verified: 2026-11-02
+>
+> Worked feature: PRD v1.1 in review; FLD-011 to FLD-013 are at rehearsal; nothing has shipped.
 
 This table is the durable requirements layer for Field. One row per observable behaviour
 that is live. The `land` skill appends rows here when a PRD reaches `shipped`, then sets the
@@ -35,8 +37,8 @@ verifiers and referral agents — who never see each other's screens.
 | FLD-008 | When a referral agent opens a referral, then the stage and sub-status are shown with a one-line meaning; rework reason codes are not shown | pre-pack (no PRD in this repo) | 2026-09 |
 | FLD-009 | When a referred case moves to `on hold`, then the agent receives a notification naming the referred customer and that a customer action is pending | pre-pack (no PRD in this repo) | 2026-09 |
 | FLD-010 | When a referred policy is issued, then the commission ledger shows the amount, the policy reference and the expected payout month | pre-pack (no PRD in this repo) | 2026-09 |
-| FLD-011 | When a field verifier opens an assigned case, then every open rework item is listed with the document, the reason, what the officer needs to see and whether it may be captured on site, and the capture action is disabled for reasons not resolvable on site (default `mismatched`) | products/desk/verification-outcome-and-rework/shared/prd.md (A7; extends FLD-005) | rehearsal 2026-11-02 |
-| FLD-012 | When a field verifier sends a replacement, then the item shows `pending send` without network and `replacement sent` once sent, a multi-photo item cannot be sent until every slot is filled, the capture attaches as a new version of the same document, and after send the verifier cannot open any capture, including the offline copy — regulated action: record retention | products/desk/verification-outcome-and-rework/shared/prd.md (A8, A13; extends FLD-005) | rehearsal 2026-11-02 |
+| FLD-011 | When a field verifier opens an assigned case, then every open rework item is listed with the document, the reason, what the officer needs to see and whether it may be captured on site, and the capture action is disabled for reasons not resolvable on site (default `mismatched`) | products/desk/verification-outcome-and-rework/shared/prd.md (A7; replaces FLD-005 (prefix SUPERSEDED on a real landing)) | rehearsal 2026-11-02 |
+| FLD-012 | When a field verifier sends a replacement, then the item shows `pending send` without network and `replacement sent` once sent, a multi-photo item cannot be sent until every slot is filled, the capture attaches as a new version of the same document, and after send the verifier cannot open any capture, including the offline copy — regulated action: record retention | products/desk/verification-outcome-and-rework/shared/prd.md (A8, A13; replaces FLD-005 (prefix SUPERSEDED on a real landing)) | rehearsal 2026-11-02 |
 | FLD-013 | When any Field screen shows a case, then the identity number is never shown, and a referral agent sees stage and sub-status only — regulated action: identity verification | products/desk/verification-outcome-and-rework/shared/prd.md (A13) | rehearsal 2026-11-02 |
 
 ## Reading the columns
@@ -45,13 +47,17 @@ verifiers and referral agents — who never see each other's screens.
 |---|---|
 | `ID` | `FLD-nnn`, append-only |
 | `Behaviour` | One observable "When … then …" sentence, scoped to verifier or agent. A behaviour that performs a regulated action ends with "— regulated action: <register row>" |
-| `Source PRD` | The PRD path under `products/field/…/shared/`; `pre-pack` for behaviour that predates this repo |
-| `Landed on` | The date the behaviour reached production (`YYYY-MM-DD`, written by `land`; pre-pack rows carry a month) |
+| `Source PRD` | The PRD path under `products/…/shared/`; the worked feature's PRD (v1.1, in review) sits under `products/desk/`; `pre-pack` for behaviour that predates this repo |
+| `Landed on` | The date the behaviour reached production (`YYYY-MM-DD`, written by `land`; pre-pack rows carry a month). `rehearsal 2026-11-02` marks a row from the worked feature's PRD (v1.1, in review) that has not shipped. A rehearsal never prefixes a row |
 
 ## Gaps the table makes visible
 
-- FLD-005 does not state which rework reasons a verifier may resolve on site; the worked
-  feature decides this (`D-006`).
-- No row covers the verifier's view of a `provider-failed` identity check.
+- FLD-005 does not state which rework reasons a verifier may resolve on site. FLD-011 states
+  it from the PRD, v1.1 in review. Default: `mismatched` is not resolvable on site
+  (`D-006` PENDING).
+  FLD-011 and FLD-012 replace FLD-005 (prefix SUPERSEDED on a real landing) and are at
+  rehearsal. Nothing has shipped, so FLD-005 is the live row.
+- No row covers the verifier's view of a `provider-failed` identity check. The PRD (v1.1)
+  drops it: the verifier does not see the identity result, so no row follows.
 - The referral agent sees no rework reason (FLD-008); whether they should is a data-handling
   decision for the compliance officer.

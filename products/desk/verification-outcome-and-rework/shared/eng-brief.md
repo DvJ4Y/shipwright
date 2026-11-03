@@ -1,7 +1,7 @@
 ---
 title: "Engineering brief: Verification outcome and rework"
 type: eng-brief
-status: in-review
+status: approved
 version: 1.1
 tier: M
 owner: product lead (ops and platform)
@@ -9,9 +9,9 @@ audience: engineering lead
 prd: prd.md v1.1
 aligned_on: —
 supersedes: v1.0
-decision_refs: []
+decision_refs: [D-004, D-006, D-008, P-25, P-26, P-27, P-28, P-29, P-30, P-31, P-32, P-33]
 why: Lets the engineering lead design the rework, correction, visit and provider-failure paths without inventing a business rule
-last_updated: 2026-11-03
+last_updated: 2026-11-04
 ---
 
 # Engineering brief: Verification outcome and rework
@@ -20,7 +20,9 @@ last_updated: 2026-11-03
 
 ## 1. Capability
 
-A returned document is fixed once. The verification officer returns a document with a reason code and, on `mismatched`, the field that differs; the item carries the requirement in plain words. The customer sees one list per case with the detail, the requirement, the accepted alternatives and recovery paths: a new upload, a corrected detail, a field visit, a second look, a person. The field verifier captures replacements on site for the reasons allowed. A provider failure is shown, never declines, and ends in a recorded manual verification. Outcome `VER-M2`, 31 hours (`example`) → 18 hours (`target`); guardrails `VER-M1`, `REW-G1`, `VER-G1`; anti-metrics `REW-A1`, `REW-A2`. See the PRD's "Non-goals" and "Information, permissions and audit". Volumes: 5 verification officers, 9 field verifiers across 3 regions, 240 policies issued in September (`example`).
+Use this brief to propose the design for the rework, correction, visit and provider-failure paths, and bring the questions in section 10 to the alignment conversation.
+
+A returned document is fixed once. The verification officer returns a document with a reason code and, on `mismatched`, the field that differs; the item carries the requirement in plain words. The customer sees one list per case with the detail, the requirement, the accepted alternatives and recovery paths: a new upload, a corrected detail, a field visit, a second look, a person. The field verifier captures replacements on site for the reasons allowed. A provider failure is shown, never declines, and ends in a recorded manual verification. Outcome `VER-M2`, 31 hours (`example`) → 18 hours (`target`); guardrails `VER-M1`, `REW-G1`, `VER-G1`; anti-metrics `REW-A1`, `REW-A2`. See the PRD's "Non-goals" and "Information, permissions and audit". Volumes: 5 verification officers, 9 field verifiers across 3 regions, 240 policies issued in one month (`example`).
 
 ## 2. Reuse — what exists
 
@@ -40,7 +42,7 @@ A returned document is fixed once. The verification officer returns a document w
 | Open-item count on the queue row | derived — open `h_rework_item` rows per case; FLD-001 shows it | existing (derived) | the Desk row adds the count and how many await re-check (R10, A3) |
 | Provider result and attempts | `h_verification.provider_result`; attempt count: new — no location; HUB-009, DESK-002 | existing; new | PROVIDER-FAILED on the row; attempt count shown to the officer (R9) |
 | Manual verification method and result | new — no location | new | one pick each after the retry limit (R9) |
-| Audit events and evidence references | `h_audit_event` (action, actor role, time, evidence reference); DESK-009 — **trap:** `metadata` has been empty since the August release (`example`) | existing | new actions: round raised, replacement captured, correction, manual verification, each provider attempt, full-value identity views (section 6) |
+| Audit events and evidence references | `h_audit_event` (action, actor role, time, evidence reference); DESK-009 — **trap:** `metadata` has been empty since an earlier release (`example`) | existing | new actions: round raised, replacement captured, correction, manual verification, each provider attempt, full-value identity views (section 6) |
 | Consent record | `h_audit_event` rows with the consent action; channel and language: location unknown (the metadata trap) | existing; channel and language new | shown to the customer as what was agreed, when, on which channel (A12) |
 | Identity number and masking | `h_customer.identity_number`; the data-handling policy | existing | full on the verification screen only; each full-value view is an audit event (R12) |
 | Delete-after date | derived — policy end plus the retention period; unissued cases: last customer action plus the period | new (derived) | visible to the compliance officer in the audit view (R13) |
@@ -79,15 +81,15 @@ A returned document is fixed once. The verification officer returns a document w
 | 2 | state | PARTIAL — some items await re-check; `mismatched` picked without the field | "N of M still to send"; save not permitted until the field is set (R1, R10) | A1, A3 |
 | 3 | state | MISSING — pre-feature item without a field; consent without channel or language; manual verification without a method | "not recorded", never a blank; no backfill (R1, A12, §8) | A3, A12 |
 | 4 | state | RESTRICTED — support agent, referral agent, officer's audit view, Field | Actions disabled per DESK-010; stage and sub-status only for the agent; own actions only; capture disabled for `mismatched` (R12, §8) | A7, A13 |
-| 5 | state | PROVIDER-FAILED — with and without open rounds | Row flag; clock paused, or still stopped when a return stopped it; sub-status unchanged; combined customer message; no decline; attempt evidence (R7, R9) | A9 |
+| 5 | state | PROVIDER-FAILED — with and without open rounds, and on hold | Row flag; the verification clock pauses from the first failed attempt until the provider answers or manual verification starts, or stays stopped when a return stopped it; sub-status unchanged; the case stays in the provider-failed filter on hold; combined customer message; no decline; attempt evidence (R7, R9, R11) | A9, A10 |
 | 6 | state | REWORK — item states per surface | `pending send` → `replacement sent` → `attached` → `accepted` (PRD §8 item states) | A8, A14 |
 | 7 | state | ON HOLD and LAPSED | Window ends → `on hold`, item stays open, four-part message with the lapse date; 30 days (`example`) → `lapsed`, start again with documents kept (R8, R11, R14) | A16 |
-| 8 | failure | **provider timeout** — no answer within 90 seconds (`example`) | Case keeps its sub-status; three attempts in all — the first call and two retries (`example`); retries per the configured limit; customer told nothing is needed; after the limit the officer records method and result; `not matched` → identity proof returned as `mismatched` (R9; the eligibility and verification context) | A9, A10 |
+| 8 | failure | **provider timeout** — no answer within 90 seconds (`example`) | Counts as a failed attempt; three attempts in all; until the automatic retry queue is live the officer runs the two retries from the identity panel, after it is live they run without the officer; customer told nothing is needed; after the third failure the officer records method and result; `not matched` → identity proof returned as `mismatched` (R9) | A9, A10 |
 | 9 | failure | **duplicate submission** — the customer uploads twice, or a capture is sent twice after a sync, in the same round | One item, one version update, one notification (R10) | A8 |
 | 10 | failure | **resubmission after close** — a file arrives after `on hold`, `lapsed`, or after the case left `Verification` | `on hold`: hold ends, case returns at its original position; `lapsed`: re-enter at `Quote`, documents offered for reuse; later stage: kept as a new version, not re-checked, customer told (R11) | A16, A8 |
-| 11 | failure | **concurrent action** — the officer records `accepted` while a field capture is being sent for the same item | Only the officer closes an item, so the item stays closed; the capture attaches as a new version; both actions appear in the audit view (R10, A8, A11) | A8, A11, A14 |
-| 12 | failure | A template for the reason code and language is missing | The reason text shows alone; the gap is reported to the customer lane (R3) | A4 |
-| 13 | failure | The visit path is switched off for the region, or the inspection task misses its commitment | Not offered: the customer sees upload and "talk to our team"; missed: the customer is told and may upload; a second return reopens the visit path (R5) | A5, A6 |
+| 11 | failure | **concurrent action** — the officer records `accepted` while a field capture is being sent for the same item | The item stays closed; the capture is kept as a new version, is not re-checked, and the customer is not asked again; both actions appear in the audit view (R10) | A8, A11, A14 |
+| 12 | failure | A template for the reason code and language is missing | Only the requirement line falls back to the reason-code label in the case language; every path, the send-by window and "talk to our team" still show; the message text version records the fallback; the product lead (customer) receives the weekly count (R3) | A4 |
+| 13 | failure | The visit path is switched off for the region, or the visit misses its expected day | Switch off: no visit is offered, including on a second return. Missed: the customer is told on WhatsApp and the status page, offered a rebooked visit and an upload, and the send-by window resumes from the missed day (R5, R8, R14) | A5, A6 |
 | 14 | failure | A corrected address changes the tier, or the re-run returns `refer` or `declined` | Premium warning before confirmation; the eligibility screens with the recovery path after (R6, HUB-005, HUB-006) | A15 |
 | 15 | integration | identity-check provider — a correction to name or date of birth | The identity check runs again with its own attempts and evidence (R6, R9) | A15, A9 |
 | 16 | integration | WhatsApp BSP — the rework, visit, second-return, hold and lapse messages | One line per document plus the link; templates per language; every message carries "talk to our team" (R2, R14) | A4, A16 |
@@ -97,9 +99,9 @@ A returned document is fixed once. The verification officer returns a document w
 
 | Dependency | Owner | Status | Constraint it adds |
 |---|---|---|---|
-| identity-check provider | the engineering lead | live; 90-second timeout (`example`); automatic retry queue in UAT (C4) | retries and the attempt count depend on C4; without it A9 ships with today's by-hand retry |
+| identity-check provider | the engineering lead | live; 90-second timeout (`example`); automatic retry queue in UAT | retries and the attempt count depend on C4; without it A9 ships with today's by-hand retry |
 | WhatsApp BSP | the engineering lead | live; templates per stage and language | new templates per reason code; one line per document plus the link |
-| Field inspection tasks; capture from the checklist (C5) | the engineering lead | live; C5 in build | visit requests join or create a task; A7 and A8 extend the live capture (FLD-005) |
+| Field inspection tasks; capture from the checklist | the engineering lead | live; checklist capture in build | visit requests join or create a task; A7 and A8 extend the live capture (FLD-005) |
 | the eligibility engine re-run on verified data | the engineering lead | live | a correction re-runs it; engine rows are never first passes |
 | event analytics on Desk | the engineering lead | not covered today | two Desk events are new instrumentation |
 | the BI tool rework and verification views | the product lead (ops and platform) | live | readings split by recovery path and reason code; two dictionary rows restated to count rounds |
@@ -139,7 +141,8 @@ Schema · APIs · component design · migration · rollout mechanics · test pla
 | Where do consent channel and language live while the audit metadata is empty? | Engineering to decide; the outcome is the four-part consent record (section 6) |
 | How does a visit request join an existing inspection task? | Engineering to decide; the outcome is one task per case with the item listed (R5) |
 | What is "the same round" for de-duplication? | From the raise until the officer records a re-check outcome on that round (R10) |
-| Does an identity re-run after a name correction count toward the retry limit? | No — it is a new check with its own attempts and evidence (R6, R9) |
-| May the officer open the return panel while the identity result is provider-failed? | Yes, for any document other than the identity proof; never for the identity proof (R9) |
+| Does an identity re-run after a name correction count toward the retry limit? | No — a re-run starts a new set of three attempts with its own evidence (R6, R9) |
+| May the officer open the return panel while the identity result is provider-failed? | Yes for any other document. Not for the provider failure itself; the identity proof is returned only after a manual `not matched` (R9) |
 | Is the rework view a saved filter or a new state? | Engineering to decide; it must show the same rows as the queue (R11) |
-| What does the customer see when the region's visit switch is off? | The upload path and "talk to our team"; the visit path is absent, not disabled (R5, §8 RESTRICTED) |
+| What does the customer see when the region's visit switch is off? | Upload, take another look where it applies, and "talk to our team"; the visit path is absent, not disabled, also on a second return (R5) |
+| Who retries the identity check before the automatic retry queue is live? | The verification officer, from the identity panel, twice; each retry writes its attempt record; manual verification opens after the third failure (R9) |

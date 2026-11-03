@@ -41,10 +41,14 @@ This register covers the distributor's obligations only.
 
 ## The worked feature
 
-`products/desk/verification-outcome-and-rework/` touches identity verification (the
-provider-failed case and manual verification), consent and disclosure (the rework message
-names the rule that fired and asks nothing new without consent) and record retention (every
-rework item and replacement capture is an audit event).
+`products/desk/verification-outcome-and-rework/` touches three rows. For each, the register
+holds the evidence its table names:
+
+| Row | Where the feature touches it | Evidence the register holds |
+|---|---|---|
+| Identity verification | the provider-failed case; manual verification; a corrected name or date of birth | provider response reference, result, time, officer role; manual method where used |
+| Consent and disclosure | the rework message asks for nothing outside the consented checklist | consent text version, time, channel, language |
+| Record retention | every rework round and replacement capture | retention schedule per record; deletion audit event |
 
 ## What is not here
 

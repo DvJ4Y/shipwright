@@ -1,0 +1,305 @@
+<!doctype html>
+<!--
+status: draft
+version: 2
+supersedes: field-replacement-capture-v1.mockup.html
+decision_refs: [D-006]
+why: Redraws the route, case screen and capture against PRD v1.1 — count on the route, reason and tip on the case, mismatched visible with capture disabled, capture-only after send — with every field traced to internal/data-packet.csv
+last_updated: 2026-11-04
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>verification-outcome-and-rework — Field · capture everything in one visit · L0 data contract · v2</title>
+<style>
+  :root{
+    --ink:#1b1b1b; --ink-2:#4a4a4a; --ink-3:#6e6e6e;
+    --line:#c9c9c9; --line-2:#e2e2e2;
+    --bg:#ffffff; --box:#f4f4f4; --box-2:#ececec; --box-3:#dcdcdc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:28px;background:var(--bg);color:var(--ink);
+       font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  h1{font-size:19px;margin:0 0 4px}
+  h2{font-size:15px;margin:0;padding:10px 12px;border:1px solid var(--line);
+     background:var(--box-2);text-transform:uppercase;letter-spacing:.04em}
+  h3{font-size:13px;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2)}
+  .meta{color:var(--ink-3);font-size:12px;margin:0 0 20px}
+
+  /* frame = one screen; state = one state block inside it */
+  .frame{border:1px solid var(--line);margin:0 0 26px;background:var(--bg)}
+  .framehead{padding:10px 12px;border-bottom:1px solid var(--line);background:var(--box-2)}
+  .framehead .sub{font-size:12px;color:var(--ink-2);margin-top:3px}
+  .state{border-top:1px solid var(--line-2);padding:0 12px 14px}
+  .strip{margin:0 -12px 12px;padding:5px 12px;background:var(--box-3);
+         font-size:11px;font-weight:700;letter-spacing:.09em}
+  .note{font-size:12px;color:var(--ink-2);margin:6px 0}
+
+  /* fields */
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .grid.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .f{border:1px solid var(--line-2);background:var(--box);padding:8px 9px}
+  .f .lbl{font-size:12px;font-weight:600}
+  .f .val{font-size:13px;color:var(--ink-2);margin:3px 0 5px;min-height:17px}
+  .f.ro{background:var(--box-2)}                    /* read-only on this surface */
+  .f.req .lbl:after{content:" *";color:var(--ink)}  /* required */
+  .chip{display:block;font:10px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;
+        color:var(--ink-3);border-top:1px dashed var(--line);padding-top:4px;word-break:break-word}
+
+  /* repeating rows, lists, actions */
+  .row{border:1px solid var(--line-2);background:var(--box);padding:8px 9px;margin:0 0 8px}
+  .btn{display:inline-block;border:1px solid var(--ink-2);background:var(--bg);
+       padding:5px 11px;font-size:12px;margin:0 6px 6px 0}
+  .btn.pri{background:var(--box-3)}
+  .btn.off{border-color:var(--line);color:var(--ink-3)}   /* disabled / not permitted */
+  .tag{display:inline-block;border:1px solid var(--line);background:var(--box-2);
+       padding:1px 6px;font-size:11px;margin-right:5px}
+  .slot{border:1px dashed var(--line);background:var(--bg);padding:18px 9px;text-align:center;
+        font-size:12px;color:var(--ink-3);margin:0 0 8px}
+
+  table{border-collapse:collapse;width:100%;font-size:12px;margin:8px 0}
+  th,td{border:1px solid var(--line-2);padding:5px 7px;text-align:left;vertical-align:top}
+  th{background:var(--box-2);font-weight:600}
+
+  .page{max-width:480px}                                                  /* customer web frames */
+  .phone{max-width:360px;border:1px solid var(--line);margin-bottom:26px} /* field app frames */
+  .cols{display:grid;grid-template-columns:180px minmax(0,1fr);gap:0}     /* console shell */
+  .cols .nav{border-right:1px solid var(--line-2);background:var(--box);padding:10px;font-size:12px}
+  .cols .nav div{padding:4px 0}
+  .cols .nav .sel{font-weight:700;text-decoration:underline}
+  .cols .body{padding:0 12px 12px}
+  .legend{border:1px solid var(--line);background:var(--box);padding:10px 12px;margin:0 0 22px;font-size:12px}
+</style>
+</head>
+<body>
+
+<h1>Verification outcome and rework — Field</h1>
+<p class="meta">L0 data contract · surface: Field (field verifier) · products/desk/verification-outcome-and-rework · v2 · status: draft · screenshot check: not run · 360 px phone frame · variation axis: Screen</p>
+
+<div class="legend">
+  <p><strong>Feature:</strong> verification-outcome-and-rework · <strong>Surface:</strong> Field, field verifier role (referral agent where the role changes the screen) · <strong>Outcome:</strong> the verifier sees every open item on the assigned case, knows which may be captured, and captures everything in one visit; capture-only · <strong>Context:</strong> drawn against <code>shared/prd.md</code> v1.1 (§4, R1–R14, §7, §8, A1–A16); <code>context/</code> last verified 2026-11-02.</p>
+  <p><strong>Drawn against:</strong> <code>context/surfaces/field/current-behaviour.md</code> rows FLD-001 to FLD-006, FLD-008, FLD-009 (2026-11-02). No production screenshot is in this repo; the shell is derived from those rows. <strong>Changed from v1:</strong> a route frame (S1) carries the open-item count only; the reason, the tip and capture allowed move to the case screen (S2), per the PRD crosswalk; counts are items with no resubmission, as "N of M still to send" (R10); the <code>mismatched</code> item stays visible with capture disabled and the field that differs (R12); a visit request shows as a task on the route; after send no capture can be opened, including the offline copy (R12); the identity number is never shown and has no field.</p>
+  <p>Greyscale wireframe. Fictional data. Fixtures are labelled examples, not verified calculations, approved policy or working integrations.</p>
+  <p><strong>Chip:</strong> <code>[ POINT-ID · unit/type · provenance · current storage · disposition ]</code> — every chip resolves to a row in <code>internal/data-packet.csv</code>. Strips: EMPTY · PARTIAL · MISSING · RESTRICTED · PROVIDER-FAILED · REWORK — meanings in <code>tools/wireframe-kit/kit.md</code>.</p>
+  <p><strong>Copy:</strong> Field ships in English (internal surface). Nothing on these screens is shown to the customer.</p>
+</div>
+
+<!-- ============================================================ S1 -->
+<div class="frame phone" id="field-s1">
+  <div class="framehead">
+    <h2>S1 · Today's route</h2>
+    <div class="sub">Actor: field verifier · Entry: open the day (FLD-001) · Exit: a case (S2)</div>
+  </div>
+
+  <!-- REWORK -->
+  <section class="state" id="field-s1-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">The route shows the open-item count per case (FLD-001). The reason and the tip are on the case screen, not here.</p>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0001</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Shop</div><div class="val">Customer A — grocery, 12 Market Road</div><span class="chip">[ CUS-02 · text · customer · h_customer.full_name · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send</div><div class="val">2 of 2</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+      <span class="btn pri">Open case</span>
+    </div>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0003</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Task</div><div class="val">replacement capture — the customer asked for a visit · expected Thu 6 Nov (example)</div><span class="chip">[ RWK-12 · request; expected day · customer · none — no current path established · proposed new ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send</div><div class="val">1 of 1</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+      <span class="btn pri">Open case</span>
+    </div>
+    <p class="note">R5: a visit request creates this task, or adds the item to an existing inspection task. If the customer uploads first, the task closes and the verifier is told.</p>
+  </section>
+
+  <!-- EMPTY -->
+  <section class="state" id="field-s1-empty">
+    <div class="strip">EMPTY</div>
+    <p class="note">An inspection with no returned document. Shown as a sentence, never a zero.</p>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0002</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send</div><div class="val">None open — inspection only</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    </div>
+  </section>
+
+  <!-- PARTIAL -->
+  <section class="state" id="field-s1-partial">
+    <div class="strip">PARTIAL</div>
+    <p class="note">One of two items was sent from this visit. The count drops at send, not at capture (R10).</p>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Case</div><div class="val">CASE-REF-0001</div><span class="chip">[ CUS-01 · id · derived · h_case.reference · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Still to send</div><div class="val">1 of 2</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    </div>
+  </section>
+
+  <!-- RESTRICTED -->
+  <section class="state" id="field-s1-restricted">
+    <div class="strip">RESTRICTED</div>
+    <p class="note">Referral agent's view of a case on hold (FLD-008, FLD-009, A13). Stage and sub-status only; no items, no reasons, no count.</p>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Customer</div><div class="val">Customer A</div><span class="chip">[ CUS-02 · text · customer · h_customer.full_name · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Stage · sub-status</div><div class="val">Verification · on hold</div><span class="chip">[ VER-01 · enum: open | on hold | rework | declined | cancelled | lapsed · ops · h_case.sub_status · reuse ]</span></div>
+    </div>
+  </section>
+
+  <!-- MISSING · PROVIDER-FAILED -->
+  <section class="state" id="field-s1-missing">
+    <div class="strip">MISSING</div>
+    <p class="note"><strong>Not applicable on this screen.</strong> The route carries the count only; a missing item is named on S2 MISSING.</p>
+  </section>
+  <section class="state" id="field-s1-provider-failed">
+    <div class="strip">PROVIDER-FAILED</div>
+    <p class="note"><strong>Not applicable on this screen.</strong> The field verifier does not see the identity result (PRD crosswalk; §8 PROVIDER-FAILED: Field not applicable).</p>
+  </section>
+</div>
+
+<!-- ============================================================ S2 -->
+<div class="frame phone" id="field-s2">
+  <div class="framehead">
+    <h2>S2 · Case — open items</h2>
+    <div class="sub">Actor: field verifier, assigned case · Entry: S1 → case · Exit: capture an item (S3), or the inspection checklist</div>
+  </div>
+
+  <!-- REWORK -->
+  <section class="state" id="field-s2-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">A7. Every open item is listed with the document, the reason, what the officer needs to see and whether it may be captured.</p>
+    <div class="f ro"><div class="lbl">Still to send</div><div class="val">2 of 2</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    <h3>Item 1</h3>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Document</div><div class="val">Shop licence</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Reason</div><div class="val">unreadable</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">What the officer needs to see</div><div class="val">Licence number and shop name readable; all four corners in frame</div><span class="chip">[ DOC-04 · text per item · config · config — Field slot text (FLD-002) · extend ]</span></div>
+      <div class="f ro"><div class="lbl">Capture on site</div><div class="val">Yes</div><span class="chip">[ RWK-10 · yes | no per reason code · config · none — no current path established · configure ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement</div><div class="val">not started</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+      <span class="btn pri">Capture replacement</span>
+    </div>
+    <h3>Item 2</h3>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Document</div><div class="val">Address proof</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Reason</div><div class="val">mismatched</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Field that differs</div><div class="val">shop address</div><span class="chip">[ RWK-02 · enum of case-record fields · ops · none — no current path established · proposed new ]</span></div>
+      <div class="f ro"><div class="lbl">Capture on site</div><div class="val">No — not resolvable on site</div><span class="chip">[ RWK-10 · yes | no per reason code · config · none — no current path established · configure ]</span></div>
+      <span class="btn off">Capture replacement</span>
+      <p class="note">Visible so the verifier knows it is open; capture is disabled (A7, default <code>mismatched</code>). The record value is not shown on Field (§7).</p>
+    </div>
+    <span class="btn">Open inspection checklist</span>
+  </section>
+
+  <!-- EMPTY -->
+  <section class="state" id="field-s2-empty">
+    <div class="strip">EMPTY</div>
+    <p class="note">No rework item on this case (§8 EMPTY).</p>
+    <div class="f ro"><div class="lbl">Still to send</div><div class="val">None open — inspection only</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    <span class="btn pri">Open inspection checklist</span>
+  </section>
+
+  <!-- PARTIAL -->
+  <section class="state" id="field-s2-partial">
+    <div class="strip">PARTIAL</div>
+    <p class="note">One item sent from this visit, one still open: "1 of 2 still to send" (§8 PARTIAL). A sent capture cannot be opened again (R12).</p>
+    <div class="f ro"><div class="lbl">Still to send</div><div class="val">1 of 2</div><span class="chip">[ RWK-08 · count · derived · derived — h_rework_item rows per case · derive ]</span></div>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Document</div><div class="val">Shop licence</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement</div><div class="val">replacement sent</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+      <span class="btn off">Open capture — not permitted after send</span>
+    </div>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Document</div><div class="val">Stock photo set</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Reason</div><div class="val">missing</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Replacement</div><div class="val">not started</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+      <span class="btn pri">Capture replacement</span>
+    </div>
+  </section>
+
+  <!-- MISSING -->
+  <section class="state" id="field-s2-missing">
+    <div class="strip">MISSING</div>
+    <p class="note">A checklist item with no file: named with why it is needed and the tip, never a blank slot (§8 MISSING).</p>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Document</div><div class="val">Stock photo set — four photos</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Reason</div><div class="val">missing — no file on the case</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Why the insurer needs it</div><div class="val">Evidences the stock and storage for the stock sum insured</div><span class="chip">[ DOC-05 · text per item · config · config — checklist column · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">What the officer needs to see</div><div class="val">Front · interior · storage · stock register page or billing screen</div><span class="chip">[ DOC-04 · text per item · config · config — Field slot text (FLD-002) · extend ]</span></div>
+      <div class="f ro"><div class="lbl">Capture on site</div><div class="val">Yes</div><span class="chip">[ RWK-10 · yes | no per reason code · config · none — no current path established · configure ]</span></div>
+      <span class="btn pri">Capture four photos</span>
+    </div>
+  </section>
+
+  <!-- RESTRICTED -->
+  <section class="state" id="field-s2-restricted">
+    <div class="strip">RESTRICTED</div>
+    <p class="note">Capture is disabled for reasons not resolvable on site (A7). The identity number is never shown on Field and has no field on this screen (R12, A13). After send, the verifier cannot open any replacement capture, including the offline copy (R12).</p>
+    <div class="row">
+      <div class="f ro"><div class="lbl">Document</div><div class="val">Address proof</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Reason</div><div class="val">mismatched</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+      <div class="f ro"><div class="lbl">Capture on site</div><div class="val">No — not permitted for this reason</div><span class="chip">[ RWK-10 · yes | no per reason code · config · none — no current path established · configure ]</span></div>
+      <span class="btn off">Capture replacement</span>
+    </div>
+  </section>
+
+  <!-- PROVIDER-FAILED -->
+  <section class="state" id="field-s2-provider-failed">
+    <div class="strip">PROVIDER-FAILED</div>
+    <p class="note"><strong>Not applicable on this screen.</strong> The verifier does not see the identity result. A provider failure never raises a rework item on the identity proof (R9), so no item reaches Field from it.</p>
+  </section>
+</div>
+
+<!-- ============================================================ S3 -->
+<div class="frame phone" id="field-s3">
+  <div class="framehead">
+    <h2>S3 · Capture replacement — one item</h2>
+    <div class="sub">Actor: field verifier · Entry: S2 item → Capture replacement · Exit: send → back to S2; the item attaches as a new version and the case returns to the officer's queue at its original position (A8)</div>
+  </div>
+
+  <!-- REWORK -->
+  <section class="state" id="field-s3-rework">
+    <div class="strip">REWORK</div>
+    <p class="note">Capture-only. Without network the capture shows <code>pending send</code> (FLD-004), then <code>replacement sent</code>. The resubmission time is the send time, not the capture time (R10).</p>
+    <div class="f ro"><div class="lbl">Document</div><div class="val">Shop licence</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+    <div class="f ro"><div class="lbl">Replaces</div><div class="val">DOC-REF-0001 · becomes version 2</div><span class="chip">[ DOC-03 · id + version · derived · h_document.reference · reuse ]</span></div>
+    <div class="f ro"><div class="lbl">Returned because</div><div class="val">unreadable</div><span class="chip">[ RWK-01 · enum: unreadable | mismatched | missing · ops · h_rework_item.reason_code · reuse ]</span></div>
+    <div class="f ro"><div class="lbl">What the officer needs to see</div><div class="val">Licence number and shop name readable; all four corners in frame</div><span class="chip">[ DOC-04 · text per item · config · config — Field slot text (FLD-002) · extend ]</span></div>
+    <div class="slot">[ photo slot — tap to capture ]</div>
+    <div class="f"><div class="lbl">Replacement</div><div class="val">pending send — no network</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+    <span class="btn pri">Send replacement</span>
+  </section>
+
+  <!-- PARTIAL -->
+  <section class="state" id="field-s3-partial">
+    <div class="strip">PARTIAL</div>
+    <p class="note">A8: a multi-photo item cannot be sent until every slot is filled (the mandatory-slot rule, FLD-003, applied to replacement capture).</p>
+    <div class="f ro"><div class="lbl">Document</div><div class="val">Stock photo set — 2 of 4 photos</div><span class="chip">[ DOC-01 · enum: checklist item · config · h_document.checklist_item · reuse ]</span></div>
+    <div class="slot">[ front — captured ]</div>
+    <div class="slot">[ interior — captured ]</div>
+    <div class="slot">[ storage — empty ]</div>
+    <div class="slot">[ stock register page or billing screen — empty ]</div>
+    <div class="f"><div class="lbl">Replacement</div><div class="val">not started — 2 slots empty</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+    <span class="btn off">Send replacement</span>
+  </section>
+
+  <!-- RESTRICTED -->
+  <section class="state" id="field-s3-restricted">
+    <div class="strip">RESTRICTED</div>
+    <p class="note">After send this screen does not open for the item, and the offline copy is not viewable (R12). S3 never opens for an item with capture disabled.</p>
+    <div class="f ro"><div class="lbl">Replacement</div><div class="val">replacement sent — capture closed</div><span class="chip">[ RWK-09 · enum: not started | pending send | replacement sent | attached | accepted · field · h_rework_item.replacement_status · reuse ]</span></div>
+  </section>
+
+  <!-- EMPTY · MISSING · PROVIDER-FAILED -->
+  <section class="state" id="field-s3-empty">
+    <div class="strip">EMPTY</div>
+    <p class="note"><strong>Not applicable on this screen.</strong> S3 opens only from an item on S2; an item always has a document, a reason and slot text.</p>
+  </section>
+  <section class="state" id="field-s3-missing">
+    <div class="strip">MISSING</div>
+    <p class="note"><strong>Not applicable on this screen.</strong> A <code>missing</code> item is captured like any other; the absence is shown on S2 MISSING.</p>
+  </section>
+  <section class="state" id="field-s3-provider-failed">
+    <div class="strip">PROVIDER-FAILED</div>
+    <p class="note"><strong>Not applicable on this screen.</strong> See S2.</p>
+  </section>
+</div>
+
+<p class="meta">End of Field wireframe v2. Harbor: <code>harbor-verification-outcome-v2.mockup.html</code> · Desk: <code>desk-rework-queue-v2.mockup.html</code> · v1: <code>field-replacement-capture-v1.mockup.html</code>.</p>
+</body>
+</html>
