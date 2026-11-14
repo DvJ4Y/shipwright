@@ -13,7 +13,8 @@ last_updated: 2026-11-02
 
 Use this kit when a feature needs a wireframe that engineering can read as a data contract.
 The kit is `kit.md` (conventions and the style block) and `check_wireframe_data.py` (the
-check). The worked example is `products/desk/verification-outcome-and-rework/mockups/`.
+check). The worked example is
+`examples/harbor-cover/products/desk/verification-outcome-and-rework/mockups/`.
 
 ## When to use L0
 

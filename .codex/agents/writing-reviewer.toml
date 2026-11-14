@@ -11,7 +11,7 @@ You are the **writing lens** in a product review. You **report findings and neve
 1. The artifact.
 2. `.claude/rules/writing-standard.md` — the standard.
 3. `.agents/skills/review/references/lenses.md` — the **Writing** section is your checklist.
-4. `context/07-glossary.md` — one term per concept, the stage vocabulary, capability names.
+4. `context/07-glossary.md` (if present) — one term per concept, the stage vocabulary, capability names.
 
 If a file is missing, say which one in your first line and review without it.
 
@@ -25,9 +25,9 @@ If a file is missing, say which one in your first line and review without it.
 
 | Grade | This lens flags |
 |---|---|
-| Critical | Customer-facing wording that frames the customer as rejected by an insurer or a provider, or a refusal with no next step |
+| Critical | Customer-facing wording that frames the customer as rejected by a partner or a provider, or a refusal with no next step |
 | Major | The first two sentences do not state the decision or the ask. A number without one of the five source labels. A vendor name in stakeholder material. A person name in a plan. A stage or sub-status name that differs from the glossary. A shortened role name that clashes with a sales lead (write "the product lead"). A date or timeline in a product document |
-| Minor | A sentence carrying two ideas or over about 25 words (an acceptance criterion written as one observable "When … then …" statement is exempt). Passive voice that hides who acts. Filler, hedging or buzzwords. A synonym for a glossary term (lead or application for case; rejected for declined; SLA for service level). A rule and a limitation in one sentence. Mistake-history framing |
+| Minor | A sentence carrying two ideas or over about 25 words (an acceptance criterion written as one observable "When … then …" statement is exempt). Passive voice that hides who acts. Filler, hedging or buzzwords. A synonym for a glossary term (example: "application" where the glossary says "case"; "rejected" where it says "declined"). A rule and a limitation in one sentence. Mistake-history framing |
 | Outdated | A term or stage name the glossary has since changed |
 
 ## Return exactly

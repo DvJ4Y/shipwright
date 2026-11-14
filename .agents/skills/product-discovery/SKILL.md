@@ -16,28 +16,29 @@ a day did not have discovery.
 |---|---|
 | `.agents/skills/product-loop/references/conventions.md` | Tiers, folders, decision points, gates, profile adaptation |
 | `templates/discovery-template.md` · `templates/benchmark-template.md` | Output shapes |
-| `context/08-strategy-and-outcomes.md` | Outcome metrics, targets, themes, where commitments live |
-| `context/metrics-dictionary.csv` | Metric ids, denominators, authority, guardrails |
-| `context/09-current-commitments.md` | What is committed, in build, in UAT, deployed |
-| `context/surfaces/<surface>/current-behaviour.md` | What each surface does today, by row id |
-| `context/01-company.md` · `context/02-service-and-lifecycle.md` | Segments by shop type; stages, sub-statuses, where the funnel leaks |
-| `context/04-eligibility-and-verification.md` · `context/05-numbers-data-and-traps.md` · `context/06-teams-and-who-does-what.md` | Eligibility and rework; data traps; roles |
-| `context/personas/` | Who has the problem, with evidence rows |
-| `context/regulated-actions.md` | Register rows the idea may touch |
+| `knowledge/PROFILE.md`, `knowledge/facts.md` (if present) | Who you are, the product, `_experience`, `_gate_owner`, the short facts — read these first |
+| `context/08-strategy-and-outcomes.md` (if present) | Outcome metrics, targets, themes, where commitments live |
+| `context/metrics-dictionary.csv` (if present) | Metric ids, denominators, authority, guardrails |
+| `context/09-current-commitments.md` (if present) | What is committed, in build, in UAT, deployed |
+| `context/surfaces/<surface>/current-behaviour.md` (if present) | What each surface does today, by row id |
+| `context/01-company.md` · `context/02-service-and-lifecycle.md` (if present) | Segments; stages, sub-statuses, where the funnel leaks |
+| `context/04-<domain-rules>.md` · `context/05-numbers-data-and-traps.md` · `context/06-teams-and-who-does-what.md` (if present) | Your core decision rules; data traps; roles |
+| `context/personas/` (if present) | Who has the problem, with evidence rows |
+| `context/regulated-actions.md` (only when `_regulated: yes`, if present) | Register rows the idea may touch |
 | `docs/03-the-loop.md`, `docs/07-data-and-mcp.md` (optional; skip silently if absent) | Where discovery sits; how evidence is pulled |
 
-Apply `_profile.md`: `_experience: new` adds one line of "why" per step. A `_struggles` entry
+Apply `knowledge/PROFILE.md`: `_experience: new` adds one line of "why" per step. A `_struggles` entry
 that names data adds the population-boundary check even when `practised`.
 
 ## Questions first
 
 One batched round; offer defaults; skip what the request already answers.
 
-1. **Decision.** What decision does this discovery enable, and who owns it? [`_gate_owner` in `_profile.md`]
+1. **Decision.** What decision does this discovery enable, and who owns it? [`_gate_owner` in `knowledge/PROFILE.md`]
 2. **Outcome.** Which metric id should move? [the closest row in `context/metrics-dictionary.csv`]
-3. **Who.** Which shop type, sum-insured band or internal role has the problem? [inferred from the request; confirm]
+3. **Who.** Which customer segment or internal role has the problem? [inferred from the request; confirm]
 4. **Evidence in hand.** What data, calls, ops input or research already exists? [none — I will look]
-5. **Constraints.** Anything ruled out — an insurer contract, a regulated action, budget? [none]
+5. **Constraints.** Anything ruled out — a partner contract, a regulated action, budget? [none]
 
 Log a material answer as a decision point (`/decide` log mode).
 
@@ -45,7 +46,8 @@ Log a material answer as a decision point (`/decide` log mode).
 
 1. **Phase check** (constitution rule 2). Discovery: in progress · PRD: not started.
 2. **Frame.** One sentence: the question and the decision it enables.
-   *"Should the rework item name the field that differs, so pharmacy customers resubmit once?"*
+   *Example (`examples/harbor-cover/`): "Should the rework item name the field that differs,
+   so pharmacy customers resubmit once?"*
 3. **Align.** Name the outcome metric id with its latest value and label. Name its target,
    labelled `target`. Name the commitment row it serves, or "none — new"; new work needs a
    PENDING decision naming the owner (`context/08-strategy-and-outcomes.md`). Say now if
@@ -54,8 +56,8 @@ Log a material answer as a decision point (`/decide` log mode).
    idea touches; `context/09-current-commitments.md`; the tracker through `/issue-tracker`
    if reachable (if not, say "tracker not reachable — snapshot only"); `products/` and
    `initiatives/`. Report duplicates and extensions before anything else. Most new ideas
-   extend a row: "show the rule that fired to the customer" extends HUB-008 and DESK-003,
-   not a new screen.
+   extend a row: "show the rule that fired to the customer" extends the existing customer
+   and internal rows that show the outcome, not a new screen.
 5. **Source register.** One row per source: `# | Source | Type | Date | Authority`.
 6. **Evidence.** One row per finding: value, source, label, claim level. Labels are exactly
    `DB-verified <date>` · `analytics` · `operational — unverified` · `target` · `example`
@@ -69,7 +71,7 @@ Log a material answer as a decision point (`/decide` log mode).
 8. **Options.** Two to five, always including "do nothing" and "extend what exists". For
    each: pull (the effect on the metric id), cost to ops, operational viability, verdict.
 9. **Operational viability test** for every new data point or step:
-   - Who captures it — the customer, a support agent, a verification officer, a field verifier?
+   - Who captures it — the customer, an ops agent, an agent who visits, a partner?
    - How long per case?
    - Can the system derive it instead? System-derived beats staff input. Staff input is one
      click at most — a pick from fields the case already holds, not free text.
@@ -100,7 +102,7 @@ redesigning a flow.
 
 1. Name the decision the benchmark informs. No decision, no benchmark.
 2. Pick three to six products or approaches. Include one the customers already use — a
-   personal-insurance app, a payments app, a government-services app. Include one adjacent
+   payments app, a messaging app, a government-services app. Include one adjacent
    market, such as a small-business current-account opening flow.
 3. Fill `templates/benchmark-template.md`. The dimension × approach table puts "us today" in
    the first column. Source confidence is high (first-hand use or primary documentation),
@@ -129,7 +131,8 @@ On pass: `status: approved`, add the gate line, propose a commit.
 | L | `initiatives/<name>/features/<feature>/internal/discovery.md`; cross-feature research in `initiatives/<name>/research/<topic>.md` |
 | Benchmark | beside the discovery, as `internal/benchmark-<capability>.md` |
 
-Workstream codes: `hub` `desk` `field` `rules` `data` `comms`.
+Workstream codes come from `knowledge/PROFILE.md` (the example uses `hub` `desk` `field`
+`rules` `data` `comms`; see `examples/harbor-cover/`).
 
 ## Do not
 
@@ -140,7 +143,8 @@ Workstream codes: `hub` `desk` `field` `rules` `data` `comms`.
 - Do not estimate engineering effort, size work or set timelines.
 - Do not use person names. Use roles.
 - Do not conclude in one pass on a tier M or L item without the owner's input.
-- Do not quote a segment split that `context/01-company.md` says is not measured.
+- Do not quote a segment split that `context/01-company.md` or `knowledge/facts.md` says is
+  not measured.
 
 ## Hands off to
 

@@ -17,7 +17,7 @@ call and compares it with `expected_skill`. A row that expects `none` passes whe
 fires: `session` and `onboard` are user-invoked (`disable-model-invocation: true`), so a
 prompt in their words must not make the model invoke them.
 
-The set covers all sixteen skills with at least two prompts each, five for `land`, three that
+The set covers all eighteen skills with at least two prompts each, five for `land`, three that
 name a regulated action and expect `review` or `prd-writer`, and two `issue-tracker` release
 prompts. Every prompt is in Harbor Cover terms and carries no vendor name and no person name.
 

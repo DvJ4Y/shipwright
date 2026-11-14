@@ -12,17 +12,17 @@ Write the target from the intent. Return it with a back-translation and a romani
 
 | File | Gives you |
 |---|---|
-| `_profile.md` | `_customer_language` picks the pack; `_language` is the working language; `_language_review` decides the flag |
+| `knowledge/PROFILE.md` (if present) | `_customer_language` picks the pack; `_language` is the working language; `_language_review` decides the flag; `_regulated` |
 | `references/language-packs/README.md` | How a pack is built and what each file settles |
 | `references/language-packs/<code>/register.md` | Register by surface: person, address, sentence shape |
 | `references/language-packs/<code>/lexicon.md` | Term · approved wording · romanisation · banned wording · note |
 | `references/language-packs/<code>/patterns.md` | Bookish against spoken, the code-mixing rule, expansion limits, numbers, romanisation scheme |
 | `references/language-packs/<code>/app-strings.md` | The batch contract and the pack's string rules |
-| `context/design/voice.md` | The four rules, the message shape and the Never list; they hold in every language |
-| `context/07-glossary.md`, `context/personas/<card>.md` | The source terms; who reads this and how |
+| `context/design/voice.md` (if present) | The four rules, the message shape and the Never list; they hold in every language |
+| `context/07-glossary.md`, `context/personas/<card>.md` (if present) | The source terms; who reads this and how |
 | The copy table or mockup from `/product-copy` | Key, source string, context, limit |
 
-**Pack selection.** `_customer_language: <code>` in `_profile.md` names the folder
+**Pack selection.** `_customer_language: <code>` in `knowledge/PROFILE.md` names the folder
 `references/language-packs/<code>/`. A language code in the request overrides it. If the
 value is `none` or the folder does not exist, say so in the first line. Then write every
 string in the working language, flag each one `no pack — written in the working language`,
@@ -34,7 +34,7 @@ content.
 One batched round; defaults in brackets.
 
 1. **Surface and register.** Customer app, internal console, field app, messaging, voice script, training or regulatory document? [from the copy table]
-2. **Language.** Which pack? [`_customer_language` in `_profile.md`]
+2. **Language.** Which pack? [`_customer_language` in `knowledge/PROFILE.md`]
 3. **Mode.** Write one string, options, review pasted text, or batch a CSV? [options for new strings; review for pasted text; batch for a file]
 4. **Options.** How many per string? [2]
 5. **Reader.** Which persona, and will someone read it aloud? [the primary persona; read-aloud for guided flows]
@@ -43,13 +43,13 @@ One batched round; defaults in brackets.
 
 | Surface | Register is for | Marks |
 |---|---|---|
-| Customer app | A business owner deciding, often on a phone, sometimes read aloud | Spoken, second person, one action per screen, numbers before explanations |
+| Customer app | A customer deciding, often on a phone, sometimes read aloud | Spoken, second person, one action per screen, numbers before explanations |
 | Internal console | Staff working a queue | Neutral, dense, the rule name and the field |
-| Field app | A verifier on site, one hand, sunlight; voice input in the verifier's language | Short imperatives, nouns the verifier says aloud |
-| Messaging | One WhatsApp or SMS message a customer or referral agent reads once | Four parts, one action, say where a link goes |
+| Field app | An agent on site, one hand, sunlight; voice input in the agent's language | Short imperatives, nouns the agent says aloud |
+| Messaging | One WhatsApp or SMS message a customer or referral partner reads once | Four parts, one action, say where a link goes |
 | Voice script | A sentence a person or a voice assistant speaks | Spoken rhythm, numbers repeated once, no abbreviations |
-| Training | Staff and referral agents learning a procedure | Plain, stepwise, the same term every time |
-| Regulatory documents | Consent, disclosure, cooling-off and complaint text the compliance officer approves | Complete and exact; the pack's formal register; no softening |
+| Training | Staff and referral partners learning a procedure | Plain, stepwise, the same term every time |
+| Regulatory documents | Consent, disclosure, cancellation and complaint text the compliance officer approves (when `_regulated: yes`) | Complete and exact; the pack's formal register; no softening |
 
 The pack's `register.md` holds the language-specific traits of each row.
 
@@ -79,7 +79,7 @@ The pack's `register.md` holds the language-specific traits of each row.
 9. **Flag.** `_language_review: no` → every string `native review: needed — <role>`. The role
    is a native speaker on the support team, the designer or the content owner.
    `_language_review: yes` → the product lead reviews and marks `native review: done — <role>, YYYY-MM-DD`.
-10. **Regulated text.** Consent, disclosure, cooling-off and complaint strings carry
+10. **Regulated text.** When `_regulated: yes`: consent, disclosure, cancellation and complaint strings carry
     `regulated — compliance officer approves`. Write them; do not block on them.
 
 ## Gate
@@ -109,7 +109,7 @@ Several flags on one row are separated by `;`.
 | `native review: done — <role>, YYYY-MM-DD` | A native reviewer accepted the string |
 | `over limit` | Longer than the element's expansion limit; a shorter form is proposed |
 | `lexicon: proposed` | The string uses a term not yet in the pack; the row is proposed in chat |
-| `regulated — compliance officer approves` | Consent, disclosure, cooling-off or complaint text |
+| `regulated — compliance officer approves` | Consent, disclosure, cancellation or complaint text |
 | `no pack — written in the working language` | `_customer_language` is `none` or the pack folder is missing |
 | `source only` | The string has no target by design (staff surface in the working language) |
 

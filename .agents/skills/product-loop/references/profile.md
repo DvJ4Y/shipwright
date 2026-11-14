@@ -1,6 +1,7 @@
-# Profile adaptation — how `_profile.md` changes the harness
+# Profile adaptation — how `knowledge/PROFILE.md` changes the harness
 
-Every skill reads `_profile.md` at the start. This table says what each field changes.
+Every skill reads `knowledge/PROFILE.md` at the start, then the current rows in
+`knowledge/facts.md`. Never ask for what either file holds. This table says what each field changes.
 
 | Field | Effect |
 |---|---|
@@ -16,10 +17,12 @@ Every skill reads `_profile.md` at the start. This table says what each field ch
 | `_customer_language` | Language-pack code for customer copy (`references/language-packs/<code>/` in `/localisation-copy`), or `none` |
 | `_memory_dir` | Where the agent keeps memory facts; `default` = the agent's own project memory (Claude Code), else a folder the reader names (Codex) |
 | `_regulated: yes` | Intake reads `context/regulated-actions.md`; every gate checks it; `/review` adds the compliance lens |
+| `_regulated: no` | The default. No register check and no compliance lens |
+| Workstream codes | Your own surface codes, set by `/setup`; they resolve paths through the code table in `references/conventions.md` |
 | `_language_review: no` | `/product-copy` flags every customer-language string for a native reviewer |
 | `_workstyle` | Match the presentation (options first, short answers, tables) |
 | `_struggles` | In those areas: one line of "why", an extra check, an offer to explain, even if `practised` |
 | `_gate_owner` | The role that approves gates |
 | § My words → our terms | Use the reader's words in chat; glossary terms (`context/07-glossary.md`) in documents |
 
-If `_profile.md` is missing, use `practised`, tier M, `_regulated: yes`, and suggest `/onboard` once.
+If `knowledge/PROFILE.md` is missing, use `practised`, tier M, `_regulated: no`, and suggest `/setup` once.

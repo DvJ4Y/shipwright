@@ -1,5 +1,5 @@
 {
-  "description": "shipwright: workspace context at session start, a one-time handoff reminder at stop, and a guard that denies edits to files headed 'GENERATED — do not hand-edit'.",
+  "description": "shipwright: workspace context at session start, recall from knowledge/ on each prompt, chat capture to inbox/sessions/ and a one-time handoff reminder at stop, and a guard that denies edits to files headed 'GENERATED — do not hand-edit'.",
   "hooks": {
     "SessionStart": [
       {
@@ -8,6 +8,17 @@
           {
             "type": "command",
             "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/session_start.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/recall.py\"",
             "timeout": 10
           }
         ]

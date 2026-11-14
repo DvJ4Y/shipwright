@@ -35,7 +35,7 @@ Then `source ~/.zshrc`. Rules the script enforces:
 ## 2. Run
 
 ```bash
-bash tools/query/run-sql.sh --sql "SELECT count(*) FROM h_case WHERE stage = 'Verification'"
+bash tools/query/run-sql.sh --sql "SELECT count(*) FROM cases WHERE stage = '<stage>'"
 bash tools/query/run-sql.sh --sql "SELECT ..." --ds 3        # another data source
 bash tools/query/run-sql.sh 42                              # fresh run of saved query 42
 bash tools/query/run-sql.sh --dry-run --sql "SELECT ..."    # validate; no network, no key needed
@@ -74,8 +74,8 @@ nobody can trace.
 
 ```bash
 unset SQL_API_URL SQL_API_KEY
-bash tools/query/run-sql.sh --dry-run --sql "UPDATE h_case SET status='x'"   # exit 3, read-only error
-bash tools/query/run-sql.sh --dry-run --sql "SELECT count(*) FROM h_case"    # exit 0, prints the plan
+bash tools/query/run-sql.sh --dry-run --sql "UPDATE cases SET status='x'"   # exit 3, read-only error
+bash tools/query/run-sql.sh --dry-run --sql "SELECT count(*) FROM cases"    # exit 0, prints the plan
 ```
 
 The dry run needs neither variable. It prints the mode, whether the URL and key are set, the

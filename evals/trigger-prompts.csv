@@ -57,3 +57,8 @@ T55,"Checkpoint the session and save state before I run out of context.",none
 T56,"End the session: rewrite the handoff and archive it.",none
 T57,"It's my first day with this workspace — run the onboarding and set up my profile.",none
 T58,"Set up my profile: I'm a designer on the customer lane.",none
+T59,"I just cloned this, help me get set up for my own product",none
+T60,"build my profile from the files I dropped in the inbox",none
+T61,"process my inbox and update what you know",learn
+T62,"remember that we moved the launch to the second week of March",learn
+T63,"what did we learn from this week's customer calls?",learn

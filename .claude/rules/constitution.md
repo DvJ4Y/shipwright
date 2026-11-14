@@ -17,7 +17,7 @@
    a target as a baseline. Every number carries a source label.
 6. **Customer language first and dignity.** Design and write customer-facing surfaces in the
    customer's language first; internal surfaces ship in the working language (`_language` in
-   `_profile.md`) unless the profile says otherwise. Never frame the customer as rejected by an insurer or a provider. Every
+   `knowledge/PROFILE.md`) unless the profile says otherwise. Never frame the customer as rejected by a partner or a provider. Every
    refusal has a recovery path.
 7. **No estimates and no timelines** in product documents. Frame work as parallel tracks.
 8. **A recommendation is not a decision.** Log it PENDING. Only the named owner locks it.
@@ -29,7 +29,7 @@
 11. **Conditional reads.** If a named file is missing, name it and ask. Never invent its
     contents.
 12. **Reviewers report; they never edit.** The author applies fixes.
-13. **Compound.** Write every correction to `tasks/lessons.md` as a rule. Three occurrences
+13. **Compound.** Write every correction to `knowledge/lessons.md` as a rule. Three occurrences
     → promote it into the skill.
 14. **Writing.** Follow `.claude/rules/writing-standard.md` in every document.
 15. **The feature is the unit of work.** Draft, delegate and review by feature, not by

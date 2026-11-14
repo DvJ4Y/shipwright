@@ -15,13 +15,13 @@ with the audit prompt into a model that accepts video or screenshots, and save t
 
 ## Placeholders
 
-| Placeholder | Meaning | Example (Harbor Cover) |
+| Placeholder | Meaning | Example (from `examples/harbor-cover/`) |
 |---|---|---|
-| `{{surface}}` | the surface under audit | Harbor; Desk; Field |
+| `{{surface}}` | the surface under audit | e.g. the customer app; the ops console |
 | `{{surface_type}}` | `customer-facing`, `internal` or `field-and-partner` | customer-facing |
-| `{{primary_users}}` | roles or personas who use it | the three customer persona cards; verification officer |
-| `{{persona_cards}}` | paste the persona cards, or the path to them | `context/personas/` |
-| `{{current_behaviour}}` | the surface's current-behaviour doc | `context/surfaces/harbor/current-behaviour.md` |
+| `{{primary_users}}` | roles or personas who use it | your persona cards; an internal role |
+| `{{persona_cards}}` | paste the persona cards, or the path to them | `examples/harbor-cover/context/personas/` |
+| `{{current_behaviour}}` | the surface's current-behaviour doc | `examples/harbor-cover/context/surfaces/harbor/current-behaviour.md` |
 | `{{known_issues}}` | issues already logged for this surface | from the surface's open threads |
 | `{{success_metrics}}` | the metrics this surface moves, with their labels | `DOC-M1`, `VER-M2` |
 | `{{customer_language}}` | the language customers read first | the customer's language |
@@ -73,12 +73,13 @@ against generic heuristics.
 ## Audit standards — reference the number in every finding
 1. Dignity. The flow never frames the user as rejected, failed or at fault. Reasons are plain
    and about the document or the rule, not the person.
-2. Recovery path. Every declined, rework, error or provider-failed state says what the user
+2. Recovery path. Every declined, returned, error or provider-failed state says what the user
    can do next, through which channel, and what happens then. A dead end is Critical.
 3. Customer language first. On a customer-facing surface, every piece of copy exists in
    {{customer_language}} and reads as written, not translated. English-only critical text is
    High.
-4. Internal surfaces in English. Internal and field screens ship in English; free-text and
+4. Internal surfaces in the working language. Internal and field screens ship in the working
+   language (`_language` in `knowledge/PROFILE.md`); free-text and
    voice input may be in the operator's language. Mixed-language internal labels are Medium.
 5. Every state shown. The six states — EMPTY, PARTIAL, MISSING, RESTRICTED, PROVIDER-FAILED,
    REWORK — are each visible and distinguishable where they can occur. A silent failure or an

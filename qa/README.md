@@ -11,7 +11,7 @@ last_updated: 2026-11-02
 
 # QA test-case catalog
 
-**Owner:** the product lead · **Applies to:** Harbor, Desk, Field, and the analytics layer
+**Owner:** the product lead · **Applies to:** every surface you add here, and the analytics layer
 
 This folder is the test-case catalog a technical non-developer executes row by row. It is
 the bank of cases the release gate draws from. The gate (`issue-tracker release`
@@ -28,10 +28,13 @@ code-trace rule, and how to add a surface. Read it before adding rows.
 qa/
 ├── README.md                 # this file — schema and vocabulary
 ├── PROCESS.md                # how rows get written, maintained, extended
-├── harbor/test-cases.csv     # customer-visible Harbor behaviour, by screen
-├── desk/test-cases.csv       # Desk behaviour, by screen scoped to role
-└── field/test-cases.csv      # Field behaviour, by screen scoped to verifier or agent
+└── <surface>/
+    ├── test-cases.csv        # the surface's behaviour, by screen (scoped to role where it differs)
+    └── analytics-events.csv  # the events the surface emits
 ```
+
+The folder starts with no surface catalogs. `PROCESS.md` § Adding a surface creates one. A
+filled set for three surfaces lives in `examples/harbor-cover/qa/`.
 
 The CSVs are the source of truth. Nothing generates them; every row is hand-written and
 confronted with the code and with production.
@@ -43,8 +46,8 @@ the organizing axis:
 
 | Surface type | Axis | Column reads |
 |---|---|---|
-| Screen-based UI (Harbor, Desk, Field) | the screen the user is on | `Screen` |
-| Rules engine (the eligibility engine) | decision node or module | `Module` |
+| Screen-based UI (a customer app, an ops console, a field app) | the screen the user is on | `Screen` |
+| Rules engine (the decision engine) | decision node or module | `Module` |
 | Measurement layer (analytics) | the screen the event fires from, plus `Event` as an extra column | `Screen` + `Event` |
 
 Always include a **`Global / all screens`** bucket for cross-cutting behaviour: back
@@ -64,7 +67,7 @@ Expected Result | Traces To | Notes`
 |---|---|
 | `Scenario ID` | The behaviour covered, `<SURFACE>-<SUB>-NNN`. The traceability anchor; never renumbered |
 | `Test Case ID` | `<Scenario ID>-T<n>`. Derived, never invented. `-T2` adds coverage without disturbing `-T1` |
-| `Screen` | The organizing axis. On Desk and Field, scope to the role where behaviour differs: `Queue (verification officer)` |
+| `Screen` | The organizing axis. On a role-based surface, scope to the role where behaviour differs: `Queue (<role>)` |
 | `Title` | What the case proves, in one line of business language |
 | `Test Type` | `Functional` · `Validation` · `Negative` · `Boundary` · `E2E` · `Integration` · `State` (idempotency, navigation, resume). `Positive` is not a value; use `Functional` |
 | `Priority` | `P0` · `P1` · `P2` (below) |
@@ -74,7 +77,7 @@ Expected Result | Traces To | Notes`
 | `Step #` | 1-based, contiguous within a case |
 | `Action` | One thing the tester does, in plain language. Not a code path or component name. Enumerations are successive steps in one case, not separate cases |
 | `Test Data` | `key=value; …` for that step only; `-` if none; placeholders in angle brackets |
-| `Expected Result` | What the tester observes, specific enough to pass or fail without judgement. Data assertions as data: `sub_status=rework` |
+| `Expected Result` | What the tester observes, specific enough to pass or fail without judgement. Data assertions as data: `sub_status=<value>` |
 | `Traces To` | Semicolon-separated upstream references: PRD path and acceptance id, current-behaviour row id, regulated-action row, tracker issue. Empty means genuinely new coverage, which is itself a drift signal |
 | `Notes` | Code-trace findings, open questions, discrepancies. Carries evidence, never an assertion |
 
@@ -91,13 +94,13 @@ Expected Result | Traces To | Notes`
 
 | Priority | Definition | Typical rows |
 |---|---|---|
-| `P0` | Core journey unavailable; wrong-person data exposure; irreversible corruption; a regulated action without its evidence record | Entry and consent; identity check → eligibility → documents → verification spine; a decline never shows a score; a provider failure never declines; every evidence record |
-| `P1` | Major journey broken with no safe workaround | Validation gates; resume; language switch; queue ordering; rework reason required; permission negatives |
+| `P0` | Core journey unavailable; wrong-person data exposure; irreversible corruption; a regulated action without its evidence record | Entry and consent; the core journey spine; a refusal always shows its recovery path; a provider failure never ends the journey; every evidence record |
+| `P1` | Major journey broken with no safe workaround | Validation gates; resume; language switch; queue ordering; required reasons; permission negatives |
 | `P2` | Degraded with a safe workaround | Copy, secondary status surfaces, display rounding |
 
 ## ID scheme
 
-- Scenario: `<SURFACE>-<SUB>-NNN` — `HUB-DOC-004`, `DESK-VER-012`, `FLD-INS-003`
+- Scenario: `<SURFACE>-<SUB>-NNN` — for example `APP-DOC-004`, `OPS-QUE-012`
 - Test case: `<Scenario ID>-T<n>` — always derived
 - Analytics: `<SURFACE>-EVT-NNN`
 - Rules engine: `RUL-<SUB>-NNN`
@@ -109,10 +112,10 @@ reused. New coverage on an existing behaviour takes the next `-T<n>`.
 
 | Surface | Codes |
 |---|---|
-| Harbor (`HUB`) | `ENT` entry and identity · `QUO` quote and premium range · `ELG` eligibility outcome · `DOC` documents · `REW` rework list · `PAY` placement and payment · `POL` policy and cooling-off · `CLM` claim tracking · `LNG` language · `NAV` navigation and resume · `VAL` validation · `STS` status |
-| Desk (`DESK`) | `QUE` verification queue · `VER` verification case view · `REW` rework raising · `REF` refer queue · `PLC` placement · `CLM` claims desk · `AUD` audit view · `PRM` permissions by role · `GLB` global |
-| Field (`FLD`) | `RTE` route and day · `INS` inspection checklist · `CAP` replacement capture · `OFF` offline and sync · `LED` referral list · `COM` commission ledger · `NTF` notifications · `PRM` permissions |
-| Rules (`RUL`) | `INP` input contract · `BND` band assignment · `TIR` tier matrix · `HRD` hard rules · `REC` recovery path · `IDV` idempotency and version |
+| `<SURFACE>` | `<SUB>` three-letter code · what it covers |
+
+In the example (`examples/harbor-cover/qa/README.md`), the customer app uses `ENT`, `QUO`,
+`DOC`, `REW` and more; the ops console scopes codes by role.
 
 Define each new code in this table when you add it. Keep codes to three letters.
 

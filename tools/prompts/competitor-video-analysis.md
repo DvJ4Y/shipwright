@@ -18,9 +18,9 @@ handles messy, non-linear recordings. Prompt 2 is for a clean start-to-finish wa
 | Placeholder | Meaning | Example |
 |---|---|---|
 | `{{category}}` | the product category you compete in | small-business insurance; payroll software; home-services booking |
-| `{{your_product}}` | your own product's name, for the comparison line | Harbor |
+| `{{your_product}}` | your own product's name, for the comparison line | Harbor Cover (the example) |
 | `{{decision_moment}}` | the point where the product tells the user yes, no or a price | eligibility result; quote; approval; match |
-| `{{key_inputs}}` | the data points your own flow collects before the decision moment | shop type, sum insured, address, licence number |
+| `{{key_inputs}}` | the data points your own flow collects before the decision moment | shop type, sum insured, address, licence number (the example) |
 | `{{identity_step}}` | what identity or ownership proof the category asks for | identity document; business registration; phone verification |
 | `{{hidden_terms}}` | terms users care about that products tend to hide | exclusions, waiting periods, fees, renewal price |
 | `{{user_types}}` | the user segmentations your category branches on | first-time buyer, multi-outlet owner, regulated trade |

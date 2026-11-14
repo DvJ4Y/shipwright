@@ -14,14 +14,16 @@ Four modes. Default to `start` when no mode is given.
 | File | Gives you |
 |---|---|
 | `sessions/latest.md` | Last focus, decisions, open threads, next action |
-| `tasks/todo.md`, `tasks/lessons.md` | Open items with no issue; every correction as a rule |
-| `_profile.md` | How the product lead works; `_struggles`; My words → our terms |
+| `tasks/todo.md`, `knowledge/lessons.md` | Open items with no issue; every correction as a rule |
+| `knowledge/PROFILE.md` | How the product lead works; `_struggles`; My words → our terms; Dynamic: what is in flight |
+| `knowledge/facts.md` | Current rows that apply to today's focus; `open` questions |
 | `MEMORY.md` in the memory directory | One line per standing fact about the reader and the tools (`references/memory.md`) |
 | `.agents/skills/product-loop/references/conventions.md` | Folders, statuses, commit proposals |
 | The feature folder named in `retro` | Artifacts whose status the closeout checks |
 
-If `sessions/`, `tasks/` or `_profile.md` is missing, name it once and suggest copying
-`_starter-files/` to the workspace root.
+If `sessions/` or `tasks/` is missing, name it once and ask. If `knowledge/PROFILE.md` is
+missing, name it once and suggest `/setup`. If captured chats wait in `inbox/sessions/`, say
+how many and suggest `/learn`.
 
 ## Questions first
 
@@ -78,7 +80,7 @@ One question only, by mode.
    overwriting, unless you archived it already.
 3. **Todo.** Update `tasks/todo.md`: close done items, add new ones with no issue yet.
    Anything with an issue key belongs in the tracker, not here.
-4. **Lessons.** For every correction this session, append to `tasks/lessons.md`:
+4. **Lessons.** For every correction this session, append to `knowledge/lessons.md`:
 
    ```
    ## YYYY-MM-DD — <topic>
@@ -90,7 +92,7 @@ One question only, by mode.
    the diff; apply only with approval).
 5. **Memory.** Write or update one fact file and its index line for each correction or
    preference about how this reader works (`references/memory.md`). Corrections about the
-   work stay in `tasks/lessons.md`. Delete any memory the session proved wrong.
+   work stay in `knowledge/lessons.md`. Delete any memory the session proved wrong.
 6. **Shipped, not landed.** List every `products/**/shared/prd.md` with `status: shipped`.
    For each, suggest `/land` with the path. If there are none, say so in one line.
 7. **Gate failures.** A send-back at any gate is also a lesson.
@@ -114,14 +116,14 @@ when it ships, lands or stops.
 | 8 | Post-ship review scheduled (`/review post-ship`) and `/land` run | |
 
 Then ask three questions, one line each: what slowed us down, what we would repeat, what
-the harness should do differently. Write the answers to `tasks/lessons.md`. Harness changes
+the harness should do differently. Write the answers to `knowledge/lessons.md`. Harness changes
 go to `tasks/todo.md` tagged `harness`.
 
 ## Gate
 
 - start: the summary names the next action and the product lead confirms the focus.
 - checkpoint and end: `sessions/latest.md` is within the handoff limit and ends with a next action.
-- end: every correction is in `tasks/lessons.md`; you gave the shipped-not-landed list.
+- end: every correction is in `knowledge/lessons.md`; you gave the shipped-not-landed list.
 - retro: every row has a result; a failed row has an owner role and a next step.
 
 ## Output
@@ -130,11 +132,11 @@ go to `tasks/todo.md` tagged `harness`.
 |---|---|
 | start | Nothing; the 8-line summary in chat |
 | checkpoint | `sessions/latest.md` (marked `checkpoint`); the compact command in chat |
-| end | `sessions/latest.md`, `sessions/daily/…`, `tasks/todo.md`, `tasks/lessons.md`, memory files; a commit proposal |
-| retro | The checklist in chat; `tasks/lessons.md`; `tasks/todo.md` (`harness` items) |
+| end | `sessions/latest.md`, `sessions/daily/…`, `tasks/todo.md`, `knowledge/lessons.md`, memory files; a commit proposal |
+| retro | The checklist in chat; `knowledge/lessons.md`; `tasks/todo.md` (`harness` items) |
 
-Example end-of-session line for Harbor Cover: "Shipped, not landed:
-`products/desk/verification-outcome-and-rework/shared/prd.md` — run `/land`."
+Example end-of-session line, from the example (`examples/harbor-cover/`): "Shipped, not landed:
+`examples/harbor-cover/products/desk/verification-outcome-and-rework/shared/prd.md` — run `/land`."
 
 ## Do not
 

@@ -1,6 +1,6 @@
 GENERATED — do not hand-edit
 
-# shipwright plugin 0.1.2
+# shipwright plugin 0.2.0
 
 This directory is built by `scripts/build-plugin.sh`. Edit the sources, then rerun the script.
 

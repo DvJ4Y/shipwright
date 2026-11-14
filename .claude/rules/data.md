@@ -11,7 +11,7 @@ paths:
   `tools/query/run-sql.sh` refuses a write statement; do not work around it.
 - Head every query with a comment block: the decision it serves, the population boundary
   (what the source excludes), the source and its authority, and the metric ID if one exists.
-- Check the three traps in `context/05-numbers-data-and-traps.md` before you join.
+- Check the known traps in `context/05-numbers-data-and-traps.md` (if present) before you join.
 - Use `LIMIT 100` when exploring unfamiliar data.
 - Label a count re-run on the SQL replica `DB-verified <date>`, with the population boundary
   stated. Label a rate computed on the replica `operational — unverified`. Label an

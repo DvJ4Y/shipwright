@@ -2,7 +2,7 @@
 
 Build one pack per language from `_template/` with a native speaker. A pack is four files for
 one language at `references/language-packs/<code>/`. `/localisation-copy` reads the pack named
-by `_customer_language:` in `_profile.md`. The repo ships `_template/` only; it is
+by `_customer_language:` in `knowledge/PROFILE.md`. The repo ships `_template/` only; it is
 language-neutral.
 
 ## Start a pack
@@ -13,7 +13,7 @@ language-neutral.
    .agents/skills/localisation-copy/references/language-packs/<code>`.
 3. Fill the `{{...}}` placeholders with a native speaker. Each file carries one worked line in
    the working language. Replace it with the pack's own line.
-4. Set `_customer_language: <code>` in `_profile.md`. The next `/localisation-copy` run reads
+4. Set `_customer_language: <code>` in `knowledge/PROFILE.md`. The next `/localisation-copy` run reads
    the pack.
 
 ## The four files

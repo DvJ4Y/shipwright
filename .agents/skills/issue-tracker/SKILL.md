@@ -12,13 +12,13 @@ Put execution state in the tracker and the reasoning in the repo. Close a produc
 
 | File | Gives you |
 |---|---|
-| `_profile.md` → `_tracker:` | Which adapter to load: `references/adapters/linear.md` or `references/adapters/github-issues.md` |
+| `knowledge/PROFILE.md` → `_tracker:` | Which adapter to load: `references/adapters/linear.md` or `references/adapters/github-issues.md` |
 | The adapter file | Team key, tool or command names, workflow states, label groups |
 | `templates/issue-pack-template.md` | The pack shape |
 | `shared/prd.md`, `shared/eng-brief.md`, `mockups/` in the feature folder | The only allowed sources of issue content |
 | `internal/readiness.md` | Readiness check 7 — issues map to acceptance criteria |
-| `context/09-current-commitments.md` | Committed work, to avoid duplicates; refreshed after a release |
-| `context/07-glossary.md` § Delivery vocabulary | `deployed to prod` is the only state that counts as shipped |
+| `knowledge/facts.md` (`decision` and `target` rows), if present | Committed work, to avoid duplicates |
+| `context/glossary.md` § Delivery vocabulary, if present | `deployed to prod` is the only state that counts as shipped |
 | `references/release-mode.md` | Status vocabulary, impact chain, clarification gate, publication QA |
 | `qa/<surface>/test-cases.csv` | Release mode: the `Planned` rows the release touches |
 
@@ -65,7 +65,7 @@ One batched round; defaults in brackets.
 4. Any mismatch → fix in the tracker to match the pack, read back again, record.
 5. Set the pack to `status: published`. Propose one commit.
 
-Example (Harbor Cover): the verification-outcome-and-rework pack has one parent and five sub-issues — the Desk return with the field that differs and the multi-item queue row, the Harbor and WhatsApp rework list with its recovery paths and hold messages, the Field replacement capture, the Desk provider-failure and manual-verification path, and the evidence records with the audit view and masking. Each maps to acceptance ids; none is named after a layer.
+In the example (`examples/harbor-cover/`): the verification-outcome-and-rework pack has one parent and five sub-issues — the Desk return with the field that differs and the multi-item queue row, the Harbor and WhatsApp rework list with its recovery paths and hold messages, the Field replacement capture, the Desk provider-failure and manual-verification path, and the evidence records with the audit view and masking. Each maps to acceptance ids; none is named after a layer.
 
 ### Mode: pulse (weekly, read-only)
 

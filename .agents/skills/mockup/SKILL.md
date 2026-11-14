@@ -12,16 +12,16 @@ Show the PRD's flow and states as screens. Take every rule from the PRD, never f
 
 | File | Gives you |
 |---|---|
-| `context/design/tokens.md` | Palette, type scale and language per surface; the six state strips |
-| `context/surfaces/<surface>/current-behaviour.md` | What the surface does today; the rows this screen extends |
-| `context/03-surfaces-and-systems.md` | "Already done — do not re-propose" |
+| `knowledge/PROFILE.md`, `knowledge/facts.md` (if present) | `_language`, `_customer_language`, `_language_review`, `_experience`, `_struggles`; the surfaces and short facts — read these first |
+| `context/design/tokens.md` (if present) | Palette, type scale and language per surface; the six state strips |
+| `context/surfaces/<surface>/current-behaviour.md` (if present) | What the surface does today; the rows this screen extends |
+| `context/03-surfaces-and-systems.md` (if present) | "Already done — do not re-propose" |
 | The PRD at `products/<code>/<feature>/shared/prd.md`, or the discovery for an early sketch | The flow, rules and states to show |
-| `context/personas/<card>.md` | Who is on the screen, in what conditions |
+| `context/personas/<card>.md` (if present) | Who is on the screen, in what conditions |
 | `tools/wireframe-kit/kit.md` | The L0 block: style, chips, strips, naming, the verification hook |
 | `tools/story-builder/README.md` | The story method: script → greyscale storyboard → hi-fi |
 | `templates/story-script-template.md`, `templates/design-spec-template.md` | Where the beats and the decision are recorded |
 | `templates/screen-contract-template.md` | Tier L only — a screen several features share |
-| `_profile.md` | `_language`, `_customer_language`, `_language_review`, `_experience`, `_struggles` |
 
 **No PRD and no discovery?** A story or an L0 sketch to support discovery is allowed. Say so
 in the file header. L1 and L2 need a PRD at `in-review` or `approved`.
@@ -30,7 +30,7 @@ in the file header. L1 and L2 need a PRD at `in-review` or `approved`.
 
 One batched round; defaults in brackets.
 
-1. **Surface.** Harbor, Desk or Field? For Field, which role: field verifier or referral agent? [from the PRD]
+1. **Surface.** Which surface (a customer surface, an internal tool, a field app)? For a surface several roles share, which role? [from the PRD]
 2. **Persona and moment.** Who is on this screen, and what just happened? [the primary persona in the PRD]
 3. **Variation axis.** UI (same data, new presentation), Data Field (new or changed data) or Screen (different flow or order)? [UI]
 4. **Step and fidelity.** Story for direction and agreement; L0 for options and the engineering handoff; L1 for the chosen option; L2 when a flow must be clicked through? [L0]
@@ -52,8 +52,8 @@ The six states are **EMPTY · PARTIAL · MISSING · RESTRICTED · PROVIDER-FAILE
 
 1. **Phase check.** State it.
 2. **Read current behaviour** for the surface. List the rows and components you extend
-   (Harbor Cover example: the rework list is `HUB-008`, the officer's reason code is
-   `DESK-004`, on-site capture is `FLD-005`). Justify any new component in one line.
+   (example, `examples/harbor-cover/`: the rework list is `HUB-008`, the officer's reason
+   code is `DESK-004` in the example). Justify any new component in one line.
 3. **Pick the step** from question 4. If `tools/wireframe-kit/` or `tools/story-builder/`
    is missing, name it and ask.
 4. **Story.** Write the script from `templates/story-script-template.md` in chat first:
@@ -70,17 +70,17 @@ The six states are **EMPTY · PARTIAL · MISSING · RESTRICTED · PROVIDER-FAILE
    must exit 0 before anyone sees the file. If a data point has no row, add the row with
    disposition `unresolved`. Do not invent a storage path.
 6. **Palette.** Greyscale at L0. At L1 and L2, the surface palette from `tokens.md`. One
-   accent per screen on Harbor.
-7. **Language.** Harbor and every customer message: the customer's language first. Write
+   accent per screen on a customer surface.
+7. **Language.** Customer surfaces and every customer message: the customer's language first. Write
    each string in the working language (`_language`) with a `[customer language]` marker
    until `/localisation-copy` runs. Design for text expansion and script rendering; show the
-   longest-label case. Desk and Field: the working language. `/product-copy` supplies the
+   longest-label case. Internal surfaces: the working language. `/product-copy` supplies the
    final strings.
-8. **Show the hard cases.** The long shop name, the missing document, a case with three
-   rework items, the provider-failed identity check, the restricted audit view.
-9. **Roles.** On Desk and Field, show what each role can do and what is read-only. Show
+8. **Show the hard cases.** The longest name, the missing document, a case with three
+   returned items, the provider-failed check, the restricted audit view.
+9. **Roles.** On internal surfaces, show what each role can do and what is read-only. Show
    partner- or segment-specific behaviour as configuration.
-10. **Screenshot check.** Open each file at 360 px wide (1280 px for Desk) when a browser is
+10. **Screenshot check.** Open each file at 360 px wide (1280 px for a desktop internal tool) when a browser is
     available: the editor's browser, a screenshot tool or the product lead's browser. Fix
     overlaps, clipped labels and illegible contrast. With no browser, write "screenshot
     check: not run" in the file header.
@@ -110,8 +110,8 @@ The six states are **EMPTY · PARTIAL · MISSING · RESTRICTED · PROVIDER-FAILE
 | Design spec | `products/<code>/<feature>/internal/design-spec.md` |
 | Tier S | The same mockup path. A Tier S change has a feature folder too |
 
-A long feature name may be shortened in the filename (`harbor-verification-outcome-v1` for
-`verification-outcome-and-rework`). The design spec records the short form. Versions live in
+A long feature name may be shortened in the filename (example: `harbor-verification-outcome-v1`
+for `verification-outcome-and-rework` in `examples/harbor-cover/`). The design spec records the short form. Versions live in
 the filename: `-v1`, `-v2`. Never overwrite an approved version; copy to the next number and
 keep the previous file. In chat: the paths, one line per option on what it trades away, the
 chip-check result and the screenshot result.

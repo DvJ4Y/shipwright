@@ -56,32 +56,34 @@ also names each regulated action touched and the evidence it keeps.
 ## Where things live
 
 ```
-_profile.md                          who you are — read by the session-start hook
-context/                             the durable layer: company, lifecycle, surfaces, policies, glossary, metrics
+knowledge/PROFILE.md                 who you are — read by the session-start hook
+knowledge/facts.md                   one row per fact, with source and status; `/learn` writes it
+context/                             chapters for longer reference: lifecycle, surfaces, policies, glossary, metrics
 context/surfaces/<surface>/current-behaviour.md   what each surface does today; `/land` appends here
 decisions/decision-log.md            workspace decision points, D-NNN
 sessions/latest.md                   handoff, under 50 lines; sessions/daily/ holds the archive
-tasks/todo.md · tasks/lessons.md     open items with no issue · every correction, as a rule
+tasks/todo.md · knowledge/lessons.md   open items with no issue · every correction, as a rule
 qa/<surface>/test-cases.csv          the QA catalog; `Planned` rows from the PRD, `Current` after release
 products/<code>/<feature>/           tier S and M — one folder per feature
 products/<code>/archive/landed-YYYY-MM-DD/<feature>/   moved by `/land`, with a "replaced by" README
 initiatives/<name>/                  tier L initiative folder
 ```
 
-Workstream codes: `hub` (Harbor) · `desk` · `field` · `rules` (the eligibility engine) ·
-`data` · `comms`. Lanes: `customer` · `ops-platform`.
+Workstream codes are your own. `/setup` records them in `knowledge/PROFILE.md`: one code per
+surface, plus `rules` (the decision engine), `data` and `comms`. Lanes: `customer` ·
+`ops-platform`.
 
 **Code → surface → files.** `land`, `prd-writer` and the QA catalogs resolve by this table,
 never by guessing.
 
 | Code | Surface | Current behaviour | QA catalogs | Row ids |
 |---|---|---|---|---|
-| `hub` | Harbor | `context/surfaces/harbor/current-behaviour.md` | `qa/harbor/` | `HUB-` |
-| `desk` | Desk | `context/surfaces/desk/current-behaviour.md` | `qa/desk/` | `DESK-` |
-| `field` | Field | `context/surfaces/field/current-behaviour.md` | `qa/field/` | `FLD-` |
-| `rules` | the eligibility engine | the policy file in `context/policies/` that owns the rule | — | policy row |
+| `<code>` | `<surface>` | `context/surfaces/<surface>/current-behaviour.md` | `qa/<surface>/` | `<CODE>-` |
+| `rules` | the decision engine | the policy file in `context/policies/` that owns the rule | — | policy row |
 | `comms` | messaging | the surface where the message is seen | that surface's | that surface's |
-| `data` | data and analytics | `context/05-numbers-data-and-traps.md` | `qa/<surface>/analytics-events.csv` | `<SURFACE>-EVT-` |
+| `data` | data and analytics | `context/05-numbers-data-and-traps.md` (if present) | `qa/<surface>/analytics-events.csv` | `<SURFACE>-EVT-` |
+
+In the example (`examples/harbor-cover/`): `hub` (Harbor, `HUB-`) · `desk` (Desk, `DESK-`) · `field` (Field, `FLD-`).
 
 **Feature folder** (tier M)
 
@@ -97,7 +99,7 @@ products/<code>/<feature>/
 
 `shared/` is what engineering and outside readers get. `internal/` is the reasoning:
 discovery, decisions, reviews, readiness, evidence. Tier S writes one file into `shared/` or
-`internal/`, by audience. Example: `products/desk/verification-outcome-and-rework/`.
+`internal/`, by audience. Example: `examples/harbor-cover/products/desk/verification-outcome-and-rework/`.
 
 **Initiative folder** (tier L)
 
@@ -139,8 +141,8 @@ Other artifacts use `draft` · `in-review` · `approved` · `superseded`. Contex
 - Status: `PENDING` → `LOCKED` (owner confirmed) → `SUPERSEDED` (replaced by a later row).
 - An open point inside an artifact is a marker: `[NEEDS CLARIFICATION: <question> → P-nn]`.
   The marker points at a PENDING row. **Any open marker blocks promotion past `draft`.**
-- The author logs a recommendation PENDING. Only the named owner locks it. Example: `D-006`
-  (rework reasons a field verifier may resolve on site) waits for the ops lead.
+- The author logs a recommendation PENDING. Only the named owner locks it. In the example,
+  `D-006` (which returned items a field agent may resolve on site) waits for the ops lead.
 - Format: `templates/decision-log-template.md`. Longer reasoning:
   `templates/decision-record-template.md`.
 
@@ -167,7 +169,7 @@ Gate: <approve | send back> · By: <role> · On: YYYY-MM-DD · Reason: <one line
 ```
 
 A send-back names the failing check and the fix. The author fixes; the reviewer re-runs.
-The gate owner is `_gate_owner` in `_profile.md`; by default, the lane's product lead.
+The gate owner is `_gate_owner` in `knowledge/PROFILE.md`; by default, the lane's product lead.
 
 ## Asking questions
 
@@ -182,11 +184,11 @@ The gate owner is `_gate_owner` in `_profile.md`; by default, the lane's product
 Exactly five: `DB-verified <date>` · `analytics` · `operational — unverified` · `target` ·
 `example` (fictional data only). Every number carries one. A target is never a baseline.
 
-## Profile adaptation (`_profile.md`)
+## Profile adaptation (`knowledge/PROFILE.md`)
 
-Every field in `_profile.md` changes how a skill behaves. The table is in
-`references/profile.md` (this skill). If `_profile.md` is missing, use `practised`, tier M, and
-suggest `/onboard` once.
+Every field in `knowledge/PROFILE.md` changes how a skill behaves. The table is in
+`references/profile.md` (this skill). If the profile is missing, use `practised`, tier M,
+`_regulated: no`, and suggest `/setup` once.
 
 ## Reading files
 
@@ -194,3 +196,4 @@ Read a named file **if present**. If it is missing, name it and ask. Never inven
 contents and never continue as though it had been read. Production beats files. Stage names,
 sub-statuses and policy values come from `context/02-service-and-lifecycle.md` and
 `context/policies/`, which mirror production. A document that disagrees with them is wrong.
+If those chapters are missing, ask the product lead; do not infer stage names.

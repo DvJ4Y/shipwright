@@ -18,7 +18,7 @@ scripts/vendors.local.txt
 
 # Eval run results and automation run logs (carry absolute paths)
 evals/results-*
-sessions/weekly/_runs/
+**/sessions/weekly/_runs/
 
 # OS and editor noise
 .DS_Store
@@ -29,3 +29,6 @@ node_modules/
 
 # Local review captures of the published page
 screenshot/
+
+# Chats captured by the session-end hook, waiting for /learn — never committed
+inbox/sessions/

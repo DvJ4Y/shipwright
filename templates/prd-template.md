@@ -59,7 +59,7 @@ Solve for the hardest case first.>
 | Data point | Who provides it | Who can see / edit | Regulated action (register row) | Evidence kept |
 |---|---|---|---|---|
 
-**Regulated actions touched:** <register rows from `context/regulated-actions.md`, or "none">
+**Regulated actions touched:** <register rows from `context/regulated-actions.md`, or "none". Only when `_regulated: yes`>
 
 ## 8. States
 
@@ -107,9 +107,9 @@ customer outcome gets worse.>
 | Workflow and events | | | |
 | Communication | | | |
 | Notifications | | | |
-| Harbor | | | |
-| Desk | | | |
-| Field | | | |
+| <surface 1> | | | |
+| <surface 2> | | | |
+| <surface 3> | | | |
 | Rules | | | |
 | Other teams | | | |
 | Metrics | | | |

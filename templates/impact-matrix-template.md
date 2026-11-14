@@ -8,9 +8,9 @@ last_updated: YYYY-MM-DD
 
 One page, shown in chat before any file is written. Rows are features. Columns are the layers
 each feature touches. Write C (changes), R (reads or reuses) or — (not affected). Add a short
-note where a cell is not obvious.
+note where a cell is not obvious. Name one column per surface in `knowledge/PROFILE.md`.
 
-| Feature | Data | Workflow and events | Communication | Notifications | Harbor | Desk | Field | Rules | Other teams | Metrics |
+| Feature | Data | Workflow and events | Communication | Notifications | <surface 1> | <surface 2> | <surface 3> | Rules | Other teams | Metrics |
 |---|---|---|---|---|---|---|---|---|---|---|
 | <feature 1> | | | | | | | | | | |
 | <feature 2> | | | | | | | | | | |

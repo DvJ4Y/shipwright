@@ -25,12 +25,12 @@ rules; the PRD is.
 
 `/mockup` runs all three. The kit is `tools/wireframe-kit/`; the story tooling is
 `tools/story-builder/`. The worked example is
-`products/desk/verification-outcome-and-rework/mockups/` and its `showcase/` folder.
+`examples/harbor-cover/products/desk/verification-outcome-and-rework/mockups/` and its `showcase/` folder.
 
 ## Step 1 — the story
 
 The story shows one case end to end as an auto-playing phone loop with a caption per beat.
-It is a vision artifact for the ops lead, the engineering lead and the insurer partner, and
+It is a vision artifact for the ops lead, the engineering lead and any partner, and
 it can go on a board slide.
 
 | Rule | Means |

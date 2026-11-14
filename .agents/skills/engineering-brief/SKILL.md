@@ -23,13 +23,14 @@ write the brief." Then run this skill.
 | `internal/data-packet.csv`, `internal/design-spec.md`, `shared/copy.md` (if present) | Data points with provenance and disposition; the chosen design; strings per outcome and language |
 | `templates/eng-brief-template.md` | The shape |
 | `.agents/skills/product-loop/references/conventions.md` | Readiness check 10, gates, folders |
-| `context/03-surfaces-and-systems.md` | What exists, its status, integrations by capability name |
-| `context/05-numbers-data-and-traps.md` | SQL replica tables, the events that exist, the three traps |
-| `context/04-eligibility-and-verification.md` | What is configuration and what is code; the provider-failed rules |
-| `context/surfaces/<surface>/current-behaviour.md` | Reuse rows by id |
-| `context/regulated-actions.md` | The evidence each register row keeps, and the surfaces where it is visible |
-| `context/policies/service-levels.md` · `decisions/decision-log.md` | Hold, lapse and resubmission windows; which policy values are PENDING |
-| `context/09-current-commitments.md`; the tracker through `/issue-tracker` if reachable | Work in flight on the same area |
+| `knowledge/PROFILE.md`, `knowledge/facts.md` (if present) | Who you are, the product, the short facts — read these first |
+| `context/03-surfaces-and-systems.md` (if present) | What exists, its status, integrations by capability name |
+| `context/05-numbers-data-and-traps.md` (if present) | SQL replica tables, the events that exist, the known traps |
+| `context/04-<domain-rules>.md` (if present) | What is configuration and what is code; the provider-failed rules |
+| `context/surfaces/<surface>/current-behaviour.md` (if present) | Reuse rows by id |
+| `context/regulated-actions.md` (only when `_regulated: yes`, if present) | The evidence each register row keeps, and the surfaces where it is visible |
+| `context/policies/` (if present) · `decisions/decision-log.md` | Hold, lapse and resubmission windows; which policy values are PENDING |
+| `context/09-current-commitments.md` (if present); the tracker through `/issue-tracker` if reachable | Work in flight on the same area |
 | `docs/08-handoff-to-engineering.md` (optional; skip silently if absent) | The handover method |
 
 **No approved PRD?** Stop. Offer `/prd-writer`. A brief from an unapproved PRD hands
@@ -40,7 +41,7 @@ engineering a moving target.
 One batched round; offer defaults.
 
 1. **Known reuse.** Which existing capability do you expect this to extend? [I will search the current-behaviour rows and `context/03-surfaces-and-systems.md`]
-2. **Hard constraints.** A regulated action, an insurer contract or a policy value engineering must hold? [the register rows the PRD names]
+2. **Hard constraints.** A regulated action, a partner contract or a policy value engineering must hold? [the register rows the PRD names]
 3. **Coupled behaviours.** Which behaviours must appear together for every invariant to hold? [none beyond the invariants]
 4. **Overlap.** Is engineering already working on this area? [I will read `context/09-current-commitments.md` and the tracker]
 
@@ -53,58 +54,56 @@ One batched round; offer defaults.
    known volumes as labelled counts, never as sizing.
 3. **Reuse.** One row per data point or screen: the existing capability, the reuse location,
    existing or new, how product extends it in product terms. A location is a name from
-   `context/05-numbers-data-and-traps.md` (`h_verification.outcome`, `h_rework_item`,
-   `h_audit_event`), an event name, a screen, a current-behaviour row id, or a `point_id`
-   from `internal/data-packet.csv`. **A location says where something exists today. It
-   never says what to add.** A new data point has no location. If the file does not name
-   it, write "location unknown" — never guess a table or column name. Name the trap when a
-   location is a trap table. Example, worked feature:
-   *Rework reason code | `h_rework_item` (reason code); DESK-004 | existing, unchanged.*
+   `context/05-numbers-data-and-traps.md` (a table and column), an event name, a screen, a
+   current-behaviour row id, or a `point_id` from `internal/data-packet.csv`. **A location
+   says where something exists today. It never says what to add.** A new data point has no
+   location. If the file does not name it, write "location unknown" — never guess a table
+   or column name. Name the trap when a location is a trap table. In the example
+   (`examples/harbor-cover/`):
+   *In the example: Rework reason code | `h_rework_item` (reason code); DESK-004 | existing, unchanged.*
    *Field that differs on `mismatched` | new — no location | shown on the rework item,
    chosen from fields the case already holds.*
-4. **Invariants.** Rules that hold in every state and every slice. Examples from the worked
-   feature: a provider failure never sets `declined`; every `declined` or `rework` outcome
-   carries a recovery path; `refer` is never shown as declined; one rework item per
+4. **Invariants.** Rules that hold in every state and every slice. Typical invariants: a
+   provider failure never sets a negative outcome; every negative outcome carries a
+   recovery path; a referral to a human is never shown as a decline; one returned item per
    document; a regulated action is not complete without its evidence record.
 5. **Configuration** — a second table in the Reuse section. One row per item product or
    ops change without a release: the item (reason codes, checklist items, message
    templates, service levels), who changes it, where it is configured today
-   (`context/04-eligibility-and-verification.md`), existing or new.
+   (`context/04-<domain-rules>.md`), existing or new.
 6. **Scenarios.** One row each — type (state, failure, integration), scenario, required
    outcome in product terms, acceptance id. Cover the six strips where they apply, and the
    four below; an absent one says why it does not apply. **The required outcome comes from
    the PRD's rules or a policy row.** If neither states it, write the outcome as
    `open input — owner: <role>`, list it under Open inputs, and it blocks handover.
    - **provider timeout** — the provider this feature depends on does not answer inside its
-     timeout. Worked feature (90 seconds, `example`): sub-status stays `open`; the check is
-     retried without customer action; the customer is told nothing is needed; the
-     verification officer sees PROVIDER-FAILED; after the retry limit — a policy value,
-     PENDING today and owned by the ops lead — the verification officer verifies manually
-     from the uploaded identity proof, and the method is recorded in the evidence record.
-   - **duplicate submission** — the same submission arrives twice. Worked feature: the
-     customer uploads twice, or a field capture is sent twice after a sync — one item, one
-     replacement, one notification.
+     timeout. Typical outcome: the sub-status stays open; the check is retried without
+     customer action; the customer is told nothing is needed; the ops agent sees the
+     provider failure; after the retry limit — a policy value with a named owner — the ops
+     agent checks manually, and the method is recorded in the evidence record.
+   - **duplicate submission** — the same submission arrives twice: the customer uploads
+     twice, or a capture is sent twice after a sync — one item, one replacement, one
+     notification.
    - **resubmission after close** — a submission arrives after the case left the state that
-     asked for it. Worked feature: a document arrives after the case went `on hold`,
-     `lapsed`, or left `Verification` with outcome `pass` — the outcome per case state, from
-     the PRD's rules or `context/policies/service-levels.md`.
-   - **concurrent action** — two roles act on the same item. Worked feature: a verification
-     officer and a field verifier — which action stands, what the second person sees, and
-     both appear in the audit view.
+     asked for it (on hold, lapsed, or moved past `<stage>`) — the outcome per case state,
+     from the PRD's rules or the policy file under `context/policies/`.
+   - **concurrent action** — two roles act on the same item: which action stands, what the
+     second person sees, and both appear in the audit view.
 7. **Dependencies and constraints.** Owner, status, the constraint each adds. External
-   providers — the identity-check provider, the payment provider, the WhatsApp BSP, insurer
+   providers — the identity-check provider, the payment provider, the messaging provider,
    partner integrations — are dependencies with an owner and a status; name the capability,
    not the vendor. An internal dependency names the surface.
 8. **Regulated actions and evidence.** One row per register row the PRD names: the evidence
    the product must keep, from the register's "Evidence kept" column, and where it is
-   visible, from the register's "Surfaces" column (worked feature: the Desk audit view,
-   DESK-009). State the WHAT — "an evidence record exists with the provider response
-   reference, result, time and the verification officer's role" — never how it is stored.
+   visible, from the register's "Surfaces" column (for example, an internal audit view and
+   its current-behaviour row id). State the WHAT — "an evidence record exists with the
+   provider response reference, result, time and the ops agent's role" — never how it is
+   stored. Skip this section when `_regulated: no`.
 9. **Observability.** Events by name from `context/05-numbers-data-and-traps.md`. A new
    event is marked **new**, described as what happened and from which screen, and gets a
    `Planned` `<SURFACE>-EVT-NNN` row under QA trigger 1; engineering owns its properties.
    Then the counts and reconciliations product must read after release, with metric ids
-   (`VER-M2`, `REW-G1`) and where (the BI tool, the SQL replica).
+   (`<metric id>`) and where (the BI tool, the SQL replica).
 10. **Decisions engineering owns.** Schema, APIs, component design, migration, rollout
     mechanics, test plan, estimates, technical breakdown, and the feature-specific
     mechanics — retries and timeouts, queues, de-duplication, storage, masking. The rules
@@ -155,8 +154,8 @@ Keep it short. It is a conversation starter, not a second PRD.
   management, test plans or test cases, rollout or feature-flag plans, technology choices.
   The scenarios are required outcomes, not tests.
 - **No estimates, sizing, task counts or dates.**
-- Do not turn a location into a design. "The reason code exists on `h_rework_item`" is a
-  location; "add a column to `h_rework_item`" is design.
+- Do not turn a location into a design. "The reason code exists on `<table>`" is a
+  location; "add a column to `<table>`" is design.
 - Do not resolve an open input by guessing. Name the owner.
 - Do not repeat the PRD. Reference it by title and point to its sections.
 - Do not propose a new dashboard or screen where an existing one can be extended. Name what

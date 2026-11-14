@@ -16,12 +16,13 @@ business behaviour. It makes the main use case obvious on the first page.
 | `.agents/skills/product-loop/references/conventions.md` | Folders, frontmatter, markers, gates, the readiness checks |
 | `templates/prd-template.md` | The shape |
 | `internal/discovery.md` for this feature | The problem, evidence, verdict and the options rejected |
-| `context/surfaces/<surface>/current-behaviour.md` — every surface the feature touches | What is live, by row id. **Read before writing any requirement** |
-| `context/02-service-and-lifecycle.md` · `context/04-eligibility-and-verification.md` | Stage and sub-status names; eligibility and rework vocabulary |
-| `context/06-teams-and-who-does-what.md` · `context/07-glossary.md` | Roles; one term per concept |
-| `context/metrics-dictionary.csv` · `templates/metric-contract-template.md` | Metric ids and guardrail rows; how to propose a row that is missing |
-| `context/policies/` | Policy values the rules section cites |
-| `context/regulated-actions.md` | Register rows and the evidence each keeps |
+| `knowledge/PROFILE.md`, `knowledge/facts.md` (if present) | Who you are, the product, `_regulated`, the short facts — read these first |
+| `context/surfaces/<surface>/current-behaviour.md` (if present) — every surface the feature touches | What is live, by row id. **Read before writing any requirement** |
+| `context/02-service-and-lifecycle.md` · `context/04-<domain-rules>.md` (if present) | Stage and sub-status names; the vocabulary of your core decision |
+| `context/06-teams-and-who-does-what.md` · `context/07-glossary.md` (if present) | Roles; one term per concept |
+| `context/metrics-dictionary.csv` (if present) · `templates/metric-contract-template.md` | Metric ids and guardrail rows; how to propose a row that is missing |
+| `context/policies/` (if present) | Policy values the rules section cites |
+| `context/regulated-actions.md` (only when `_regulated: yes`, if present) | Register rows and the evidence each keeps |
 | `qa/README.md` | The 15-column schema for the `Planned` rows |
 | `templates/crosswalk-template.md` | Treatments for earlier requirements |
 | Existing artifacts in the feature folder | What was already decided |
@@ -36,7 +37,7 @@ One batched round; offer defaults.
 
 1. **Primary use case.** Which single user situation must work first? [the top job in discovery]
 2. **Non-goals.** What is out? [the options rejected in discovery]
-3. **Configuration.** Which behaviour varies by insurer partner, product or shop type? [none until stated]
+3. **Configuration.** Which behaviour varies by partner, product or customer segment? [none until stated]
 4. **Roles.** Who can see, act on and override each step? [roles in `context/06-teams-and-who-does-what.md`]
 5. **Success.** Which metric id is the outcome, and which row is the guardrail? [from discovery]
 
@@ -46,25 +47,24 @@ One batched round; offer defaults.
    `internal/readiness.md`, never in the shared body.
 2. **Objective.** Two or three sentences: outcome, users, metric id.
 3. **Users and use cases** as rows: When… I want to… so I can…. Test each: could three
-   different designs satisfy it? If not, it is a solution — rewrite it. Name the shop type
+   different designs satisfy it? If not, it is a solution — rewrite it. Name the customer segment
    where it matters and cite the persona card. Solve for the hardest case first.
-4. **Current behaviour and reuse.** One row per existing behaviour, cited by id (`HUB-008`,
-   `DESK-004`, `FLD-005`), marked reused, extended or replaced. Then, **before every
+4. **Current behaviour and reuse.** One row per existing behaviour, cited by id (`<row id>`), marked reused, extended or replaced. Then, **before every
    requirement row you write** — use case, rule, acceptance — ask: does an existing row
    already cover it? If yes, cite the row and do not restate it. If it extends a row, say
-   how: "extends DESK-004: the verification officer also names the field that differs on
-   `mismatched`".
+   how: "extends `<row id>`: the ops agent also names the field that differs" (example:
+   DESK-004 in `examples/harbor-cover/`).
 5. **Flow and scope.** Numbered steps or a diagram. Then **non-goals**, each with where it
    goes instead.
 6. **Rules and configuration.** Condition → behaviour, the policy it comes from, and whether
-   it is configurable per insurer partner, product or shop type. Varying behaviour is
+   it is configurable per partner, product or customer segment. Varying behaviour is
    configuration, not a code path. Never invent a rule to fill a gap; mark it.
 7. **Information, permissions and audit.** Who provides each data point, who sees and edits
    it, the register row it serves, the evidence kept. Run the viability test on every new
    data point: who captures it, how long per case, can the system derive it. Close the
    section with one labelled line — **Regulated actions touched:** the register rows the
    feature touches ("identity verification · consent and disclosure · record retention"),
-   or "none". Always present. When `_profile.md` says `_regulated: yes`, the gate checks
+   or "none". Always present. When `knowledge/PROFILE.md` says `_regulated: yes`, the gate checks
    the line against `context/regulated-actions.md`.
 8. **States.** One row each for normal and the six strips — EMPTY · PARTIAL · MISSING ·
    RESTRICTED · PROVIDER-FAILED · REWORK. A strip that does not apply says why.
@@ -73,9 +73,9 @@ One batched round; offer defaults.
    per evidence record a regulated action requires.
 10. **Metrics.** Outcome, guardrail and anti-metric, each with a metric id from the
     dictionary, a source and a claim level. Baseline labelled, or "not measured". Target
-    labelled `target`. For the worked feature: outcome `VER-M2`; guardrails `REW-G1` and
-    `VER-M1`; anti-metric: rework items raised per case — not in the dictionary, so propose
-    a row with `templates/metric-contract-template.md` rather than mis-assign one.
+    labelled `target`. If a metric is not in the dictionary, propose a row with
+    `templates/metric-contract-template.md` rather than mis-assign one (in the example,
+    `examples/harbor-cover/`: the anti-metric "rework items raised per case").
 11. **Dependencies and open inputs** with owner roles. An open input stays in this section
     only if a developer could build without inventing policy in its absence. Otherwise it
     is a marker and blocks `in-review`.
@@ -107,11 +107,10 @@ One batched round; offer defaults.
     test plan.
 
 **Customer-facing rules** (facts in `context/02-service-and-lifecycle.md` and
-`context/04-eligibility-and-verification.md`): every `declined` or `rework` outcome names the
-rule in plain words and a recovery path — update a document, upload a different identity proof,
-book a field visit, talk to a verification officer. Never frame the customer as rejected by
-an insurer or a provider. A provider failure never declines. `refer` is never shown as
-declined. No numeric score reaches the customer. Customer surfaces are in the customer's
+`context/04-<domain-rules>.md`): every negative outcome names the rule in plain words and a
+recovery path — update a document, upload a different proof, book a visit, talk to a person.
+Never frame the customer as rejected by a partner or a provider. A provider failure never
+declines. A referral to a human is never shown as a decline. No numeric score reaches the customer. Customer surfaces are in the customer's
 language first; internal surfaces ship in English unless the profile says otherwise.
 
 ## Gate

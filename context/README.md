@@ -1,62 +1,66 @@
 ---
-title: Context — the durable layer for Harbor Cover
+title: Context — the chapters behind your facts
 type: context-index
 status: active
 version: 1.0
 supersedes: —
-decision_refs: [D-001, D-005]
-why: One entry point to every fact the agent and the product lead rely on across sessions
-last_updated: 2026-11-02
+decision_refs: []
+why: Names the chapters that hold longer reference material, so a fact row has one place to point to
+last_updated: 2026-11-04
 ---
 
-# Context — the durable layer
+# Context — the chapters
 
-> Last verified: 2026-11-02
+> Last verified: 2026-11-04
 
-Read the file that settles the question you have. Do not read all of them at once.
+This folder starts empty. Short facts live as rows in `knowledge/facts.md`; who you are and
+what the product is live in `knowledge/PROFILE.md`. A topic that outgrows a few fact rows
+becomes a chapter here, and its rows point to the chapter. `/learn` proposes a chapter when
+a topic outgrows its rows. The chapter is the one source for its detail.
 
-**All Harbor Cover data is fictional.** Every figure in this folder carries the label
-`example`. Replace the figures and the labels when you adapt the pack to your own company
-(`scripts/substitutions.csv` lists the names to swap).
+A filled set lives in `examples/harbor-cover/context/`.
 
-## What each file settles
+## The chapters, when you need them
 
-| # | File | What it settles |
-|---|---|---|
-| 01 | `01-company.md` | What Harbor Cover sells, to whom, and how we position it |
-| 02 | `02-service-and-lifecycle.md` | The production stage names, sub-statuses, stage owners and where the funnel leaks |
-| 03 | `03-surfaces-and-systems.md` | Harbor, Desk, Field, the eligibility engine, data and messaging, and every integration by capability name |
-| 04 | `04-eligibility-and-verification.md` | How the eligibility engine decides, what verification checks, what rework means |
-| 05 | `05-numbers-data-and-traps.md` | Which source is authoritative, the replica tables, and the three silent traps |
-| 06 | `06-teams-and-who-does-what.md` | Roles, headcounts, the two product lanes, and what nobody owns |
-| 07 | `07-glossary.md` | One term per concept |
-| 08 | `08-strategy-and-outcomes.md` | The headline metric, targets, outcome metrics per journey, themes |
-| 09 | `09-current-commitments.md` | A dated snapshot of committed work with its status |
-| — | `metrics-dictionary.csv` + `.md` | Every metric, defined once |
-| — | `personas/` | Customer and role cards with evidence tables |
-| — | `surfaces/<surface>/current-behaviour.md` | What each surface does today, one row per landed behaviour |
-| — | `policies/` | Internal rules as condition → outcome tables |
-| — | `regulated-actions.md` | The six regulated actions and what the product must do for each |
-| — | `design/tokens.md`, `design/voice.md` | Palette and type per surface; brand voice for product copy |
+Create a chapter only when a decision needs it. Skills read a chapter if it is present and
+ask you when it is missing.
+
+| File | What it settles |
+|---|---|
+| `01-company.md` | What you sell, to whom, the segments and how you position it |
+| `02-service-and-lifecycle.md` | The production stage names, sub-statuses, stage owners and where the funnel leaks |
+| `03-surfaces-and-systems.md` | Each surface and system, its status, and every integration by capability name |
+| `04-<domain-rules>.md` | How your core decision works (eligibility, pricing, matching), WHAT only |
+| `05-numbers-data-and-traps.md` | Which source is authoritative, the tables, and the queries that fail silently |
+| `06-teams-and-who-does-what.md` | Roles, the product lanes, who decides what, what nobody owns |
+| `07-glossary.md` | One term per concept |
+| `08-strategy-and-outcomes.md` | The headline metric, targets, outcome metrics per journey, themes |
+| `09-current-commitments.md` | A dated snapshot of committed work and its delivery state |
+| `metrics-dictionary.csv` | Every metric, defined once (`templates/metric-contract-template.md`) |
+| `personas/` | Customer and role cards with evidence (`templates/persona-card-template.md`) |
+| `surfaces/<surface>/current-behaviour.md` | What each surface does today, one row per landed behaviour (`templates/current-behaviour-template.md`) |
+| `policies/` | Internal rules as condition → outcome tables (`templates/policy-template.md`) |
+| `regulated-actions.md` | Only when `_regulated: yes`: each regulated action and the evidence it keeps |
+| `design/tokens.md`, `design/voice.md` | Palette and type per surface; the voice for product copy |
 
 ## The authority rule — one source per fact
 
-A fact lives in one file. Other files point to it; they do not restate it. If you find the
-same figure in two files, the file named in the table above owns it, and the other file is
-wrong. Fix the pointer, not the number.
+A fact lives in one place. If a chapter exists for it, the chapter owns the detail and the
+fact row points to it. If two files state the same figure, the owner file wins and the
+other file gets a pointer, not a corrected copy.
 
-| Kind of fact | Owner file |
+| Kind of fact | Owner |
 |---|---|
-| Stage and sub-status names | `02-service-and-lifecycle.md` (from production) |
-| Any number | `metrics-dictionary.csv` for metrics; `05-numbers-data-and-traps.md` for everything else |
-| A policy value (service level, retention period) | the policy file under `policies/` |
+| Stage and sub-status names | `02-service-and-lifecycle.md`, from production |
+| A metric | `metrics-dictionary.csv` |
+| A policy value | the policy file under `policies/` |
 | A regulated obligation | `regulated-actions.md` |
 | A term | `07-glossary.md` |
 
 ## The staleness ladder
 
-Every `.md` in this folder carries `> Last verified: YYYY-MM-DD`. The session-start hook and
-the weekly miner read it.
+Every `.md` here carries `> Last verified: YYYY-MM-DD`. The session-start hook and the weekly
+miner read it.
 
 | Age since `Last verified` | State | What the agent does |
 |---|---|---|
@@ -65,11 +69,10 @@ the weekly miner read it.
 | 30 to 45 days | likely stale | Flags the file when it reads it; still proceeds |
 | over 45 days | critical | Caveats every citation from the file in chat and in documents |
 
-Refresh a file by re-checking its facts against production, the BI tool or the owner, then
-updating the date. Updating the date without re-checking is the one thing this ladder cannot
-detect; do not do it.
+Refresh a chapter by re-checking its facts against production, the BI tool or the owner,
+then updating the date. Updating the date without re-checking defeats the ladder.
 
 ## Source labels
 
-Exactly five, from the writing standard: `DB-verified <date>` · `analytics` ·
-`operational — unverified` · `target` · `example`. A target is never presented as a baseline.
+Exactly five: `DB-verified <date>` · `analytics` · `operational — unverified` · `target` ·
+`example`. A target is never presented as a baseline.

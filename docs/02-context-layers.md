@@ -14,20 +14,23 @@ last_updated: 2026-11-02
 Read this when you need to decide where a fact, a decision, a preference or a piece of
 work in flight belongs.
 
-Four layers. Each holds a different kind of thing. The agent or the product lead writes
+Five layers. Each holds a different kind of thing. The agent or the product lead writes
 each at a different moment.
 
 | Layer | Holds | Written when | Where |
 |---|---|---|---|
-| Durable | What the product should do, and what is true about the business | When a fact changes, and at `/land` | `context/`, `decisions/`, `qa/` |
+| Learning | Who the reader is, the product, every sourced fact, every correction | At `/setup`, `/learn`, `/land`, `/decide`, `/session end` | `knowledge/`, `inbox/` |
+| Durable | Chapters a fact outgrows: what the product should do, and what is true about the business | When a chapter's facts change, and at `/land` | `context/`, `decisions/`, `qa/` |
 | Change | One feature from discovery to issue pack, with its reviews and decisions | During the loop | `products/<code>/<feature>/`; for tier L also `initiatives/<name>/` |
-| Memory | How the reader works; standing corrections; how tools behave | At `/session end`, and on "remember this" | The agent's memory directory |
+| Memory | Personal notes only this reader's agent needs; how tools behave on this machine | At `/session end` | The agent's memory directory |
 | Session | What happened, what is open, what is next | At every session end | `sessions/`, `tasks/` |
 
 ## Kind of thing → home
 
 | Kind of thing | Home |
 |---|---|
+| A short fact, metric, target, behaviour, decision or preference | A row in `knowledge/facts.md`, with its source; it points to a chapter when one exists |
+| Who the reader is and what the product is | `knowledge/PROFILE.md` Static |
 | A stage, sub-status or policy value | `context/02-service-and-lifecycle.md`, `context/policies/` — from production, never from a plan |
 | A number | `context/metrics-dictionary.csv` for a metric; `context/05-numbers-data-and-traps.md` for everything else |
 | A term | `context/07-glossary.md` |
@@ -38,15 +41,16 @@ each at a different moment.
 | A requirement for a change | `products/<code>/<feature>/shared/prd.md` |
 | The reasoning behind a change | `products/<code>/<feature>/internal/` |
 | A test scenario | `qa/<surface>/test-cases.csv` |
-| A correction about the work | `tasks/lessons.md`, as a rule |
-| A correction about the reader's preferences | A memory file, type `feedback` |
+| A correction about the work | `knowledge/lessons.md`, as a rule |
+| A correction about the reader's preferences | A `preference` row in `knowledge/facts.md` |
 | How a tool behaves | A memory file, type `reference` |
 | An open item with no tracker issue | `tasks/todo.md` |
 | What happened this session | `sessions/latest.md` |
 | What shipped this cycle | `releases/<cycle>-release-note.md` |
 
 The test for memory against repo: if a colleague forking the repo should inherit it, it is
-a context fact or a lesson. If only this reader's agent needs it, it is a memory.
+a fact row, a chapter or a lesson. If only this reader's agent needs it, it is a memory.
+`docs/12-the-learning-layer.md` has the rules for the learning layer.
 
 ## The durable layer
 
@@ -110,7 +114,7 @@ Rules from `.agents/skills/session/references/memory.md`:
 6. When a memory and a file disagree, the file wins on the business and the work. The
    memory wins on how the reader works.
 
-`_memory_dir` in `_profile.md` says where the facts live: `default` is the project memory
+`_memory_dir` in `knowledge/PROFILE.md` says where the facts live: `default` is the project memory
 directory Claude Code keeps; a Codex user names a folder. The weekly miner reads either
 with `--memory-dir`.
 
@@ -121,7 +125,7 @@ with `--memory-dir`.
 | `sessions/latest.md` | Rewritten, not appended, at every session end. Under 50 lines. Ends with the phase check and a next action |
 | `sessions/daily/` | The previous handoff, copied before overwrite |
 | `tasks/todo.md` | Open items with no issue. Anything with a tracker key belongs in the tracker |
-| `tasks/lessons.md` | Every correction, as a rule. Three occurrences of one rule → promote it (`docs/10-keeping-it-current.md`) |
+| `knowledge/lessons.md` | Every correction, as a rule. Three occurrences of one rule → promote it (`docs/10-keeping-it-current.md`) |
 
 Nothing in `sessions/` is a source of truth for a fact. A session file records that a fact
 was used or found stale. The weekly sync (`docs/06-weekly-sync.md`) reads the session layer

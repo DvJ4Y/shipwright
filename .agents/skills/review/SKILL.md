@@ -18,9 +18,10 @@ Reviewers report; they never edit. The author applies fixes and runs `/review` a
 | `references/lenses.md` | What each lens checks, with its sources |
 | `.agents/skills/product-loop/references/conventions.md` | Tiers, the 10 readiness checks, the gate line |
 | `templates/review-report-template.md` | Output shape |
-| `_profile.md` | `_regulated` (compliance lens on or off), `_gate_owner`, `_experience` |
-| `context/surfaces/<surface>/current-behaviour.md` | Post-ship: what the surface does today, row by row |
-| `releases/<cycle>-release-note.md` | Post-ship: what reached production, with evidence |
+| `knowledge/PROFILE.md` | `_regulated` (compliance lens on or off), `_gate_owner`, `_experience` |
+| `knowledge/facts.md` | Current `decision`, `behaviour` and `metric` rows the artifact must agree with |
+| `context/surfaces/<surface>/current-behaviour.md` (if present) | Post-ship: what the surface does today, row by row |
+| `releases/<cycle>-release-note.md` (if present) | Post-ship: what reached production, with evidence |
 
 ## Questions first
 
@@ -28,7 +29,7 @@ One batched round; defaults in brackets.
 
 1. **Mode.** gate, red-team or post-ship? [gate]
 2. **Lenses.** All, or a subset? [all for tier M and L; writing and engineering-readiness inline for tier S]
-3. **Gate owner.** Who approves or sends back? [`_gate_owner` in `_profile.md`]
+3. **Gate owner.** Who approves or sends back? [`_gate_owner` in `knowledge/PROFILE.md`]
 4. **Post-ship evidence.** Which release note, and what production evidence (screens, a replica query)? [the latest release note; ask for screens]
 
 ## Procedure
@@ -46,7 +47,7 @@ One batched round; defaults in brackets.
    | Writing | `writing-reviewer` | Writing standard, glossary terms, capability names, roles |
    | Compliance | `compliance-reviewer` | Regulated actions touched vs the register, evidence kept, consent wording, retention, recovery on every declined, rework or provider-failed outcome |
 
-   The compliance lens runs only when `_profile.md` has `_regulated: yes`. Otherwise write one line in the report: "Compliance lens not run — `_regulated: no`."
+   The compliance lens runs only when `knowledge/PROFILE.md` says `_regulated: yes`. If the profile is missing, or has no `_regulated` field, treat it as `_regulated: no`: the lens is off by default. When it does not run, write one line in the report: "Compliance lens not run — `_regulated: no`."
 4. **Dispatch.** Tier M and L: launch the reviewers in parallel, one per lens, each in a fresh context. The agent definitions in `.claude/agents/` restrict them to Read, Grep and Glob; where the runtime cannot restrict tools, tell the reviewer not to edit and verify with `scripts/review-guard.sh`. Reviewers return their table to you, the dispatcher. Give each the artifact path, the mode, its section of `references/lenses.md`, and the related files (PRD, mockups, brief, issue pack). Tier S: run the writing and engineering-readiness checks inline.
 5. **Merge and grade.** Deduplicate. When two lenses flag one thing, keep the higher grade.
 
@@ -68,15 +69,15 @@ One batched round; defaults in brackets.
    **Understanding check (tier M and L).** A verdict of **ready** needs one more thing, run after the author applies the fixes. The engineering-readiness reviewer, holding only the fixed artifact, restates each feature, names what it changes in each layer, and names the three questions the engineering lead would ask. If it cannot, the verdict is **fix**.
    **Rounds.** One full review per artifact version. A second full round runs only on a new version.
 7. **Mode extras.**
-   - **red-team.** List kill-assumptions: beliefs that would kill the work if false. Rank by likelihood-false × damage. Give each the **cheapest test**: a replica query, five customer calls, a field visit with a field verifier, a fake door on Harbor, a question to one insurer partner. Add a pre-mortem: six months on, it failed — the three likeliest causes and the early signal for each.
-   - **post-ship.** For every acceptance criterion and requirement row, record three things. What the PRD says. What `context/surfaces/<surface>/current-behaviour.md` already says (row id, or "no row"). What production shows, with evidence (screen, replica query, release note line). Mark each `match`, `gap` or `deferred` (deferred through `/decide` at release). Label every observation with its source. Every `gap` becomes a PENDING decision. On **ready**, hand to `/land`.
+   - **red-team.** List kill-assumptions: beliefs that would kill the work if false. Rank by likelihood-false × damage. Give each the **cheapest test**: a replica query, five customer calls, a field visit, a fake door on a customer surface, a question to one partner. Add a pre-mortem: six months on, it failed — the three likeliest causes and the early signal for each.
+   - **post-ship.** For every acceptance criterion and requirement row, record three things. What the PRD says. What `context/surfaces/<surface>/current-behaviour.md` already says (row id, or "no row"). What production shows, with evidence (screen, replica query, release note line). Mark each `match`, `gap` or `deferred` (deferred through `/decide` at release). Label every observation with its source. Every `gap` becomes a PENDING decision. Propose one `outcome` row per release in `knowledge/facts.md`, sourced to the report. On **ready**, hand to `/land`.
 8. **Write the report** with `templates/review-report-template.md`. Must-fix list first.
 9. **Gate line.** Ask the gate owner: approve or send back, with the reason. Record it in the report and the artifact. On approval, the gate owner (the product lead) sets `status: approved`; on a send-back, the author applies the fixes.
-10. **Compound.** Every send-back adds a lesson to `tasks/lessons.md` through `/session end`.
+10. **Compound.** Every send-back adds a lesson to `knowledge/lessons.md` through `/session end`.
 
 **External reviewer (another model or tool).** Put the limits in the prompt: no file edits, no answers to policy questions, behaviour-changing findings become PENDING decisions. Run `scripts/review-guard.sh snapshot <folder>` before and `verify <folder>` after; restore any changed file and flag it.
 
-Example (Harbor Cover): `/review gate products/desk/verification-outcome-and-rework/shared/prd.md` runs six lenses, because the profile says `_regulated: yes`. It writes `internal/review-<date>-gate.md` with the verdict and the must-fix list.
+In the example: `/review gate examples/harbor-cover/products/desk/verification-outcome-and-rework/shared/prd.md` runs six lenses, because the example profile says `_regulated: yes`. It writes `internal/review-<date>-gate.md` with the verdict and the must-fix list.
 
 ## Gate
 
@@ -99,7 +100,7 @@ Example (Harbor Cover): `/review gate products/desk/verification-outcome-and-rew
 - Do not praise. State what passes in one line, then the findings.
 - Do not review a moving target. If the artifact changes mid-review, restart on the new version.
 - Do not treat a persona-panel opinion as evidence. It raises questions only.
-- Do not run the compliance lens from memory. It reads `context/regulated-actions.md` or it does not run.
+- Do not run the compliance lens from memory. It reads `context/regulated-actions.md` or it does not run. If `_regulated: yes` and the file is missing, name it and ask.
 
 ## Hands off to
 

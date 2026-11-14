@@ -15,12 +15,13 @@ Land a shipped PRD by appending its requirements as rows to the surface's curren
 | The PRD (`shared/prd.md`) — frontmatter, §6 rules, §7 information, §8 states, §9 acceptance | The requirement rows and the acceptance ids to land; `status` and `shipped_on` |
 | `releases/<cycle>-release-note.md` that set the PRD to `shipped` | Production evidence per item; QA rows confirmed |
 | `internal/review-YYYY-MM-DD-post-ship.md` | Match, gap and not-shipped per acceptance criterion |
-| `context/surfaces/<surface>/current-behaviour.md` for every surface the PRD touches | The exact columns, the last id in the sequence, the SUPERSEDED convention in its header |
-| `context/policies/<file>.md` named in the PRD's §6 | Where a rule requirement lands |
-| `context/regulated-actions.md` | The register row a landed behaviour serves |
-| `qa/<surface>/test-cases.csv` | The `Planned` rows whose `Traces To` names this PRD |
+| `context/surfaces/<surface>/current-behaviour.md` for every surface the PRD touches (if present; a missing file is created from `templates/current-behaviour-template.md` after the product lead confirms) | The exact columns, the last id in the sequence, the SUPERSEDED convention in its header |
+| `context/policies/<file>.md` named in the PRD's §6 (if present) | Where a rule requirement lands |
+| `context/regulated-actions.md` (only when `_regulated: yes`, if present) | The register row a landed behaviour serves |
+| `qa/<surface>/test-cases.csv` (if present) | The `Planned` rows whose `Traces To` names this PRD |
 | `templates/crosswalk-template.md` | The crosswalk shape |
 | `.agents/skills/product-loop/references/conventions.md` | The surface table (workstream code → surface → folders → id prefix); archive folder shape; the commit proposal |
+| `knowledge/PROFILE.md`, `knowledge/facts.md` | Your workstream codes and `_regulated`; the `behaviour` rows this landing supersedes |
 
 `land list` — no PRD given: scan `products/**/shared/prd.md` for `status: shipped` with `landed_into: []` and print the paths. Then stop.
 
@@ -45,12 +46,12 @@ One batched round; defaults in brackets.
 
    | PRD row | Destination |
    |---|---|
-   | §12 row for `hub`, `desk` or `field` | That surface's `context/surfaces/<surface>/current-behaviour.md` (`HUB-`, `DESK-`, `FLD-`) |
+   | §12 row for a surface code | That surface's `context/surfaces/<surface>/current-behaviour.md` (`<CODE>-` ids) |
    | §12 `rules` row, §6 rule | The policy file it names, cited as `context/policies/<file>.md#<condition>` |
    | §12 `comms` row | The surface where the message is seen |
-   | §12 `data` row | `context/05-numbers-data-and-traps.md` |
+   | §12 `data` row | `context/05-numbers-data-and-traps.md` (if present; else ask) |
    | §7 who sees or edits | `context/policies/data-handling-and-retention.md`, or a role-scoped surface row |
-   | §7 evidence kept | The suffix "— regulated action: <register row>" on the surface row it serves |
+   | §7 evidence kept (when `_regulated: yes`) | The suffix "— regulated action: <register row>" on the surface row it serves |
    | §8 state that cannot occur | Crosswalk `not applicable` |
    | §9 acceptance group | A row on the surface its §12 row names |
 
@@ -59,25 +60,26 @@ One batched round; defaults in brackets.
 
    | Column | Holds | Source |
    |---|---|---|
-   | `ID` | The next id in the file's sequence (`HUB-`, `DESK-`, `FLD-`) | the file's last row |
+   | `ID` | The next id in the file's sequence (`<CODE>-nnn`) | the file's last row |
    | `Behaviour` | The PRD's own "When … then …" wording, scoped to a role where the role matters; where a regulated action applies, the suffix "— regulated action: <register row>" | the PRD row; `context/regulated-actions.md` |
    | `Source PRD` | The PRD's archive path (step 9) | — |
    | `Landed on` | The production date, `YYYY-MM-DD` | the PRD's `shipped_on` |
 
    When a new row replaces an existing one, prefix the old row's `Behaviour` with `SUPERSEDED by <new id>` as the file header describes, and never delete or renumber. Bump the surface file's `last_updated` and leave `Last verified` to the product lead.
+   Then propose one `behaviour` row per appended row in `knowledge/facts.md`, its source the surface file and row id (`docs/12-the-learning-layer.md`). A row it replaces becomes `superseded by F-nnnn`.
 4. **Write the crosswalk** at `<feature folder>/internal/crosswalk.md` from `templates/crosswalk-template.md`; if readiness check 8 already wrote that file, append a "Landed" section. Earlier source = the PRD section and row. Treatment = one of the template's seven values; the template defines each. §6- and §7-derived rows are `refined`; grouped criteria are `merged`; both are confirmed in the landing table. `deferred` covers `gap` and deferred rows and carries the decision point. Destination = the row id or the policy destination. Coverage check: PRD rows = crosswalk rows, unmapped 0.
 5. **Reconcile the QA rows.** Product owns the scenario (acceptance in executable form); engineering owns test data, expected result and build state. Whoever shipped set `Build State` at QA trigger 2; `land` only reconciles. Diff the `Planned` rows whose `Traces To` names this PRD against the release note's confirmed list. Where the note confirms the scenario and the CSV still says `Planned`, set `Current` and record the discrepancy in the crosswalk notes. Never set `Blocked` or `Fix-pending`. A row the code contradicts goes back to the shipper under trigger 2 and stays as it is.
 6. **Set the PRD to landed.** Frontmatter: `status: landed`, `landed_into: [<row ids and policy destinations>]`, bump `last_updated`. `status`, `shipped_on`, `landed_into` and `last_updated` are the only frontmatter fields `/issue-tracker release` and `/land` set on an approved PRD; the body stays frozen. Do this before the move.
 7. **Mirror the tracker.** Move the parent product issue to `Landed` through the `/issue-tracker` adapter; the adapter says whether that closes the issue.
 8. **Record what did not land.** Every `gap` → a PENDING decision through `/decide`. Every `deferred` row already carries its decision point from release mode; the crosswalk cites it. `land` runs once per PRD; a deferred criterion returns as a row in a later PRD when its decision is LOCKED.
 9. **Move the feature folder** to `products/<code>/archive/landed-YYYY-MM-DD/<feature>/` with a `README.md` table: file → replaced by (the row ids, the policy destination, or "deferred → todo") → why. Writing that README is the last part of the move. After the move, the skill edits nothing under `archive/`.
-10. **One commit proposal** covering the surface rows, the policy file, the crosswalk, the QA flips, the PRD and the move. Use the editor's commit-proposal tool if present; otherwise show the `git` command for the product lead to approve. The commit is one unit; if the product lead does not approve it, revert every file in the list.
+10. **One commit proposal** covering the surface rows, the fact rows, the policy file, the crosswalk, the QA flips, the PRD and the move. Use the editor's commit-proposal tool if present; otherwise show the `git` command for the product lead to approve. The commit is one unit; if the product lead does not approve it, revert every file in the list.
 
-Example (Harbor Cover), the verification-outcome-and-rework PRD:
+In the example (`examples/harbor-cover/`), the verification-outcome-and-rework PRD:
 
-- Rows landed: `HUB-013` (the rework message names the field that differs and the recovery path), `DESK-012` (the rework item shows the rule that fired — regulated action: record retention), `FLD-011` (replacement capture against the item).
+- In the example (`examples/harbor-cover/`), rows landed: `HUB-013` (the customer message names the field that differs and the recovery path), `DESK-012` (the returned item shows the rule that fired — regulated action: record retention), `FLD-011` (replacement capture against the item).
 - Superseded row: `DESK-004` gains a successor and is prefixed `SUPERSEDED by DESK-012`.
-- Deferred row: one `rework` acceptance criterion was deferred at release through `/decide`; the crosswalk carries `deferred` with that decision point, and no row is appended.
+- Deferred row: one acceptance criterion was deferred at release through `/decide`; the crosswalk carries `deferred` with that decision point, and no row is appended.
 
 ## Gate
 
@@ -93,7 +95,7 @@ Example (Harbor Cover), the verification-outcome-and-rework PRD:
 
 ## Output
 
-- Rows appended to `context/surfaces/<surface>/current-behaviour.md` (and a policy file where a rule landed).
+- Rows appended to `context/surfaces/<surface>/current-behaviour.md` (and a policy file where a rule landed); the matching `behaviour` rows proposed for `knowledge/facts.md`.
 - `<feature folder>/internal/crosswalk.md`.
 - QA rows flipped in `qa/<surface>/test-cases.csv`.
 - The PRD at `status: landed`, inside `products/<code>/archive/landed-YYYY-MM-DD/<feature>/`, with the archive README.

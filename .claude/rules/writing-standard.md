@@ -9,7 +9,7 @@ and `/localisation-copy` own that voice.
 1. **Lead with the decision or the ask.** The first sentence says what the reader must do.
 2. **One idea per sentence.** Aim for 20 words or fewer. An acceptance criterion is one
    observable "When … then …" statement and may run longer.
-3. **One term per concept.** Take it from `context/07-glossary.md`. Use no synonyms.
+3. **One term per concept.** Take it from `context/07-glossary.md` if present; otherwise ask. Use no synonyms.
 4. **Active voice.** Name who does the action.
 5. **No repetition, filler or hedging.** Cut "basically", "it should be noted", "arguably".
 6. **Use conditions and tables** instead of long prose. "If X, then Y" beats a paragraph.
@@ -23,7 +23,7 @@ and `/localisation-copy` own that voice.
 10. **Roles, not person names**, in plans.
 11. **No buzzwords.** Say the thing.
 12. **Facts, not mistake history.** Write what is true. Put the backstory in
-    `tasks/lessons.md`.
+    `knowledge/lessons.md`.
 
 ## Self-check before sharing
 

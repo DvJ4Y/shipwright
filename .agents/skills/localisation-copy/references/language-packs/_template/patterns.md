@@ -24,7 +24,7 @@ Grammatically correct is not enough. A string a customer would never say aloud i
 
 | Pattern | Bookish form | Spoken form | Rule |
 |---|---|---|---|
-| Formal request | "Kindly furnish the requisite documentation." (`example`) | "Send us the shop licence photo." (`example`) | Name the document; use the verb a person would use |
+| Formal request | "Kindly furnish the requisite documentation." (`example`) | "Send us the licence photo." (`example`) | Name the document; use the verb a person would use |
 | Honorific stacking | {{bookish}} | {{spoken}} | {{rule}} |
 | Passive voice | {{bookish}} | {{spoken}} | {{rule: name who does the action}} |
 | Nominalised verb | {{bookish}} | {{spoken}} | {{rule}} |
@@ -37,10 +37,10 @@ The test: if a customer says the source-language word in conversation, keep it.
 
 | Rule | Value |
 |---|---|
-| Source-language words kept as loanwords | {{list: e.g. policy, premium, product names, the one-time code's abbreviation}} |
+| Source-language words kept as loanwords | {{list: e.g. product names, the one-time code's abbreviation}} |
 | Script for loanwords | {{the pack's script, or Latin when the screen shows the word in Latin elsewhere}} |
 | Words that must be in the pack language | {{list: everything that explains, instructs or reassures}} |
-| Product and surface names | Harbor and every product name stay as the customer sees them (`example`) |
+| Product and surface names | Every product name stays as the customer sees it |
 
 ## 3. Text expansion limits
 

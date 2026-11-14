@@ -130,7 +130,7 @@ Gate: <approve | send back> · By: <role> · On: YYYY-MM-DD · Reason: <one line
 ```
 
 A send-back names the failing check and the fix. The author fixes; the reviewer re-runs.
-The gate owner is `_gate_owner` in `_profile.md`, by default the lane's product lead. On
+The gate owner is `_gate_owner` in `knowledge/PROFILE.md`, by default the lane's product lead. On
 approval the gate owner sets `status: approved`. Nobody edits the body in place after that.
 `/issue-tracker release` and `/land` may still set the lifecycle fields `status`,
 `shipped_on`, `landed_into` and `last_updated`. A send-back is also a lesson.
@@ -138,7 +138,7 @@ approval the gate owner sets `status: approved`. Nobody edits the body in place 
 ## Reviews
 
 `/review` dispatches read-only reviewers, one lens each, in fresh contexts: strategy,
-customer, engineering-readiness, data, writing, and compliance when `_profile.md` says
+customer, engineering-readiness, data, writing, and compliance when `knowledge/PROFILE.md` says
 `_regulated: yes`. Findings are Critical, Major, Minor or Outdated. The verdict is ready,
 fix or rethink. A ready verdict on tier M or L also needs the understanding check. The
 engineering-readiness reviewer restates each feature and names the three questions the

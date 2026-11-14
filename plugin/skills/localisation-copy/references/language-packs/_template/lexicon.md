@@ -22,23 +22,23 @@ Replace it with the pack's own line.
 
 | Term (source) | Approved wording | Romanisation | Banned wording | Note (why) |
 |---|---|---|---|---|
-| policy | The source word kept as a loanword, written in the pack's script | policy | The formal legal term for an insurance contract | Customers say the source word in conversation; the formal term is understood only in writing (`example`) |
-| premium | {{approved}} | {{romanisation}} | {{banned}} | {{why}} |
-| your cover | {{approved}} | {{romanisation}} | {{banned: "the product", "the plan"}} | {{why}} |
-| sum insured | {{approved}} | {{romanisation}} | {{banned}} | {{plain wording; the band is never shown}} |
-| claim | {{approved}} | {{romanisation}} | {{banned}} | {{why}} |
-| returned (rework) | {{approved}} | {{romanisation}} | {{banned: rejected, failed, invalid}} | A document is fixable; see `context/design/voice.md` |
-| not available for … right now (declined) | {{approved}} | {{romanisation}} | {{banned: ineligible, does not qualify}} | Describes the cover, not the person |
+| policy | The source word kept as a loanword, written in the pack's script | policy | The formal legal term for the contract | Customers say the source word in conversation; the formal term is understood only in writing (`example`, from `examples/harbor-cover/`) |
+| {{price term}} | {{approved}} | {{romanisation}} | {{banned}} | {{why}} |
+| your {{product}} | {{approved}} | {{romanisation}} | {{banned: "the product", "the plan"}} | {{why}} |
+| {{amount term}} | {{approved}} | {{romanisation}} | {{banned}} | {{plain wording; an internal band is never shown}} |
+| {{core service event}} | {{approved}} | {{romanisation}} | {{banned}} | {{why}} |
+| returned (send again) | {{approved}} | {{romanisation}} | {{banned: rejected, failed, invalid}} | A document is fixable; see `context/design/voice.md` |
+| not available for … right now (declined) | {{approved}} | {{romanisation}} | {{banned: ineligible, does not qualify}} | Describes the outcome, not the person |
 | on hold | {{approved}} | {{romanisation}} | {{banned}} | {{what is waited for is always named}} |
 | we could not complete the identity check (provider-failed) | {{approved}} | {{romanisation}} | {{banned: verification failed}} | The provider failed, not the customer |
-| cooling-off | {{approved}} | {{romanisation}} | {{banned: free-look, grace period}} | Regulated term; compliance officer approves |
+| {{regulated term, e.g. cancellation window}} | {{approved}} | {{romanisation}} | {{banned}} | Only when `_regulated: yes`; compliance officer approves |
 | identity proof | {{approved}} | {{romanisation}} | {{banned}} | {{the everyday word for the document}} |
-| shop licence | {{approved}} | {{romanisation}} | {{banned}} | {{the word shop owners use}} |
+| {{a domain document}} | {{approved}} | {{romanisation}} | {{banned}} | {{the word customers use}} |
 | address proof | {{approved}} | {{romanisation}} | {{banned}} | {{...}} |
-| our verification team | {{approved}} | {{romanisation}} | {{banned: a person name, "the officer"}} | A role, in plain words |
-| field verifier (shop visit) | {{approved}} | {{romanisation}} | {{banned: assessor, surveyor}} | {{...}} |
-| referral agent | {{approved}} | {{romanisation}} | {{banned}} | {{...}} |
-| insurer partner | {{approved}} | {{romanisation}} | {{banned}} | Never framed as the party who refused |
+| our team | {{approved}} | {{romanisation}} | {{banned: a person name, a job title}} | A role, in plain words |
+| {{visiting agent}} (a visit) | {{approved}} | {{romanisation}} | {{banned}} | {{...}} |
+| {{referral partner}} | {{approved}} | {{romanisation}} | {{banned}} | {{...}} |
+| partner | {{approved}} | {{romanisation}} | {{banned}} | Never framed as the party who refused |
 | within one working day | {{approved}} | {{romanisation}} | {{banned: SLA, TAT, 24 hrs}} | A commitment, not a code |
 | one-time code | {{approved}} | {{romanisation}} | {{banned}} | {{keep the abbreviation if customers say it}} |
 | WhatsApp | {{kept as the product name}} | WhatsApp | — | Product names stay as the customer sees them |

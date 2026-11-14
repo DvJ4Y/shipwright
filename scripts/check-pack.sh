@@ -31,9 +31,9 @@ FILE_ARGS = [a for a in ARGS if not a.startswith("--")]
 
 CHECKS = [
     ("person-name", "a name from scripts/people.txt (persona names outside their allowed paths)"),
-    ("name-heuristic", "warning: two consecutive capitalised words under products/ or docs/ that are not known terms"),
-    ("unlabelled-number", "a number with % or a unit word and no source label on the line (products/, context/, docs/)"),
-    ("file-length", "a *.md over 200 lines under products/, context/ or .agents/skills/"),
+    ("name-heuristic", "warning: two consecutive capitalised words under products/ or docs/ (also examples/*/products/) that are not known terms"),
+    ("unlabelled-number", "a number with % or a unit word and no source label on the line (products/, context/, docs/, and the same under examples/*/)"),
+    ("file-length", "a *.md over 200 lines under products/, context/, .agents/skills/, or examples/*/products/ and examples/*/context/"),
     ("shared-leak", "a local path, decision id, build id or tracker key in a shared/ folder"),
     ("placeholder", "an unfilled {{PLACEHOLDER}} outside the template folders"),
     ("secret", "an API key, token or long hex after KEY="),
@@ -59,6 +59,14 @@ SELF = {"scripts/check-pack.sh", "scripts/people.txt", "scripts/substitutions.cs
 
 def rel(p):
     return p.resolve().relative_to(ROOT).as_posix()
+
+
+EXAMPLE_RE = re.compile(r"^examples/[^/]+/")
+
+
+def ws(r):
+    """The path inside its workspace: examples/<name>/products/x -> products/x; root paths unchanged."""
+    return EXAMPLE_RE.sub("", r, count=1)
 
 
 def is_text(p):
@@ -207,6 +215,7 @@ def check_person_names():
 
 
 # ---------------------------------------------------------------- 2. capitalised-name heuristic (warning)
+# Known words: generic product words plus the example's vocabulary (examples/harbor-cover/).
 STOP = set("""
 the a an in on at if when then each every one two three four five six seven eight nine ten read run use write
 never always do not no yes this that these those for from with and or but so to of by as is are was were be it its
@@ -238,8 +247,9 @@ inspection replacement provider-failed policyholder cooling-off sum-insured reas
 
 def known_words():
     words = set(STOP)
-    gl = ROOT / "context/07-glossary.md"
-    if gl.is_file():
+    for gl in [ROOT / "context/07-glossary.md"] + sorted(ROOT.glob("examples/*/context/07-glossary.md")):
+        if not gl.is_file():
+            continue
         for line in lines_of(gl):
             m = re.match(r"^\|\s*\*\*([^*]+)\*\*", line)
             if m:
@@ -262,7 +272,8 @@ def check_name_heuristic():
     known = known_words()
     for p in FILES:
         r = rel(p)
-        if p.suffix != ".md" or not (r.startswith("products/") or r.startswith("docs/")):
+        w = ws(r)
+        if p.suffix != ".md" or not (w.startswith("products/") or r.startswith("docs/")):
             continue
         lines = lines_of(p)
         headers = table_header_rows(lines)
@@ -291,7 +302,8 @@ RULE_CONST_RE = re.compile(
 def check_numbers():
     for p in FILES:
         r = rel(p)
-        if p.suffix != ".md" or not (r.startswith("products/") or r.startswith("context/") or r.startswith("docs/")):
+        w = ws(r)
+        if p.suffix != ".md" or not (w.startswith("products/") or w.startswith("context/") or r.startswith("docs/")):
             continue
         if "/showcase/" in "/" + r:
             continue
@@ -313,7 +325,8 @@ def check_numbers():
 def check_length():
     for p in FILES:
         r = rel(p)
-        if p.suffix == ".md" and (r.startswith("products/") or r.startswith("context/") or r.startswith(".agents/skills/")):
+        w = ws(r)
+        if p.suffix == ".md" and (w.startswith("products/") or w.startswith("context/") or r.startswith(".agents/skills/")):
             n = len(lines_of(p))
             if n > 200:
                 finding(r, n, "file-length", f"{n} lines; the limit is 200 — split the file")
@@ -321,7 +334,7 @@ def check_length():
 
 # ---------------------------------------------------------------- 5. shared/ leaks
 def tracker_keys():
-    keys = {"HBR"}
+    keys = {"HBR"}  # the tracker key of the example in examples/harbor-cover/
     sub = ROOT / "scripts/substitutions.csv"
     if sub.is_file():
         with sub.open(encoding="utf-8") as fh:
@@ -358,7 +371,7 @@ def check_shared():
 
 # ---------------------------------------------------------------- 6. placeholders
 PLACEHOLDER_OK = ("templates/", "tools/prompts/", "scripts/substitutions.csv",
-                  ".agents/skills/localisation-copy/references/language-packs/_template/", "_starter-files/")
+                  ".agents/skills/localisation-copy/references/language-packs/_template/")
 PH_RE = re.compile(r"\{\{[A-Z_]+\}\}")
 
 
@@ -403,9 +416,9 @@ def check_secrets():
 ROW_ID_RE = re.compile(r"^[A-Z]{2,6}-\d{3,}$")
 
 
-def surface_row_ids():
+def surface_row_ids(base):
     ids = set()
-    for f in sorted((ROOT / "context/surfaces").glob("*/current-behaviour.md")):
+    for f in sorted((base / "context/surfaces").glob("*/current-behaviour.md")):
         for line in lines_of(f):
             m = re.match(r"^\|\s*([A-Z]{2,6}-\d{3,})\s*\|", line)
             if m:
@@ -414,11 +427,13 @@ def surface_row_ids():
 
 
 def check_landed():
-    ids = None
+    ids_by_ws = {}
     for p in FILES:
         r = rel(p)
-        if p.suffix != ".md" or not r.startswith("products/"):
+        w = ws(r)
+        if p.suffix != ".md" or not w.startswith("products/"):
             continue
+        base = ROOT / r[: len(r) - len(w)]  # the workspace root: ROOT or ROOT/examples/<name>/
         lines = lines_of(p)
         if not frontmatter_end(lines):
             continue
@@ -428,15 +443,16 @@ def check_landed():
         landed_into = fm_value(lines, "landed_into")
         if not landed_into or landed_into in ("[]", "—", "-", "~"):
             continue
-        if ids is None:
-            ids = surface_row_ids()
+        if base not in ids_by_ws:
+            ids_by_ws[base] = surface_row_ids(base)
+        ids = ids_by_ws[base]
         entries = [e.strip().strip("\"'") for e in landed_into.strip("[]").split(",") if e.strip()]
         for e in entries:
             if ROW_ID_RE.match(e):
                 if e not in ids:
                     finding(r, 1, "landed-prd", f"landed_into row {e} is in no context/surfaces/*/current-behaviour.md")
             elif e.startswith("context/"):
-                if not (ROOT / e.split("#")[0]).exists():
+                if not (base / e.split("#")[0]).exists():
                     finding(r, 1, "landed-prd", f"landed_into destination {e} does not exist")
             else:
                 warning(r, 1, "landed-prd", f"landed_into entry '{e}' is neither a row id nor a context/ path")

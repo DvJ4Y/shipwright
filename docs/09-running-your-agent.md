@@ -28,7 +28,7 @@ one file.
 ## Skills load when the task matches
 
 A skill's instructions arrive only when its description matches what you asked. That is
-why there are 16 focused skills instead of one long instruction file: a long instruction
+why there are 18 focused skills instead of one long instruction file: a long instruction
 file loses rules, because the agent stops following them. Every skill has one job, a short
 "Do not" list, and conditional reads: "read this if present; if it is missing, name it and
 ask." An agent whose first read fails does not stop; it improvises. That line turns a
@@ -41,7 +41,7 @@ silent failure into a question.
 
 | Hook | Does | Why a hook |
 |---|---|---|
-| SessionStart (startup, resume, clear, compact) | Prints the `_` lines of `_profile.md`, the handoff head, the top todo items, open PENDING decision points, and PRDs at `shipped` not yet landed | The session loop works only if it runs every time |
+| SessionStart (startup, resume, clear, compact) | Prints the `_` lines of `knowledge/PROFILE.md`, the handoff head, the top todo items, open PENDING decision points, and PRDs at `shipped` not yet landed | The session loop works only if it runs every time |
 | Stop | If artifacts changed and `sessions/latest.md` did not, asks once for `/session end` | A handoff that depends on remembering does not happen |
 | PreToolUse on Edit and Write | Denies edits to files headed `GENERATED — do not hand-edit`; asks before writing under `archive/` | Generated files and history must not drift by accident |
 
@@ -124,7 +124,7 @@ collide. The author applies the fixes and runs `/review` again.
 
 ## The profile
 
-Every skill reads `_profile.md` at the start. `/onboard` fills it on day one.
+Every skill reads `knowledge/PROFILE.md` at the start. `/onboard` fills it on day one.
 
 | Field | Effect |
 |---|---|
@@ -142,7 +142,7 @@ Every skill reads `_profile.md` at the start. `/onboard` fills it on day one.
 | `_gate_owner` | The role that approves gates |
 
 `/onboard` runs on the blank starters in `_starter-files/` and the worked example in
-`products/desk/verification-outcome-and-rework/`. There is no separate training folder;
+`examples/harbor-cover/products/desk/verification-outcome-and-rework/`. There is no separate training folder;
 the worked example is the sandbox.
 
 ## Context hygiene

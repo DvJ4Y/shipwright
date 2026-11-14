@@ -48,7 +48,8 @@ commitments. Most "new" things are extensions.>
 
 ## Regulated actions touched
 
-<One line per row of `context/regulated-actions.md` the idea touches, or "none".>
+<Only when `knowledge/PROFILE.md` says `_regulated: yes`: one line per row of
+`context/regulated-actions.md` the idea touches, or "none". Otherwise delete this section.>
 
 ## Options
 

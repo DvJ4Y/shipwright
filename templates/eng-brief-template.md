@@ -59,6 +59,8 @@ HOW questions only.>
 
 ## 6. Regulated actions and evidence
 
+<Only when `knowledge/PROFILE.md` says `_regulated: yes`. Otherwise write "not applicable".>
+
 | Register row | Evidence the product must keep | Where it is visible |
 |---|---|---|
 

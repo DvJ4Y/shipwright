@@ -4,7 +4,12 @@ from a script written with templates/story-script-template.md.
 
 Usage:
   python3 tools/story-builder/build_story.py <script.md> <out.html>
-      [--palette context/design/tokens.md] [--surface harbor]
+      [--palette context/design/tokens.md] [--surface <surface>]
+
+Example (the worked example):
+  python3 tools/story-builder/build_story.py \
+      examples/harbor-cover/products/desk/verification-outcome-and-rework/showcase/story-script.md \
+      /tmp/story.html --palette examples/harbor-cover/context/design/tokens.md --surface harbor
       [--screens <dir>] [--template <file>] [--storyboard]
 
 What it reads
@@ -71,7 +76,7 @@ def parse_time(cell):
 
 
 def surface_of(screen):
-    """'Desk · verification queue' → 'desk'; 'End card' → 'end-card'."""
+    """'Console · review queue' → 'console'; 'End card' → 'end-card'."""
     first = re.split(r"\s*[·—–:|]\s*|\s-\s", screen, maxsplit=1)[0]
     slug = re.sub(r"[^a-z0-9]+", "-", first.strip().lower()).strip("-")
     return slug or "story"

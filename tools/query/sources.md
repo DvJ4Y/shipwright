@@ -26,7 +26,7 @@ unverified`. A planned value carries `target`. Never present a target as a basel
 ## Rules that stop silent wrong answers
 
 1. **Population boundary first.** Write what the dataset excludes before computing a rate. A
-   table that only holds survivors (issued policies, closed rework items) yields counts, never
+   table that only holds survivors (completed cases, closed returned items) yields counts, never
    rates.
 2. **One source per number.** A numerator from the replica and a denominator from analytics
    is not a rate. If the question needs both, request a BI export.
@@ -37,15 +37,15 @@ unverified`. A planned value carries `target`. Never present a target as a basel
 5. **Name the query.** Every figure in a document cites the saved query id or the statement,
    the source and the date it was run.
 
-## Worked mapping — Harbor Cover (`example`)
+## Worked mapping — the example in `examples/harbor-cover/` (`example`)
 
 | Metric | Question | Source | Population boundary |
 |---|---|---|---|
 | `POL-M1` policies issued per month | how many policies reached `Policy issued` | SQL replica, `h_policy` with `h_case` stage history | cases with an issued timestamp in the month; excludes cancelled within cooling-off unless stated |
-| `QUO-M1` quote → eligibility rate | of people who started a quote, how many saw an eligibility result | event analytics, `quote_started` → `eligibility_result_viewed` | sessions on Harbor in the window; excludes referral-agent-entered quotes, which have no session |
+| (example) `QUO-M1` quote → eligibility rate | of people who started a quote, how many saw an eligibility result | event analytics, `quote_started` → `eligibility_result_viewed` | sessions on Harbor in the window; excludes referral-agent-entered quotes, which have no session |
 | `DOC-M1` document completeness at first submission | share of cases with every checklist item present at first upload | SQL replica, `h_document` against the checklist policy | cases that reached `Documents`; the checklist differs by product |
 | `VER-M1` verification first-pass rate | cases whose earliest officer or field `h_verification` row is `pass`, over cases quoted in the cohort week that entered `Verification` by D+45 (the dictionary definition) | the BI tool (authoritative); the SQL replica for a check, `operational — unverified` | engine re-runs excluded (`outcome_source = engine`); provider-failed is not a fail |
 | `VER-M2` rework cycle time | median hours from rework raised to resubmitted (not accepted), per rework item, D+14 (the dictionary definition) | the BI tool (authoritative); the SQL replica for a check, `operational — unverified` | resubmitted items only — a survivor set; report `REW-G1` and the count still open at D+14 beside the median |
-| `CLM-M1` claims acknowledged within the service level | share acknowledged inside the claims service level | SQL replica, `h_claim`, `h_audit_event`; the service level from `context/policies/service-levels.md` | claims opened in the window |
+| `CLM-M1` claims acknowledged within the service level | share acknowledged inside the claims service level | SQL replica, `h_claim`, `h_audit_event`; the service level from `examples/harbor-cover/context/policies/service-levels.md` | claims opened in the window |
 
 Every value derived from this mapping is fictional and carries `example`.

@@ -1,5 +1,5 @@
 ---
-name: <short slug, e.g. rework-reasons-field-can-resolve>
+name: <short slug, e.g. return-reasons-field-can-resolve>
 description: <one line — the fact, as a sentence the index can show>
 type: <project | reference | feedback | user>
 ---

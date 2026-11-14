@@ -21,7 +21,7 @@ last_updated: YYYY-MM-DD
 | `meaning` | <one sentence a stakeholder understands> |
 | `numerator` | <unique cases or items, not events> |
 | `denominator` | <the full eligible population; unknowns stay in it as a bucket> |
-| `cohort_anchor` | <e.g. quote-created week> |
+| `cohort_anchor` | <e.g. case-created week> |
 | `maturity` | <e.g. D+14; compare equal maturities only> |
 | `authority` | <the BI tool / the SQL replica / event analytics — and why> |
 | `where_to_get` | <dashboard, saved query, or "not built"> |

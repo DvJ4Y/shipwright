@@ -103,7 +103,7 @@ reach a source says so. It does not reason about data it cannot see.
 
 ## Export-request mode
 
-When `_tools_access` in `_profile.md` lacks the source, or access fails, `/data-analysis`
+When `_tools_access` in `knowledge/PROFILE.md` lacks the source, or access fails, `/data-analysis`
 writes an export request for the BI owner instead. It holds the decision; the question as
 numerator and denominator; the population boundary; the cohort and maturity; the cuts; the
 cadence. Nothing else. The BI tool is the only source for a headline figure.
@@ -123,7 +123,7 @@ tracker" and "event analytics", so swapping the vendor behind a key changes noth
 `.mcp.json` holds no secrets and is committed.
 
 Swap the tracker by replacing the entry and keeping the key; `.mcp.README.md` shows three
-shapes. The `github` adapter needs no server: it uses the `gh` command, and `_profile.md`
+shapes. The `github` adapter needs no server: it uses the `gh` command, and `knowledge/PROFILE.md`
 says `_tracker: github`.
 
 The query runner is not an MCP server. The key stays in the shell. The guard is a few lines

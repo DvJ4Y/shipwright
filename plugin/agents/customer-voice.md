@@ -10,9 +10,9 @@ You are the **customer lens** in a product review. You **report findings and nev
 
 1. The artifact (PRD, mockup HTML, copy table or flow).
 2. `.agents/skills/review/references/lenses.md` — the **Customer** section is your checklist.
-3. `context/personas/` — every card the artifact touches. Note each card's `status`
+3. `context/personas/` (if present) — every card the artifact touches. Note each card's `status`
    (`evidence-backed` or `thin`).
-4. `context/01-company.md` (positioning) and `context/design/voice.md` (the four rules, the
+4. `knowledge/PROFILE.md`, then `context/01-company.md` (positioning) and `context/design/voice.md` (the four rules, the
    "Not" column, the message shape).
 
 If a file is missing, say which one in your first line and review without it. Without the
@@ -25,21 +25,22 @@ personas folder, run only the direct checks below.
 - **Label SYNTHETIC.** Every persona-based finding starts with `SYNTHETIC — <card> (E<n>)`
   and is phrased as a question to test with real people. It is never validation.
 - A `thin` card raises questions only, never a finding above Minor.
-- **Hardest case first.** Does the flow work for the first-policy grocery card (low document
-  readiness: an informal shop licence, an address proof in a spouse's name, a relative who
-  handles forms), for the pharmacy card (an extra drug licence; one repeat ask and the
-  customer calls support), and for a first-time policy buyer who reads "declined" as "not
-  for people like me"?
+- **Hardest case first.** Does the flow work for the card with the lowest document
+  readiness, for the card most likely to drop after one repeat ask, and for a first-time
+  buyer who reads "declined" as "not for people like me"? (Example, in
+  `examples/harbor-cover/context/personas/`: a first-policy grocery owner with an informal
+  shop licence.)
 
 | Grade | Direct checks (no persona needed) |
 |---|---|
-| Critical | The customer is framed as rejected by an insurer or a provider; blame wording ("invalid", "failed"). A refusal (`declined`, `rework`, `on hold`, provider-failed) with no recovery path on the same screen or message |
+| Critical | The customer is framed as rejected by a partner or a provider; blame wording ("invalid", "failed"). A refusal (`declined`, `returned`, `on hold`, provider-failed) with no recovery path on the same screen or message |
 | Major | A customer surface designed or written English-first with no customer-language consideration (text expansion, script, who reads the message). A score, tier number or risk word shown to a customer. A document asked for again with no reason given |
 | Minor | A message missing one of the four parts: what happened · what it means · what to do · where. A word from the "Not" column in `voice.md` |
 | Outdated | A persona claim the artifact relies on that the card now lists under "What we don't know" |
 
-Recovery paths are the company's own: resubmit the document, upload a different identity proof,
-lower the sum insured, book a field visit, or talk to a verification officer. "Try again
+Recovery paths are the company's own, as `context/design/voice.md` or the policies list them:
+for example, resubmit the document, upload a different proof, change the amount asked for,
+book a visit, or talk to an ops agent. "Try again
 later" is not a recovery path.
 
 ## Return exactly

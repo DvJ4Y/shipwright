@@ -1,6 +1,6 @@
 # Adapter — Linear
 
-Loaded when `_profile.md` has `_tracker: linear`. This file may name Linear; every other skill file says "the tracker".
+Loaded when `knowledge/PROFILE.md` has `_tracker: linear`. This file may name Linear; every other skill file says "the tracker".
 
 ## Connect
 
@@ -64,7 +64,7 @@ Set the engineering issue as a blocker of the parent product issue: `mcp__tracke
 |---|---|---|
 | Scope | `lane:customer`, `lane:ops-platform` | One per issue |
 | Work type | `discovery`, `prd`, `design`, `copy`, `research`, `feature`, `chore` | One per issue |
-| Surface | `hub` (Harbor), `desk`, `field`, `rules`, `data`, `comms` | One or more |
+| Surface | your workstream codes from `knowledge/PROFILE.md` (the example uses `hub`, `desk`, `field`, `rules`, `data`, `comms`) | One or more |
 
 Create missing labels with `mcp__tracker__save_issue_label` (asks for permission) only after the product lead agrees. Do not import engineering's labels.
 

@@ -5,7 +5,8 @@ Usage:
     python3 tools/wireframe-kit/check_wireframe_data.py <feature-folder>
     python3 tools/wireframe-kit/check_wireframe_data.py <feature-folder> --prototypes
 
-<feature-folder> is products/<code>/<feature>/. The script reads
+<feature-folder> is products/<code>/<feature>/ (worked example:
+examples/harbor-cover/products/desk/verification-outcome-and-rework/). The script reads
 <feature-folder>/internal/data-packet.csv (columns point_id, label, type_unit, provenance,
 current_storage, disposition, surface, notes) and every *.mockup.html under
 <feature-folder>/mockups/.

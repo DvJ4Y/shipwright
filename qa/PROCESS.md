@@ -78,17 +78,17 @@ is the point. Flip to `Current` when the fix deploys.
 - behaviours in the code or in `current-behaviour.md` with no row at all.
 
 Cadence follows release volume, not the calendar. A surface that shipped nothing needs no
-audit; Harbor during an active cycle needs one per cycle.
+audit; a customer surface in an active cycle needs one per cycle.
 
 ## What a good row looks like
 
 The tester is a technical non-developer. That sets the bar for every column.
 
-- **`Action` is something a person does**, not a code path. "Open Harbor from a WhatsApp
+- **`Action` is something a person does**, not a code path. "Open the app from a message
   link" — not a route with parameters.
-- **Enumerations are steps, not cases.** Six shop types, four products, three reason codes:
-  one case, several steps, one setup.
-- **`Expected Result` passes or fails without judgement.** "Sub-status shows `rework`" — not
+- **Enumerations are steps, not cases.** Six customer types, four products, three reason
+  codes: one case, several steps, one setup.
+- **`Expected Result` passes or fails without judgement.** "Status shows `on hold`" — not
   "handled correctly".
 - **Open questions are not test cases.** A row titled "Clarify whether X exists" is a tracker
   item wearing a test case's clothes.
@@ -110,7 +110,7 @@ The tester is a technical non-developer. That sets the bar for every column.
 5. Wire it into the release gate. A surface with no rows referenced by the gate is a catalog
    nobody runs.
 
-**Role-based surfaces (Desk, Field) need a sixth step.** Where the same screen behaves
+**Role-based surfaces need a sixth step.** Where the same screen behaves
 differently per role, scope `Screen` to the role — but only after confirming the behaviour
 differs. Write the **negative** permission cases: what a role must not see or do is where
 wrong-person data exposure hides, and it is `P0`.
@@ -121,7 +121,7 @@ Parked here, not as rows. Resolve, then add rows or close.
 
 | Question | Owner | State |
 |---|---|---|
-| Should the referral agent's Field view ever show a rework reason? | compliance officer | open; no row until decided |
+| <the open question> | <role> | open; no row until decided |
 
 **A finding is not automatically a test case.** Three outcomes: explained (keep a low-priority
 row that records why), out of scope (delete the row and say so here), or a gap QA cannot fix

@@ -69,8 +69,8 @@ officer owns it, holds the exact references, and names each rule source generica
 | Evidence kept | The evidence record: reference, result, time, role; consent text version, channel, language |
 | Surfaces | Where the action is visible |
 
-The register covers the regulated distributor's obligations only. The insurer's
-obligations are the insurer's. Tax and invoicing belong to finance.
+The register covers your company's obligations only. A partner's obligations
+are the partner's. Tax and invoicing belong to finance.
 
 ## How a feature uses the register
 
@@ -91,7 +91,7 @@ not draft questions for the compliance officer, unless asked.
 
 ## The compliance lens is opt-in
 
-`_profile.md` carries `_regulated: yes | no`. With `no`, the review report carries one line:
+`knowledge/PROFILE.md` carries `_regulated: yes | no`. With `no`, the review report carries one line:
 "Compliance lens not run." With `yes`:
 
 | Where | What changes |
@@ -123,7 +123,7 @@ column list is engineering's.
 
 ## Dignity is a rule, not a tone
 
-Customer-facing surfaces never frame the customer as rejected by an insurer or a provider.
+Customer-facing surfaces never frame the customer as rejected by a partner or a provider.
 Every `declined`, `rework` or provider-failed outcome carries a recovery path. A decline
 with no recovery path is a defect. The writing and compliance reviewers grade a breach
 Critical.

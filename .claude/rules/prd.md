@@ -14,11 +14,11 @@ paths:
 - Frontmatter carries `status` (draft | in-review | approved | shipped | landed | superseded),
   `version`, `supersedes`, `decision_refs`, `landed_into` and `why`.
 - Discovery must exist before a PRD. If it does not, say so and offer `/product-discovery`.
-- Read `context/surfaces/<surface>/current-behaviour.md` before writing. Cite row ids in
+- Read `context/surfaces/<surface>/current-behaviour.md`, if present, before writing. Cite row ids in
   "Current behaviour and reuse"; never re-specify a landed behaviour.
 - One line **"Regulated actions touched:"** lists the register rows from
-  `context/regulated-actions.md`, or "none". Required when `_profile.md` says
-  `_regulated: yes`.
+  `context/regulated-actions.md`, or "none". Required only when `knowledge/PROFILE.md` says
+  `_regulated: yes` (default no).
 - Acceptance criteria are observable: "When … then …".
 - Every metric names its source and its claim level. A target is labelled as a target.
 - Open points are inline markers: `[NEEDS CLARIFICATION: <question> → P-nn]`. Any open

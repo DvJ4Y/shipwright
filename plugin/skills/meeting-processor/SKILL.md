@@ -1,6 +1,6 @@
 ---
 name: meeting-processor
-description: Processes meeting notes, call notes and transcripts into routed outcomes — todo items, intake feedback for the relevant feature or initiative, PENDING decision points, ops tasks and follow-ups. Proposes tracker issues as a draft list for approval and never creates them. Use when someone says "meeting notes", "process this meeting", "process this call", "action items", "summarise this call", "what did we decide", "standup notes", "sprint review notes", "retro notes", "founder sync", "ops review notes", "customer call notes", "insurer call notes", or "field visit notes".
+description: Processes meeting notes, call notes and transcripts into routed outcomes — todo items, intake feedback for the relevant feature or initiative, PENDING decision points, ops tasks and follow-ups. Proposes tracker issues as a draft list for approval and never creates them. Use when someone says "meeting notes", "process this meeting", "process this call", "action items", "summarise this call", "what did we decide", "standup notes", "sprint review notes", "retro notes", "founder sync", "ops review notes", "customer call notes", "partner call notes", or "field visit notes".
 argument-hint: "<notes path or pasted notes>"
 ---
 
@@ -17,8 +17,9 @@ skill proposes tracker issues as a draft list; it never creates them.
 | `sessions/latest.md`, `tasks/todo.md` | Work in flight the meeting may extend or contradict |
 | The decision log in scope: `decisions/decision-log.md` (`D-NNN`), the feature's `internal/decision-log.md` or the initiative's `decision-log.md` (`P-nn`) | LOCKED rows an item may contradict; the next free ID |
 | The initiative's `INDEX.md` and `intake-feedback.md`, or the feature's `internal/intake-feedback.md` | Where direction from the owner goes |
-| `context/06-teams-and-who-does-what.md` | Which role may lock which decision |
-| `context/personas/` | Persona cards; customer and field quotes become proposed evidence rows on them |
+| `knowledge/PROFILE.md`, `knowledge/facts.md` | `_gate_owner`; current rows an item may confirm or contradict |
+| `context/06-teams-and-who-does-what.md` (if present) | Which role may lock which decision; if missing, ask |
+| `context/personas/` (if present) | Persona cards; customer and field quotes become proposed evidence rows on them |
 | `.agents/skills/product-loop/references/conventions.md` | Decision points, folders, source labels |
 
 ## Questions first
@@ -28,7 +29,7 @@ Ask only what the notes do not show; default the rest.
 1. **Meeting type and date.** [inferred from the notes]
 2. **Scope.** Which feature or initiative does this touch? [inferred; "workspace" if none]
 3. **Decision owner.** Who can lock decisions made here? [the senior role present, checked
-   against `context/06-teams-and-who-does-what.md`]
+   against `context/06-teams-and-who-does-what.md`, else `_gate_owner`]
 4. **Audience for the summary.** Just you, or shared? [just you]
 
 ## Procedure
@@ -44,11 +45,12 @@ Ask only what the notes do not show; default the rest.
    | Engineering work | **Proposed issue** (draft list below) |
    | Ops or business task | Listed with owner role; not the tracker |
    | Follow-up | Owner role, channel, due date |
+   | A fact about the product, users or numbers | Proposed row for `knowledge/facts.md`, sourced to the notes; `/learn` writes it on approval |
    | Unclear | Parked with a question for the owner |
    | Information only | Skipped |
 
-2. **Contradictions.** If an item contradicts a LOCKED decision, a `current-behaviour.md`
-   row or the handoff, flag it. Do not overwrite. Propose a supersede through `/decide`.
+2. **Contradictions.** If an item contradicts a LOCKED decision, a current row in
+   `knowledge/facts.md`, a `current-behaviour.md` row or the handoff, flag it. Do not overwrite. Propose a supersede through `/decide`.
 3. **Roles, not names.** Record owners as roles.
 4. **Type-specific handling:**
    - **Founder sync or leadership review:** direction → intake feedback; priority changes →
@@ -61,7 +63,7 @@ Ask only what the notes do not show; default the rest.
    - **Customer call or field visit:** record quotes with provenance: role or persona,
      date, translated from the customer's language or not. Map pain points to persona cards
      in `context/personas/` as proposed evidence rows. Do not apply them.
-   - **Insurer partner call:** appetite or process changes → PENDING decision, owner per
+   - **Partner call:** appetite or process changes → PENDING decision, owner per
      `context/06-teams-and-who-does-what.md`; nothing reaches `context/policies/` without a
      LOCKED row.
    - **Call transcripts:** patterns across a batch only; one bad call is not a pattern.
@@ -90,16 +92,17 @@ Append to the notes file if it lives in the repo. Otherwise write
 | Title | Outcome | Source PRD / pack, or "needs PRD" |
 ### Ops tasks (owner role)
 ### Follow-ups (owner role, channel, due)
+### Fact rows proposed (for `/learn`)
 ### Parked — needs the owner's input
 ```
 
 Then update the files named in each section.
 
-Example, from a Harbor Cover ops review: "the ops lead says field verifiers should fix
-`unreadable` on site" → PENDING `D-006`, owner ops lead. "First pass is about 60%" →
-`operational — unverified`, as stated in the meeting; the dictionary value for `VER-M1`
-stays 61% (`example`). "Add a reason-code filter to the Desk queue" → proposed issue,
-"needs PRD".
+In the example (`examples/harbor-cover/meetings/`), from an ops review: "the ops lead says
+field verifiers should fix `unreadable` on site" → PENDING `D-006`, owner ops lead. "First
+pass is about 60%" → `operational — unverified`, as stated in the meeting; the dictionary
+value (in the example, `VER-M1`) stays 61% (`example`). "Add a reason-code filter to the Desk queue" →
+proposed issue, "needs PRD".
 
 ## Do not
 
@@ -107,8 +110,8 @@ stays 61% (`example`). "Add a reason-code filter to the Desk queue" → proposed
 - Do not record a leaning as a LOCKED decision.
 - Do not treat figures said in a meeting as verified.
 - Do not create issues for vague items ("we should look into X"). Park them with a question.
-- Do not edit `context/` from meeting notes. Route the change to `/decide` or the weekly
-  interview.
+- Do not edit `context/` or `knowledge/` from meeting notes. Route the change to `/decide`,
+  `/learn` or the weekly interview.
 
 ## Hands off to
 

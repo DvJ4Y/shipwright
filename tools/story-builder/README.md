@@ -1,7 +1,7 @@
 # Story builder — script → greyscale storyboard → hi-fi loop
 
 Use this when a feature needs buy-in from people who will not read the PRD: the ops lead,
-the engineering lead, an insurer-partner manager, a board slide. A story is one case, end
+the engineering lead, a partner manager, a board slide. A story is one case, end
 to end, as an auto-playing phone loop with a caption per beat. It is a vision artifact. It is
 not the PRD, not the data packet and not the rules; where they differ, the PRD wins.
 
@@ -12,9 +12,9 @@ not the PRD, not the data packet and not the rules; where they differ, the PRD w
 2. **Look baseline = production.** Colour and type come from `context/design/tokens.md` per
    surface, and layouts from the current-behaviour files and production screenshots. Never
    from the design library, another mockup or a vendor's brand.
-3. **One case, every hand.** One customer, one policy, from first screen to the end card, and
-   every role that touches the case appears or is named: customer, verification officer,
-   field verifier, placement specialist, insurer partner, ops lead, compliance officer.
+3. **One case, every hand.** One customer, one case, from first screen to the end card, and
+   every role that touches the case appears or is named: the customer, each ops and field
+   role, each partner, the ops lead and, if `_regulated: yes`, the compliance officer.
 
 ## The method
 
@@ -28,17 +28,17 @@ A caption states the outcome, not the feature ("The case is never declined for i
 "PROVIDER-FAILED flag"). Each beat is one screen and one change. Every number on screen is a
 demo number and the script says so.
 
-Worked example: `products/desk/verification-outcome-and-rework/showcase/`.
+Worked example: `examples/harbor-cover/products/desk/verification-outcome-and-rework/showcase/`.
 
 ## Build
 
 ```
 python3 tools/story-builder/build_story.py <script.md> <out.html> \
-    [--palette context/design/tokens.md] [--surface harbor] [--screens DIR] [--storyboard]
+    [--palette context/design/tokens.md] [--surface <surface>] [--screens DIR] [--storyboard]
 ```
 
 - Parses the `## Beats` table. `Time (s)` is `start–end`; a bare number is a duration.
-- The surface of a beat is the first word of its `Screen` cell (`Desk · case view` → `desk`),
+- The surface of a beat is the first word of its `Screen` cell (`Console · case view` → `console`),
   which selects that surface's palette and type scale. Anything else (`End card`) uses the
   chrome palette.
 - Fragments: `screens/beat-NN.html` next to the script. A missing fragment becomes a labelled
@@ -54,12 +54,12 @@ One root element, written with the template's primitive classes; no CSS needed.
 
 ```html
 <div class="app" data-clock="9:19 AM">
-  <div class="bar">Desk <small>Verification queue</small></div>
+  <div class="bar">Console <small>Review queue</small></div>
   <div class="body">
     <div class="card err"><div class="h2">Identity proof — returned</div><p class="p small">…</p></div>
     <span class="chip pf" data-at="3400">PROVIDER-FAILED</span>
     <div class="btn primary" data-at="4000">Return document</div>
-    <div class="toast" data-at="5200">Rework item created</div>
+    <div class="toast" data-at="5200">Returned item created</div>
   </div>
 </div>
 ```

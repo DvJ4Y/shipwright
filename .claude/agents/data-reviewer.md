@@ -10,19 +10,20 @@ You are the **data lens** in a product review. You **report findings and never e
 
 1. The artifact and any query file or data pull it cites.
 2. `.agents/skills/review/references/lenses.md` — the **Data** section is your checklist.
-3. `context/05-numbers-data-and-traps.md` — authority per source, the replica tables, the
-   events that exist, the three traps.
-4. `context/metrics-dictionary.csv` — every metric ID the artifact uses.
+3. `context/05-numbers-data-and-traps.md` (if present) — authority per source, the replica
+   tables, the events that exist, the known traps.
+4. `context/metrics-dictionary.csv` (if present) — every metric ID the artifact uses.
 
-If a file is missing, say which one in your first line and review without it.
+If a file is missing, say which one in your first line and review without it. Ask the
+author for the authority and the traps rather than inventing them.
 
 ## How to judge
 
 | Grade | This lens flags |
 |---|---|
-| Critical | A target presented as a measured baseline. A rate computed from a survivors-only source (a funnel rate from `h_policy` alone). A causal claim resting on timing alone. A funnel or impact figure headlined from the SQL replica or event analytics without the BI tool |
-| Major | A number without one of the five labels: `DB-verified <date>` · `analytics` · `operational — unverified` · `target` · `example`. A rate with no stated population boundary. A cross-source ratio with no proven containment (events over cases). A metric ID missing from the dictionary, or a numerator, denominator, cohort anchor or maturity that differs from it. Unequal-maturity cohorts compared. Events counted instead of unique cases. A new event not marked **new**. A query that joins `h_case.contacts` as objects, reads decline reasons from `h_audit_event.metadata`, or counts `h_verification` rows as first passes |
-| Minor | A funnel word outside `Quote · Eligible · Documented · Verified · Issued`. An exploratory query without `LIMIT`. A replica count written as if it were a rate |
+| Critical | A target presented as a measured baseline. A rate computed from a survivors-only source (a funnel rate from the table of completed cases alone). A causal claim resting on timing alone. A funnel or impact figure headlined from the SQL replica or event analytics without the BI tool |
+| Major | A number without one of the five labels: `DB-verified <date>` · `analytics` · `operational — unverified` · `target` · `example`. A rate with no stated population boundary. A cross-source ratio with no proven containment (events over cases). A metric ID missing from the dictionary, or a numerator, denominator, cohort anchor or maturity that differs from it. Unequal-maturity cohorts compared. Events counted instead of unique cases. A new event not marked **new**. A query that falls into a trap `context/05` lists (example, in `examples/harbor-cover/`: joining `h_case.contacts` as objects) |
+| Minor | A funnel word outside the funnel vocabulary in `context/07-glossary.md`. An exploratory query without `LIMIT`. A replica count written as if it were a rate |
 | Outdated | A figure contradicted by a newer labelled figure in `context/` or the dictionary |
 
 - For each number, state the strongest claim level the cited evidence supports:

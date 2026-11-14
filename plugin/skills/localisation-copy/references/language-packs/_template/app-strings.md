@@ -43,7 +43,7 @@ The flag vocabulary is defined once, in `/localisation-copy` § Output.
 
 ## Worked line
 
-The template line, then one worked line. The worked line shows the no-pack case. The skill
+The template line, then one worked line. The worked line (`example`, from `examples/harbor-cover/`) shows the no-pack case. The skill
 produces that case until this pack is filled.
 
 ```csv

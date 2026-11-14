@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0 — a product brain that learns
+
+- **The learning layer.** `knowledge/PROFILE.md`, `knowledge/facts.md` (typed, sourced fact rows with `current`, `superseded`, `expires` and `expired` status) and `knowledge/lessons.md`; `inbox/` for anything you drop in. Spec: `docs/12-the-learning-layer.md`.
+- **`/setup`** builds your profile and seed facts from `inbox/`, a paste or a short interview. **`/learn`** turns files, captured chats and URLs into one approval table: new rows, supersessions, expiries, lessons; contradictions are asked, never overwritten.
+- **Hooks.** Session start injects the profile and counts what waits in `inbox/`; a new prompt-recall hook adds matching current facts to each prompt (plain text matching, no database); the stop hook captures the chat into `inbox/sessions/` (never committed).
+- **Outcomes feed back.** `/land` proposes a `behaviour` row per landed requirement; `/review post-ship` proposes an `outcome` row per release.
+- **An empty workspace.** A fresh clone is yours: the Harbor Cover example moved to `examples/harbor-cover/` with its own profile and fact ledger. Skills, rules and docs are generic; the compliance lens is opt-in (`_regulated: no` by default).
+- **Checks.** `evals/memory/check_facts.py` validates any fact ledger; `tests/hooks/test_hooks.sh` tests the four hooks; trigger prompts for `/learn` and `/setup`.
+- **Install.** `npx skills add DvJ4Y/shipwright` alongside the clone and the Claude Code plugin.
+
 ## 0.1.2 — the worked example, end to end at v1.1
 
 - **PRD and brief v1.1, approved** after a second six-lens gate (`internal/review-2026-11-04-gate.md`): the missing-template fallback, the officer-run retries until the retry queue is live, the missed visit, the regional visit switch, lapse and concurrent capture, consent for the identity re-run. Issue pack v1.1; readiness re-checked.

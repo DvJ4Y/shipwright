@@ -12,7 +12,8 @@ last_updated: 2026-11-02
 # Templates
 
 One template per artifact type. Copy it, fill it, keep the frontmatter. Filled examples live
-in `context/`, `decisions/` and the worked feature folder — not beside the templates.
+in `examples/harbor-cover/` (its `context/`, `decisions/` and worked feature folder) — not
+beside the templates.
 
 | Template | Use it for |
 |---|---|
@@ -46,3 +47,4 @@ in `context/`, `decisions/` and the worked feature folder — not beside the tem
 - Open points are `[NEEDS CLARIFICATION: <question> → P-nn]` and block promotion past `draft`.
 - No dates or timelines in requirements. Parallel tracks, not phases with weeks.
 - Under 200 lines. Split by feature if longer.
+| `fact-row-template.md` | One row of `knowledge/facts.md`, one example per type | `/learn`, `/setup`, `/land` |

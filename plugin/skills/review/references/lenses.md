@@ -13,31 +13,31 @@ Grades: Critical · Major · Minor · Outdated (defined in the review skill). A 
 
 ## Strategy — `business-reviewer`
 
-Sources: `context/08-strategy-and-outcomes.md`, `context/09-current-commitments.md`, `context/metrics-dictionary.csv`, `decisions/decision-log.md`.
+Sources: `knowledge/PROFILE.md`, `knowledge/facts.md`, then `context/08-strategy-and-outcomes.md`, `context/09-current-commitments.md`, `context/metrics-dictionary.csv` (each if present), `decisions/decision-log.md`. A source that is missing goes under "Missing inputs".
 
 1. **Outcome.** Does the artifact name a metric id from the dictionary? Is the path from this change to that metric stated, or only implied?
 2. **Target.** Is every target labelled `target`? Is any baseline a measured reading with its own label?
 3. **Commitment.** Which row in `context/09-current-commitments.md` does this serve? If none, is it declared new work with a PENDING decision naming the owner?
 4. **Drift.** Has scope moved away from the outcome since discovery? Compare with the approved discovery and the decision log.
 5. **Skeptic.** What is the strongest reason not to do this now? Were "do nothing" and "extend what exists" (a current-behaviour row) considered?
-6. **Ops cost.** Does the plan add support agent, verification officer or field verifier time without saying so?
+6. **Ops cost.** Does the plan add time for an ops agent, a reviewer or a field agent without saying so?
 7. **Guardrail.** Is the guardrail from the dictionary named beside the outcome?
 8. **Red-team mode.** Ranked kill-assumptions with the cheapest test each; pre-mortem.
 
 ## Customer — `customer-voice`
 
-Sources: `context/personas/`, `context/01-company.md`, `context/02-service-and-lifecycle.md`, `context/design/voice.md`.
+Sources: `knowledge/PROFILE.md`, then `context/personas/`, `context/01-company.md`, `context/02-service-and-lifecycle.md`, `context/design/voice.md` (each if present).
 
-1. **Persona fit.** Which persona card is served? Does the flow work for the hardest case — low document readiness, the longest checklist for the shop type, a customer who uses WhatsApp only?
-2. **Dignity.** The customer is never framed as rejected by an insurer or a provider. No blame. Plain reasons.
-3. **Recovery.** Every declined, rework or provider-failed outcome carries a recovery path: update a document, upload a different identity proof, book a field visit, talk to a verification officer.
+1. **Persona fit.** Which persona card is served? Does the flow work for the hardest case — low document readiness, the longest checklist for the segment, a customer who uses one messaging channel only?
+2. **Dignity.** The customer is never framed as rejected by a partner or a provider. No blame. Plain reasons.
+3. **Recovery.** Every declined, rework or provider-failed outcome carries a recovery path: update a document, upload a different proof, book a visit, talk to a person.
 4. **Customer language first.** The author designs customer-facing text in the customer's language, allows for text expansion, and names a native reviewer when `_language_review: no`.
 5. **Channel and literacy.** The flow fits the persona's channel, language and digital fluency from the card.
 6. **Evidence.** Every claim cites a persona-card evidence row (`E<n>`) or the lens abstains. The lens labels persona-based findings **SYNTHETIC** and phrases them as questions to test.
 
 ## Engineering-readiness — `engineering-readiness-reviewer`
 
-Sources: `.claude/rules/constitution.md`, `templates/readiness-record-template.md`, `context/03-surfaces-and-systems.md`, `context/surfaces/<surface>/current-behaviour.md`.
+Sources: `.claude/rules/constitution.md`, `templates/readiness-record-template.md`, `context/03-surfaces-and-systems.md`, `context/surfaces/<surface>/current-behaviour.md` (each `context/` file if present).
 
 1. **Boundary.** Any API, schema, architecture, component, test, rollout, technology or estimate content? Each instance is Critical.
 2. **Invariants.** Stated, and true in every state?
@@ -50,21 +50,21 @@ Sources: `.claude/rules/constitution.md`, `templates/readiness-record-template.m
 
 ## Data — `data-reviewer`
 
-Sources: `context/05-numbers-data-and-traps.md`, `context/metrics-dictionary.csv` and `.md`, `tools/query/sources.md`.
+Sources: `knowledge/facts.md` (`metric` and `target` rows), `context/05-numbers-data-and-traps.md`, `context/metrics-dictionary.csv` and `.md` (each if present), `tools/query/sources.md`.
 
-1. **Population boundary** stated before every rate? Any rate from a survivors-only source (`h_policy`, closed rework items)?
+1. **Population boundary** stated before every rate? Any rate from a survivors-only source (a table of completed cases only, closed items only)?
 2. **Authority and label.** Funnel and impact figures from the BI tool? No replica rate headlined? Each figure carries the label `tools/query/sources.md` assigns its source; the five labels are defined in `.claude/rules/writing-standard.md` rule 8.
 3. **Labels.** Every number carries one of the five source labels.
 4. **Target vs baseline.** Any target presented as a measurement? Critical.
 5. **Claim level.** Is the claim stronger than the evidence? Timing alone never supports causal impact.
 6. **Containment.** Cross-source ratios only with proven containment on shared case ids.
 7. **Metric contract.** Metric ids exist in the dictionary; numerator, denominator, cohort anchor and maturity match the row.
-8. **Traps.** The three traps in `context/05-numbers-data-and-traps.md` avoided? Zero-row results questioned before being reported?
+8. **Traps.** The traps listed in `context/05-numbers-data-and-traps.md` avoided? Zero-row results questioned before being reported?
 9. **Events.** Every event named exists in `context/05-numbers-data-and-traps.md`, or is marked **new** with a `Planned` QA row.
 
 ## Writing — `writing-reviewer`
 
-Sources: `.claude/rules/writing-standard.md`, `context/07-glossary.md`, `context/design/voice.md`.
+Sources: `.claude/rules/writing-standard.md`, `context/07-glossary.md`, `context/design/voice.md` (each `context/` file if present).
 
 1. **Opening.** Does the first sentence state the decision or the ask?
 2. **One idea per sentence.** Flag sentences carrying two ideas or over about 25 words.
@@ -77,12 +77,12 @@ Sources: `.claude/rules/writing-standard.md`, `context/07-glossary.md`, `context
 
 ## Compliance — `compliance-reviewer`
 
-Runs only when `_profile.md` has `_regulated: yes`. Sources: `context/regulated-actions.md`, `context/policies/`, `context/policies/data-handling-and-retention.md`, the PRD's "Regulated actions touched" list and its §7 information table.
+Runs only when `knowledge/PROFILE.md` says `_regulated: yes`; a missing profile or field means `_regulated: no`. Sources: `context/regulated-actions.md`, `context/policies/`, `context/policies/data-handling-and-retention.md`, the PRD's "Regulated actions touched" list and its §7 information table.
 
 1. **Register match.** The artifact names every regulated action it touches against the register. No register row the flow passes through is missing from the list.
 2. **Evidence kept.** For each action touched, the artifact states the evidence the register requires as an outcome and plans a `P0` QA row for it.
 3. **Consent and disclosure.** Consent and disclosure wording is present, plain, and in the customer's language. The flow asks the customer for nothing without consent.
 4. **Retention.** The artifact states the retention period and the deletion record for every record the feature creates.
-5. **Cancellation, complaint and cooling-off.** The paths exist where the flow reaches `Policy issued`, a complaint or a cancellation request, and they are reachable on the customer's channel.
+5. **Cancellation, complaint and cooling-off.** The paths exist where the flow reaches the stage that commits the customer, a complaint or a cancellation request, and they are reachable on the customer's channel.
 6. **Recovery on every declined, rework or provider-failed outcome.** Each of these outcomes carries a recovery path. A provider failure never declines.
 7. **No regulated behaviour left to a developer.** Nothing in the artifact asks engineering to decide a regulated behaviour — a wording, a period, a masking rule, an evidence field. Critical.

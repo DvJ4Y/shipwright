@@ -1,6 +1,6 @@
 # Adapter — GitHub Issues
 
-Loaded when `_profile.md` has `_tracker: github`. This file may name GitHub; every other skill file says "the tracker". Commands use the GitHub CLI, `gh`.
+Loaded when `knowledge/PROFILE.md` has `_tracker: github`. This file may name GitHub; every other skill file says "the tracker". Commands use the GitHub CLI, `gh`.
 
 ## Connect
 
@@ -65,7 +65,7 @@ The parent product issue body carries one line: `Implements: <owner>/<eng-repo>#
 |---|---|
 | Scope | `lane:customer`, `lane:ops-platform` |
 | Work type | `discovery`, `prd`, `design`, `copy`, `research`, `feature`, `chore` |
-| Surface | `hub` (Harbor), `desk`, `field`, `rules`, `data`, `comms` |
+| Surface | your workstream codes from `knowledge/PROFILE.md` (the example uses `hub`, `desk`, `field`, `rules`, `data`, `comms`) |
 
 Create missing labels with `gh label create <name>` only after the product lead agrees.
 

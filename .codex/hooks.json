@@ -1,5 +1,5 @@
 {
-  "description": "shipwright hooks for Codex. Same three scripts as .claude/settings.json, from .agents/hooks/. Codex supports SessionStart, Stop and PreToolUse, so no event is dropped. Two limits: (1) Codex has no CLAUDE_PROJECT_DIR, so each command sets it from the git root; (2) guard_edits.py reads tool_input.file_path, which Codex's apply_patch tool does not send, so the edit guard is inert on Codex until the hook learns the apply_patch input shape. Project hooks run only after you trust them with /hooks.",
+  "description": "shipwright hooks for Codex. Same four scripts as .claude/settings.json, from .agents/hooks/. Codex supports SessionStart, Stop and PreToolUse; UserPromptSubmit (recall.py) is wired the same way but unverified on Codex — recall.py reads the `prompt` field and prints nothing if Codex sends another shape. Three limits: (1) Codex has no CLAUDE_PROJECT_DIR, so each command sets it from the git root; (2) guard_edits.py reads tool_input.file_path, which Codex's apply_patch tool does not send, so the edit guard is inert on Codex until the hook learns the apply_patch input shape; (3) chat capture in stop_handoff.py needs transcript_path, which Codex is not known to send, so capture does nothing on Codex and only the handoff reminder runs. Project hooks run only after you trust them with /hooks.",
   "hooks": {
     "SessionStart": [
       {
@@ -9,6 +9,18 @@
             "type": "command",
             "command": "ROOT=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; CLAUDE_PROJECT_DIR=\"$ROOT\" python3 \"$ROOT/.agents/hooks/session_start.py\"",
             "statusMessage": "Loading workspace context",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ROOT=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; CLAUDE_PROJECT_DIR=\"$ROOT\" python3 \"$ROOT/.agents/hooks/recall.py\"",
+            "statusMessage": "Recalling from knowledge/",
             "timeout": 10
           }
         ]

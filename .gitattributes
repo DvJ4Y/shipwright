@@ -1,5 +1,6 @@
 # Language statistics: the HTML here is product mockups and story pages, not application code.
 products/** linguist-documentation
+examples/** linguist-documentation
 tools/story-builder/*.html linguist-documentation
 plugin/** linguist-generated
 docs/** linguist-documentation

@@ -6,3 +6,5 @@ commitments vocabulary (`committed · in build · in UAT · deployed to prod`), 
 boundary beside `deployed to prod`, the impact chain, and the acceptance ids with production
 evidence. The note is the source `/land` reads. Nothing here is edited by hand after
 publication; a correction is a new note.
+
+A filled note: `examples/harbor-cover/releases/example-release-note.md`.

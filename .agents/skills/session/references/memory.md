@@ -8,7 +8,7 @@ preferences, and how the tools behave. The repo holds the business and the work.
 | Agent | Memory directory | Index |
 |---|---|---|
 | Claude Code | the project memory directory (`~/.claude/projects/<project>/memory/`) | `MEMORY.md` in it, loaded every session |
-| Codex | a `memory/` folder the reader names in `_profile.md` | `MEMORY.md` in it, read at `/session start` |
+| Codex | a `memory/` folder the reader names in `knowledge/PROFILE.md` | `MEMORY.md` in it, read at `/session start` |
 
 The weekly miner automation (`bash automations/run.sh miner --memory-dir <path>`) reads the
 same directory. The weekly knowledge interview updates it, one approved diff at a time.
@@ -17,11 +17,11 @@ same directory. The weekly knowledge interview updates it, one approved diff at 
 
 | Belongs in memory | Belongs in the repo |
 |---|---|
-| How the reader works: options first, short answers, mornings for decisions | Facts about the business: stages, policies, numbers → `context/` |
-| A standing correction about the reader's preferences | A correction about the work, as a rule → `tasks/lessons.md` |
-| A preference `_profile.md` does not carry yet | Decisions → `decisions/decision-log.md`, a feature's `internal/decision-log.md` |
+| How the reader works: options first, short answers, mornings for decisions | Facts about the business: stages, policies, numbers → `knowledge/facts.md` rows, or a `context/` chapter |
+| A standing correction about the reader's preferences | A correction about the work, as a rule → `knowledge/lessons.md` |
+| A preference `knowledge/PROFILE.md` does not carry yet | Decisions → `decisions/decision-log.md`, a feature's `internal/decision-log.md` |
 | How a tool behaves: the query API returns an empty table, not an error, on a wrong data source id | Work in flight → `products/`, `sessions/latest.md`, `tasks/todo.md` |
-| A fact the reader stated that no file records yet (type `project`; see rule 6) | Anything a `context/` file already states |
+| A fact the reader stated that no file records yet (type `project`; see rule 6) | Anything a `knowledge/` or `context/` file already states |
 
 Test: if a colleague forking this repo should inherit it, it is a lesson or a context fact,
 not a memory. If only this reader's agent needs it, it is a memory.
@@ -40,7 +40,7 @@ type: user            # user | feedback | project | reference
 |---|---|---|
 | `user` | How the reader works | "Options first, short answers; chat before files" |
 | `feedback` | A standing correction from the reader | "Never quote the October target (300, `target`) as a run-rate" |
-| `project` | A fact about the company or the work that the repo does not record yet | "The customer lane reviews every rework message before it ships" |
+| `project` | A fact about the company or the work that the repo does not record yet | "The customer lane reviews every customer-facing message before it ships" |
 | `reference` | How a tool or system behaves | "The tracker's list call hides cancelled issues unless asked" |
 
 Body: the fact in two to four lines, present tense, every number labelled, roles not names.
@@ -60,10 +60,10 @@ type: feedback
 ---
 # A target is never quoted as a baseline
 
-The October policies-issued figure (300) is a `target`, not a run-rate. The last measured
+The October headline figure (300) is a `target`, not a run-rate. The last measured
 month is September (240, `example`).
 
-**Why:** Correction from the product lead, session 2026-10-21. `tasks/lessons.md` holds the rule.
+**Why:** Correction from the product lead, session 2026-10-21. `knowledge/lessons.md` holds the rule.
 
 **How to apply:** When quoting a figure from a table that mixes measured values and targets,
 then copy the row's label with the number or leave the number out.
@@ -95,9 +95,9 @@ Keep the index under 60 lines. Past that, merge or delete facts; never start a s
    or `YYYY-MM` before writing. The miner judges a memory's age from that date.
 5. **Link related memories.** End the body with `Related: <file>, <file>` when another fact
    changes how this one applies.
-6. **Never store what the repo records.** If `context/`, `decisions/`, `tasks/lessons.md`
-   or a PRD states it, point there in chat; do not copy it. Delete a `project` memory the
-   day its fact lands in `context/`.
+6. **Never store what the repo records.** If `knowledge/`, `context/`, `decisions/` or a
+   PRD states it, point there in chat; do not copy it. Delete a `project` memory the day
+   its fact lands in `knowledge/facts.md` or `context/`.
 7. **Facts, not history.** Write what is true now. The backstory is the `Why` line.
 8. **Follow the writing standard.** Roles, not names; capability names, not vendor names;
    every number labelled.
@@ -109,5 +109,5 @@ Keep the index under 60 lines. Past that, merge or delete facts; never start a s
 ## When a memory and a file disagree
 
 The file wins for facts about the business and the work. The memory wins for how the reader
-works. If a `project` or `reference` memory contradicts `context/`, flag it in chat and
+works. If a `project` or `reference` memory contradicts `knowledge/` or `context/`, flag it in chat and
 delete or update the memory once the reader confirms.

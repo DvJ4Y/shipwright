@@ -3,7 +3,7 @@
 # Usage (from anywhere): bash scripts/build-plugin.sh [--check]
 #   plugin/skills/                 copy of .agents/skills/          (diff -r must be empty)
 #   plugin/agents/                 copy of .claude/agents/*.md      (only when agents exist)
-#   plugin/hooks/hooks.json        the three hooks, pointing at ${CLAUDE_PLUGIN_ROOT}/hooks/*.py
+#   plugin/hooks/hooks.json        the four hooks, pointing at ${CLAUDE_PLUGIN_ROOT}/hooks/*.py
 #   plugin/hooks/*.py              copy of .agents/hooks/*.py
 #   plugin/.mcp.json               copy of .mcp.json when it exists
 #   plugin/.claude-plugin/plugin.json   Claude Code manifest
@@ -18,7 +18,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PLUGIN="$ROOT/plugin"
 NAME="shipwright"
-VERSION="${PLUGIN_VERSION:-0.1.2}"
+VERSION="${PLUGIN_VERSION:-0.2.0}"
 DESCRIPTION="Product-management skills, read-only reviewer agents and session hooks: intake, questions, PRDs, mockups, reviews, decisions, handoffs and landing."
 CHECK=0
 [ "${1:-}" = "--check" ] && CHECK=1
@@ -48,11 +48,11 @@ build() {  # $1 = target dir
     cp -L "$ROOT/.claude/agents"/*.md "$out/agents/"
   fi
 
-  # Hooks — the four Python files plus the plugin-format hooks.json.
+  # Hooks — the Python files plus the plugin-format hooks.json.
   cp -L "$ROOT/.agents/hooks"/*.py "$out/hooks/"
   cat > "$out/hooks/hooks.json" <<'EOF'
 {
-  "description": "shipwright: workspace context at session start, a one-time handoff reminder at stop, and a guard that denies edits to files headed 'GENERATED — do not hand-edit'.",
+  "description": "shipwright: workspace context at session start, recall from knowledge/ on each prompt, chat capture to inbox/sessions/ and a one-time handoff reminder at stop, and a guard that denies edits to files headed 'GENERATED — do not hand-edit'.",
   "hooks": {
     "SessionStart": [
       {
@@ -61,6 +61,17 @@ build() {  # $1 = target dir
           {
             "type": "command",
             "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/session_start.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/recall.py\"",
             "timeout": 10
           }
         ]

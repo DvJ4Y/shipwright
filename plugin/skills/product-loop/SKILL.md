@@ -13,12 +13,13 @@ order. Produce nothing else until the product lead agrees the verdict.
 | File | Gives you |
 |---|---|
 | `references/conventions.md` (this skill) | Loop, tiers, folders, frontmatter, decision points, gates, profile fields |
-| `_profile.md` | Role, lane, focus, experience, default tier, tool access, `_regulated`, gate owner |
-| `context/08-strategy-and-outcomes.md` | Outcome metrics, targets, themes, where commitments live |
-| `context/09-current-commitments.md` | What is already committed — the most common duplicate |
-| `context/metrics-dictionary.csv` | The metric ID the outcome maps to |
-| `context/surfaces/<surface>/current-behaviour.md` | What the surface does today; most "new" work extends a row |
-| `context/regulated-actions.md` | Read when `_regulated: yes`; a touched row escalates the tier |
+| `knowledge/PROFILE.md` | Role, lane, focus, experience, default tier, tool access, `_regulated`, gate owner |
+| `knowledge/facts.md` | Current fact rows about the product; never ask for what a row holds |
+| `context/08-strategy-and-outcomes.md` (if present) | Outcome metrics, targets, themes, where commitments live |
+| `context/09-current-commitments.md` (if present) | What is already committed — the most common duplicate |
+| `context/metrics-dictionary.csv` (if present) | The metric ID the outcome maps to |
+| `context/surfaces/<surface>/current-behaviour.md` (if present) | What the surface does today; most "new" work extends a row |
+| `context/regulated-actions.md` (only when `_regulated: yes`, if present) | A touched row escalates the tier |
 | `sessions/latest.md`, `tasks/todo.md` | What is already in flight here |
 | `decisions/decision-log.md` (or the initiative's log) | Open decision points that may block this |
 
@@ -34,8 +35,8 @@ Ask one batched round. Offer the default in brackets; the product lead may reply
 2. **Trigger.** Where did this come from — data, ops, a customer, a partner, leadership, a
    meeting? [as stated in the request]
 3. **Scope.** One surface or several? Any new data captured? Any regulated action?
-   [inferred from the request and `context/regulated-actions.md`]
-4. **Owner.** Who decides at the gates? [`_gate_owner` in `_profile.md`]
+   [inferred from the request; `context/regulated-actions.md` when `_regulated: yes`]
+4. **Owner.** Who decides at the gates? [`_gate_owner` in `knowledge/PROFILE.md`]
 5. **Already exists?** Is any of this live, committed or in the tracker? [checked by you]
 
 Skip any question the request already answers. Never ask more than five.
@@ -55,9 +56,9 @@ Skip any question the request already answers. Never ask more than five.
 
    For **park**, add one line to `tasks/todo.md` with the reason and the revisit trigger.
 3. **Tier.** Apply the tier table in `references/conventions.md`, including its escalation
-   rule. State the reason in one line. If unclear, use `_default_tier` from `_profile.md`.
+   rule. State the reason in one line. If unclear, use `_default_tier` from `knowledge/PROFILE.md`.
 4. **Lane.** `customer` or `ops-platform`. Cross-lane work names both lanes and one owner.
-   The rework message is the standing example: Desk raises it, Harbor shows it.
+   Example: an ops surface raises a message that a customer surface shows.
 5. **Workflow.** Pick from the table below. Adjust only with a stated reason.
 6. **Phase check.** State it (constitution rule 2).
 7. **Alignment brief** (tier M and L). Before you write any file, give one page in chat.
@@ -133,9 +134,10 @@ Record it in `sessions/latest.md` (tier S and M), in the feature folder's `READM
 - Tier S and M: the verdict block in chat, one line in `sessions/latest.md`.
 - Tier L: the initiative folder, with `INDEX.md` filled.
 
-Verdict block format, filled for a Harbor Cover request:
+Verdict block format, filled for a request in the example (`examples/harbor-cover/`):
 
 ```
+(In the example, `examples/harbor-cover/`)
 Verdict: go — outcome and owner named; extends DESK-004, not a duplicate of C1
 Tier: M — one capability on Desk and Harbor; touches a regulated action (identity verification)
 Lane: ops-platform — customer lane reviews the rework message

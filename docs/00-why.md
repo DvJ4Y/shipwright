@@ -42,7 +42,7 @@ check can run mechanically, make it a check. People follow guidance alone incons
 | Type | Nature | In this harness |
 |---|---|---|
 | Structural | One route; the wrong route cannot be represented | One template per artifact (`templates/`); one feature folder shape; one source per fact (`context/README.md`); id series that are never reused |
-| Mechanical | Deterministic pass or fail | The three hooks (`.agents/hooks/`); the chip check (`tools/wireframe-kit/check_wireframe_data.py`); the read-only SQL guard (`tools/query/run-sql.sh`); the pack check (`scripts/check-pack.sh`); the greps in `docs/10-keeping-it-current.md` |
+| Mechanical | Deterministic pass or fail | The four hooks (`.agents/hooks/`); the chip check (`tools/wireframe-kit/check_wireframe_data.py`); the read-only SQL guard (`tools/query/run-sql.sh`); the pack check (`scripts/check-pack.sh`); the greps in `docs/10-keeping-it-current.md` |
 | Judgement | A reviewer interprets a result | Six read-only reviewer agents (`.claude/agents/`) dispatched by `/review`; the weekly miner (`automations/miner.md`) |
 | Guidance | Context someone should follow | The skills (`.agents/skills/`); the always-on rules (`.claude/rules/`); these docs |
 

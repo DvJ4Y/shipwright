@@ -4,7 +4,7 @@ type: design-spec
 status: draft            # draft | in-review | approved | superseded
 version: 0.1
 owner: <role>
-surface: <harbor | desk | field>
+surface: <surface code from knowledge/PROFILE.md>
 prd: <path>
 mockups: [<path-v1>, <path-v2>]
 supersedes: —

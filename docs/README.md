@@ -29,6 +29,7 @@ Do not read all of them at once.
 | 08 | `08-handoff-to-engineering.md` | What engineering receives, in what form, and what counts as shipped |
 | 09 | `09-running-your-agent.md` | How to install the harness and what each part does |
 | 10 | `10-keeping-it-current.md` | Whether a file is still true, and when requirements become durable |
+| 12 | `12-the-learning-layer.md` | Where what the agent learns lives, how it gets there, and how it stays true |
 | 11 | `11-policies-and-compliance.md` | How a rule or an obligation enters a feature, and who decides it |
 | — | `lessons.md` | Which habits to adopt on day one |
 
@@ -36,7 +37,7 @@ Do not read all of them at once.
 
 | Moment | Read |
 |---|---|
-| Day one | `00-why.md`, `03-the-loop.md`, `09-running-your-agent.md`, `lessons.md`, then run `/onboard` |
+| Day one | `12-the-learning-layer.md`, `00-why.md`, `03-the-loop.md`, `09-running-your-agent.md`, `lessons.md`, then run `/setup` |
 | First feature | `02-context-layers.md`, `04-visual-method.md`, `08-handoff-to-engineering.md` |
 | First release | `08-handoff-to-engineering.md`, `10-keeping-it-current.md` |
 | First month | `06-weekly-sync.md`, `11-policies-and-compliance.md` |

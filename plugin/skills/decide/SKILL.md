@@ -16,20 +16,21 @@ decision made on time, not a perfect one made late.
 | The decision log in scope: `decisions/decision-log.md` (`D-NNN`), the feature's `internal/decision-log.md` or the initiative's `decision-log.md` (`P-nn`). If the feature log does not exist yet, create it from `templates/decision-log-template.md` | An existing row on the same question; the next free ID |
 | The artifact the decision affects, if one is named | What changes when the row locks |
 | `.agents/skills/product-loop/references/conventions.md` | Decision points, statuses, supersession, folders |
-| `context/06-teams-and-who-does-what.md` | Who owns which kind of decision |
-| `context/regulated-actions.md` | Whether the decision touches a regulated action; that makes it a one-way door |
+| `knowledge/PROFILE.md`, `knowledge/facts.md` | `_gate_owner`, `_regulated`; current `decision` rows on the same question |
+| `context/06-teams-and-who-does-what.md` (if present) | Who owns which kind of decision; if missing, ask who owns it |
+| `context/regulated-actions.md` (only when `_regulated: yes`, if present) | Whether the decision touches a regulated action; that makes it a one-way door |
 
 ## Questions first
 
 One batched round. Skip what the request already answers.
 
 1. **Decision.** What is being chosen between, in one line? [as stated]
-2. **Owner and deadline.** Who locks it, and by when? [the owner from `context/06-teams-and-who-does-what.md`; no deadline]
+2. **Owner and deadline.** Who locks it, and by when? [the owner from `context/06-teams-and-who-does-what.md`, else `_gate_owner`; no deadline]
 3. **Door.** One-way or two-way? [two-way, unless the list below applies]
 4. **Leaning.** "Which way are you leaning, and why?" [no default — the product lead answers before you offer a view]
 
-One-way doors: a customer-facing commitment, data deleted or exposed, a regulated action, an
-insurer partner contract, a public statement. Anything reversible within a cycle at low cost
+One-way doors: a customer-facing commitment, data deleted or exposed, a regulated action, a
+partner contract, a public statement. Anything reversible within a cycle at low cost
 is a two-way door.
 
 ## Procedure
@@ -76,15 +77,17 @@ Pick the mode from the request.
      this conversation or in writing.
    - Once LOCKED, replace each matching `[NEEDS CLARIFICATION: … → P-nn]` marker and work
      through the propagation list. List any file not yet updated.
+   - Once LOCKED, propose one `decision` row in `knowledge/facts.md`, sourced to the log row.
+     A row it replaces becomes `superseded by F-nnnn`.
    - A bundle is several rows. List each decision that reaches another team, a metric or a
      locked row on its own, with a one-line consequence and its blast radius (own team,
      other team, metric, locked row). Ask the owner to rank them. If the owner replies
      "proceed with all", ask once more for that item's consequence.
 
-Example: `D-006` — which rework reasons a field verifier may resolve on site. Recommendation:
-`unreadable` and `missing` on site; `mismatched` back to the customer. Owner: ops lead. Door:
-two-way. PENDING until the ops lead confirms. Propagates to the worked feature PRD and
-`context/surfaces/field/current-behaviour.md`.
+In the example (`examples/harbor-cover/`): `D-006` — which returned items a field agent may
+resolve on site. Recommendation: `unreadable` and `missing` on site; `mismatched` back to the
+customer. Owner: ops lead. Door: two-way. PENDING until the ops lead confirms. Propagates to
+the worked feature PRD and `examples/harbor-cover/context/surfaces/field/current-behaviour.md`.
 
 **Supersede**
 
