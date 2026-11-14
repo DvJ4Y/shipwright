@@ -17,8 +17,8 @@ Put execution state in the tracker and the reasoning in the repo. Close a produc
 | `templates/issue-pack-template.md` | The pack shape |
 | `shared/prd.md`, `shared/eng-brief.md`, `mockups/` in the feature folder | The only allowed sources of issue content |
 | `internal/readiness.md` | Readiness check 7 — issues map to acceptance criteria |
-| `knowledge/facts.md` (`decision` and `target` rows), if present | Committed work, to avoid duplicates |
-| `context/glossary.md` § Delivery vocabulary, if present | `deployed to prod` is the only state that counts as shipped |
+| `knowledge/facts.md` `decision` and `target` rows; `context/09-current-commitments.md`, if present | Committed work, to avoid duplicates |
+| `context/07-glossary.md` § Delivery vocabulary, if present | `deployed to prod` is the only state that counts as shipped |
 | `references/release-mode.md` | Status vocabulary, impact chain, clarification gate, publication QA |
 | `qa/<surface>/test-cases.csv` | Release mode: the `Planned` rows the release touches |
 
