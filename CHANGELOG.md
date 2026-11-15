@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 — a product brain that learns
+## 0.2.0 — the learning layer
 
 - **The learning layer.** `knowledge/PROFILE.md`, `knowledge/facts.md` (typed, sourced fact rows with `current`, `superseded`, `expires` and `expired` status) and `knowledge/lessons.md`; `inbox/` for anything you drop in. Spec: `docs/12-the-learning-layer.md`.
 - **`/setup`** builds your profile and seed facts from `inbox/`, a paste or a short interview. **`/learn`** turns files, captured chats and URLs into one approval table: new rows, supersessions, expiries, lessons; contradictions are asked, never overwritten.
@@ -9,6 +9,7 @@
 - **An empty workspace.** A fresh clone is yours: the Harbor Cover example moved to `examples/harbor-cover/` with its own profile and fact ledger. Skills, rules and docs are generic; the compliance lens is opt-in (`_regulated: no` by default).
 - **Checks.** `evals/memory/check_facts.py` validates any fact ledger; `tests/hooks/test_hooks.sh` tests the four hooks; trigger prompts for `/learn` and `/setup`.
 - **Install.** `npx skills add DvJ4Y/shipwright` alongside the clone and the Claude Code plugin.
+- **Not in 0.2 (follow-ups):** the hooks are wired for Codex but not verified on it; recall uses plain text matching, not embeddings; when `/onboard` reviews the example, reviewers look for context files in the root first, not in `examples/harbor-cover/`; a fresh gate on the example PRD v1.1 found open Criticals, which stay as the example's known gaps.
 
 ## 0.1.2 — the worked example, end to end at v1.1
 
